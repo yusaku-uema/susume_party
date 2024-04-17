@@ -4,9 +4,8 @@
 class BoxCollider
 {
 protected:
-
-	DATA location;
-	DATA radius;
+	DATA location;//オブジェクトの座標
+	DATA radius;//オブジェクトの半径
 
 public:
 

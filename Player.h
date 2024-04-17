@@ -1,12 +1,10 @@
 #pragma once
+#include"CharacterBase.h"
 #include"Stage.h"
 
-class Player : public BoxCollider
+class Player : public CharacterBase
 {
 private:
-    int player_image;//プレイヤー画像
-
-    DATA speed;
     bool is_walking = false;//歩いているか？
     bool is_jump = false;//ジャンプしているか？
     bool is_facing_left = false;//左を向いているか？

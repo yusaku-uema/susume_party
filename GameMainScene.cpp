@@ -34,7 +34,7 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 void GameMainScene::Draw() const
 {
 	stage->Draw();
-	DrawString(0, 0, "ゲームメイン", 0xffffff);
+	//DrawString(0, 0, "ゲームメイン", 0xffffff);
 }
 
 //現在のシーン情報を取得

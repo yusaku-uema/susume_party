@@ -7,8 +7,8 @@
 #define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
 #define ACCELERATION 0.1f//歩く時の加速
 
-Player::Player() : BoxCollider({ 90.0f, 669.0f }, { PLAYER_SIZE, PLAYER_SIZE }),
-speed({0.0f,0.0f}), is_walking(false), is_jump(false), is_facing_left(false)
+Player::Player() : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE, PLAYER_SIZE }, 20, 10, 5, 5),
+is_walking(false), is_jump(false), is_facing_left(false)
 {
     OutputDebugString("Playerコンストラクタ呼ばれました。\n");
 }
@@ -56,7 +56,7 @@ void Player::Update(float delta_time, Stage* stage)
 
     //y座標の更新
     speed.y += GRAVITY;//重力の加算
-    if (speed.y > JUMP_SPEED)speed.y = JUMP_SPEED;//重力が一定数を越えないようにする
+    if (speed.y > FALL_SPEED)speed.y = FALL_SPEED;//重力が一定数を越えないようにする
 
     location.y += speed.y;//座標の加算
 
@@ -82,5 +82,5 @@ void Player::Update(float delta_time, Stage* stage)
 
 void Player::Draw() const
 {
-    DrawRotaGraph(location.x,location.y, 1, 0, player_image, TRUE, is_facing_left);
+    DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, 0xffffff, TRUE);
 }
