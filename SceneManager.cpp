@@ -53,7 +53,7 @@ void SceneManager::Update()
 	{
 		int now_time = GetNowCount();//現在時間を取得
 
-		if ((now_time - start_time) >= DELTA_SECOND)
+		if ((now_time - start_time) > DELTA_SECOND)
 		{
 			Key::Update();//入力機能:更新処理
 
@@ -62,11 +62,8 @@ void SceneManager::Update()
 			start_time = now_time;//フレーム開始時間を更新
 
 			if (next_scene == SCENE_TYPE::GAME_END)break;//エンドが選択されていたらゲームを終了する
-			
-			if (next_scene != current_scene->GetNowScene())//現在のシーンと次のシーンが違っていたら
-			{
-				ChangeScene(next_scene);//シーンを変える
-			}
+
+			if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);//現在のシーンと次のシーンが違っていたらシーンを変える
 
 			Draw();//描画処理
 		}
@@ -103,11 +100,8 @@ void SceneManager::ChangeScene(SCENE_TYPE scene_type)//シーン切り替え処理
 	//シーンを生成する
 	SceneBase* new_scene = CreateScene(scene_type);
 
-	if (new_scene == nullptr)//エラーチェック
-	{
-		throw("シーンが生成できませんでした。\n");
-	}
-
+	if (new_scene == nullptr)throw("シーンが生成できませんでした。\n");//エラーチェック
+	
 	if (current_scene != nullptr)//前回シーンの終了時処理を行う
 	{
 		current_scene->Finalize();

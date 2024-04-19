@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Stage.h"
 
-Stage::Stage()
+Stage::Stage() : fps(0.0f)
 {
 	slime = new Slime();
 	bird = new Bird();
@@ -62,6 +62,8 @@ void Stage::Update(float delta_time)
 	player[2]->Update(delta_time, this, player[1]);
 
 	slime->Update(delta_time, this);
+
+	fps = 1.0 / delta_time;
 	bird->Update(delta_time, this);
 }
 
@@ -78,4 +80,5 @@ void Stage::Draw() const
 	for (int i = 0; i < 3; i++)player[i]->Draw();
 	slime->Draw();
 	bird->Draw();
+	DrawFormatString(0, 0, 0xffffff, "%f", fps);
 }
