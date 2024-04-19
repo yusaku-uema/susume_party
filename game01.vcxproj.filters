@@ -31,52 +31,70 @@
     <Filter Include="ソース ファイル\Block">
       <UniqueIdentifier>{c97e63d0-6b50-4fed-b0bb-b883e6917a37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Block">
+      <UniqueIdentifier>{f9b02793-1c65-45f9-985c-753fe1489f83}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ヘッダー ファイル\BoxCollider">
       <UniqueIdentifier>{d9311036-07aa-49d7-bce2-a1467d6650a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Character">
+      <UniqueIdentifier>{3c38099c-dba8-489d-aeb6-5483e0b10c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Character\Enemy">
+      <UniqueIdentifier>{56cce4dc-8a81-40bf-a73a-0df9af624216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Character\Player">
+      <UniqueIdentifier>{4fb8731f-53bf-4c1c-98a9-b4ea19ca8a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{d8020643-a341-470d-935d-42b449bf13e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TitleScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="define.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMainScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Key.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>ヘッダー ファイル\BoxCollider</Filter>
     </ClInclude>
-    <ClInclude Include="Slime.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Block.h">
+      <Filter>ヘッダー ファイル\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterBase.h">
+      <Filter>ヘッダー ファイル\Character</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBase.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Hero.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMainScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="Hero.cpp">
       <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>ソース ファイル\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
