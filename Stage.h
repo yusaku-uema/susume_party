@@ -13,6 +13,7 @@ private:
     std::vector<Block>block;
     int block_image[2];//ブロック画像
     int sky_image;//空画像
+    float fps;
 
     void SetStage();//ステージを生成
 public:
