@@ -57,9 +57,6 @@
     <ClInclude Include="Key.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SceneBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -73,6 +70,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,14 +107,17 @@
     <ClCompile Include="CharacterBase.cpp">
       <Filter>ソース ファイル\Character</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Slime.cpp">
       <Filter>ソース ファイル\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>ソース ファイル\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

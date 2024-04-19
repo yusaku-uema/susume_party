@@ -8,8 +8,8 @@
 
 #define BLOCK_SIZE 50.0f //ブロックのサイズ
 
-#define GRAVITY 0.3f //重力の大きさ
-#define FALL_SPEED 3.0f//落下速度の最大値
+#define GRAVITY 0.4f //重力の大きさ
+#define FALL_SPEED 5.0f//落下速度の最大値
 
 struct DATA //座標,大きさ,スピードなどに使う
 {

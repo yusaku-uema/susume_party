@@ -4,7 +4,7 @@
 Stage::Stage()
 {
 	slime = new Slime();
-	player = new Player();
+	for (int i = 0; i < 3; i++)player[i] = new PlayerBase();
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
 	//ブロック画像
@@ -46,14 +46,17 @@ Stage::~Stage()
 	DeleteGraph(sky_image);
 	for (int i = 0; i < 2; i++)DeleteGraph(block_image[i]);
 
-	delete player;
+	for (int i = 0; i < 3; i++)delete player[i];
 
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
 
 void Stage::Update(float delta_time)
 {
-	player->Update(delta_time, this);
+	player[0]->Update(delta_time, this, nullptr);
+	player[1]->Update(delta_time, this, player[0]);
+	player[2]->Update(delta_time, this, player[1]);
+
 	slime->Update(delta_time, this);
 }
 
@@ -67,6 +70,6 @@ void Stage::Draw() const
 {
 	DrawGraph(0, 0, sky_image, FALSE);
 	for (int i = 0; i < block.size(); i++)block[i].Draw();
-	player->Draw();
+	for (int i = 0; i < 3; i++)player[i]->Draw();
 	slime->Draw();
 }

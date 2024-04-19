@@ -23,11 +23,12 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="Hero.h" />
+    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="GameMainScene.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="Key.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />
@@ -40,8 +41,9 @@
     <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Key.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Stage.cpp" />

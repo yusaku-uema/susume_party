@@ -4,11 +4,13 @@
 class CharacterBase : public BoxCollider
 {
 protected:
+
     int character_image;//キャラ画像
     int hp;//
     int mp;//
     int attack_power;//攻撃力
     int defense_power;//守備力
+
     DATA speed;//スピード
 public:
     CharacterBase(DATA location, DATA size, int hp, int mp, int attack_power, int defense_power);
