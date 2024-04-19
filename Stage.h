@@ -3,6 +3,7 @@
 #include"define.h"
 #include"Block.h"
 #include"Slime.h"
+#include"Bird.h"
 #include"PlayerBase.h"
 
 class Stage
@@ -10,6 +11,7 @@ class Stage
 private:
     class PlayerBase* player[3];
     class Slime* slime;
+    class Bird* bird;
     std::vector<Block>block;
     int block_image[2];//ƒuƒƒbƒN‰æ‘œ
     int sky_image;//‹ó‰æ‘œ
