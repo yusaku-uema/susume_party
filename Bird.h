@@ -11,6 +11,7 @@ private:
 
     bool move_up; //ã‚ÉˆÚ“®
     bool move_left; //¶‚É“®‚­
+    bool fly; //”ò‚Ô
 
 public:
 

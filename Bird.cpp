@@ -15,6 +15,7 @@ Bird::Bird() : CharacterBase({ 900.0f, 50.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 
 
 	move_up = false;
 	move_left = true;
+	fly = true;
 
 }
 
@@ -25,22 +26,8 @@ Bird::~Bird()
 
 void Bird::Update(float delta_time, Stage* stage)
 {
-	//y座標の更新
-	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;//スピードに加速度を足していって、最大値に達したら固定
-	
-	if ((distance_moved += UP_SPEED) > FALL_MAX)distance_moved=0, move_up = !move_up, speed.y=0; //初期化
 
-	if (move_up) //フラグがTRUEの場合、上昇する
-	{
-		location.y -= speed.y;
-	}
-	else
-	{
-		location.y += speed.y;
-	}
-	
-
-	 //x座標の更新
+	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
 	if (move_left) //フラグがTRUEの間、左に動き続ける。
@@ -52,8 +39,48 @@ void Bird::Update(float delta_time, Stage* stage)
 		location.x += speed.x;
 	}
 
+	if (stage->HitBlock(this))
+	{
+		fly = false;//壁に当たった場合、飛べなくなって落ちる
+
+		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
+		{
+			if (move_left) 
+			{
+				location.x += speed.x;
+			}
+			else
+			{
+				location.x -= speed.x;
+			}
+		}
+
+		move_left = !move_left;
+	}
 
 
+	//y座標の更新
+		if (fly)
+		{
+			if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;//スピードに加速度を足していって、最大値に達したら固定
+			if ((distance_moved += UP_SPEED) > FALL_MAX)distance_moved = 0, move_up = !move_up, speed.y = 0; //初期化
+
+			if (move_up) //フラグがTRUEの場合、上昇する
+			{
+				location.y -= speed.y;
+			}
+			else
+			{
+				location.y += speed.y;
+			}
+			if (stage->HitBlock(this))fly = false;
+		}
+		else
+		{
+			if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
+			location.y += speed.y;
+			if (stage->HitBlock(this))location.y -= speed.y;//地面に当たっている場合、上記の計算を相殺する。
+		}
 
 }
 

@@ -8,6 +8,9 @@
 Slime::Slime() : CharacterBase({ 400.0f, 200.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
     OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
+
+    move_left = true;
+
 }
 
 Slime::~Slime()
@@ -22,12 +25,26 @@ void Slime::Update(float delta_time, Stage* stage)
 
     if (stage->HitBlock(this))
     {
-        //x座標の更新
-        if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
-        location.x += speed.x;
-
         location.y -= speed.y;
     }
+
+    //x座標の更新
+    if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
+   
+    if (move_left) //左に進行するのか
+    {
+        location.x -= speed.x;
+    }
+    else
+    {
+        location.x += speed.x;
+    }
+
+    if (stage->HitBlock(this))
+    {
+        move_left = !move_left;
+    }
+
 }
 
 void Slime::Draw(float camera_work) const

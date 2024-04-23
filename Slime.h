@@ -5,7 +5,8 @@
 class Slime : public CharacterBase
 {
 private:
-    
+    bool move_left; //ç∂Ç…ìÆÇ≠Ç©
+
 public:
     Slime();
     ~Slime();
