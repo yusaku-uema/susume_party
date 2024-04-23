@@ -5,6 +5,8 @@ Stage::Stage() : fps(0.0f), camera_work(0.0f)
 {
 	player_manager = new PlayerManager();
 	slime = new Slime();
+	bird = new Bird();
+	
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
 	//ブロック画像
@@ -45,6 +47,11 @@ Stage::~Stage()
 {
 	DeleteGraph(sky_image);
 	for (int i = 0; i < 2; i++)DeleteGraph(block_image[i]);
+
+
+	delete slime;
+	delete bird;
+
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
 
@@ -55,6 +62,7 @@ void Stage::Update(float delta_time)
 	slime->Update(delta_time, this);
 
 	fps = 1.0 / delta_time;
+	bird->Update(delta_time, this);
 
 	SetCameraWork();
 }
@@ -91,9 +99,10 @@ void Stage::SetCameraWork()
 void Stage::Draw() const
 {
 	DrawGraph(0, 0, sky_image, FALSE);
+	slime->Draw();
+	bird->Draw();
 
 	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
 	player_manager->Draw(camera_work);
-	//slime->Draw();
 	DrawFormatString(0, 0, 0xffffff, "%f", fps);
 }
