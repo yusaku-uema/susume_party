@@ -99,8 +99,8 @@ void Stage::SetCameraWork()
 void Stage::Draw() const
 {
 	DrawGraph(0, 0, sky_image, FALSE);
-	slime->Draw();
-	bird->Draw();
+	slime->Draw(camera_work);
+	bird->Draw(camera_work);
 
 	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
 	player_manager->Draw(camera_work);

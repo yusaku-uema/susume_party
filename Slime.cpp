@@ -30,7 +30,12 @@ void Slime::Update(float delta_time, Stage* stage)
     }
 }
 
-void Slime::Draw() const
+void Slime::Draw(float camera_work) const
 {
-    DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, 0x00ffff, TRUE);
+    DATA draw_location = { location.x + camera_work, location.y };
+
+    if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
+    {
+        DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
+    }
 }

@@ -18,6 +18,6 @@ public:
     ~Bird(); //デストラクタ
 
     void Update(float delta_time, class Stage* stage); //更新処理
-    void Draw() const; //描画関係
+    void Draw(float camera_work) const; //描画関係
 };
 

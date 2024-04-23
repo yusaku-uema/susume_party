@@ -11,5 +11,5 @@ public:
     ~Slime();
 
     void Update(float delta_time, class Stage* stage);
-    void Draw() const;
+    void Draw(float camera_work) const;
 };
