@@ -96,6 +96,9 @@
     <ClInclude Include="Bird.h">
       <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Bird.cpp">
       <Filter>ソース ファイル\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

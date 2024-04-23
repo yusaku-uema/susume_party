@@ -7,6 +7,9 @@
 class PlayerBase : public CharacterBase
 {
 private:
+
+    int color;//プレイヤーの色
+
     bool is_dead;//死んでいるか？
 
     void MoveX(class Stage* stage, PlayerBase* player);//X座標の更新
@@ -16,9 +19,11 @@ private:
     bool GetJumpLog()const;//一番古いジャンプログを渡す
 public:
 
-    PlayerBase();
+    PlayerBase(int color);
     ~PlayerBase();
 
     void Update(float delta_time, class Stage* stage, PlayerBase* previous_player);
-    void Draw() const;
+    void Draw(float camera_work) const;
+
+    bool GetIsDead()const;//プレイヤーが死んでいるか？
 };

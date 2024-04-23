@@ -12,9 +12,15 @@ Block::~Block()
 	OutputDebugString("Blockデストラクタが呼ばれました。\n");
 }
 
-void Block::Draw()const
+void Block::Draw(float camera_work)const
 {
-	DrawRotaGraph(location.x, location.y, 1, 0, block_image, FALSE);
+	DATA draw_location = { location.x + camera_work, location.y };
+
+	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
+	{
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, block_image, FALSE);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+	}
 }
 
 BLOCK_TYPE Block::GetType()const//ブロックタイプを返す

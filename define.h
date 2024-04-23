@@ -4,7 +4,7 @@
 #define SCREEN_HEIGHT 720 //縦画面サイズ
 
 #define STAGE_BLOCK_NUM_Y 10 //ステージの縦ブロックの数
-#define STAGE_BLOCK_NUM_X 30 //ステージの横ブロックの数
+#define STAGE_BLOCK_NUM_X 60 //ステージの横ブロックの数
 
 #define BLOCK_SIZE 50.0f //ブロックのサイズ
 

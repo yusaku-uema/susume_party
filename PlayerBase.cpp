@@ -8,7 +8,8 @@
 #define ACCELERATION 0.3f//歩く時の加速
 #define CHARACTER_DISTANCE 60.0f//キャラクター同士の距離
 
-PlayerBase::PlayerBase() : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE, PLAYER_SIZE }, 20, 10, 5, 5), is_dead(false)
+PlayerBase::PlayerBase(int color) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE, PLAYER_SIZE }, 20, 10, 5, 5), 
+is_dead(false), color(color)
 {
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
     OutputDebugString("PlayerBaseコンストラクタ呼ばれました。\n");
@@ -34,6 +35,7 @@ void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previo
     if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;//重力が一定数を越えないようにする
     location.y += speed.y;//座標の加算
     MoveY(stage, previous_player);
+
     if (location.y > 600.0f)is_dead = false;
 }
 
@@ -132,9 +134,17 @@ bool PlayerBase::GetJumpLog()const
     return jump_log[0];
 }
 
-void PlayerBase::Draw() const
+bool PlayerBase::GetIsDead()const//プレイヤーが死んでいるか？
 {
-    int color = 0xffffff;
-    if (GetJumpLog())color = 0x0ff00f;
-    DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, color, TRUE);
+    return is_dead;
+}
+
+void PlayerBase::Draw(float camera_work) const
+{
+    DATA draw_location = { location.x + camera_work, location.y };
+
+    if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
+    {
+        DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, color, TRUE);
+    }
 }

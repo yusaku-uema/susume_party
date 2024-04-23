@@ -26,6 +26,7 @@
     <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="PlayerBase.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="GameMainScene.h" />
     <ClInclude Include="GameOverScene.h" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Stage.cpp" />

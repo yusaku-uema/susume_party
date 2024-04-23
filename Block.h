@@ -12,6 +12,6 @@ public:
     Block(DATA location, BLOCK_TYPE type, int block_image);
     ~Block();
 
-    void Draw()const;
+    void Draw(float camera_work)const;
     BLOCK_TYPE GetType()const;
 };
