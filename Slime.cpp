@@ -8,14 +8,20 @@
 Slime::Slime() : CharacterBase({ 400.0f, 200.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
     OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
-
+    if (LoadDivGraph("image/Enemy/Slime_image.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
+    image_type = 0;
     move_left = true;
-
+    
+    time = 0;
 }
 
 Slime::~Slime()
 {
     OutputDebugString("Slimeデストラクタが呼ばれました。\n");
+    for (int i = 0; i < 12; i++)
+    {
+        DeleteGraph(slime_image[i]);
+    }
 }
 
 void Slime::Update(float delta_time, Stage* stage)
@@ -45,6 +51,17 @@ void Slime::Update(float delta_time, Stage* stage)
         move_left = !move_left;
     }
 
+
+
+    //画像切替処理
+    if (++time % 12 == 0)
+    {
+        if (++image_type > 3)
+        {
+            image_type = 0;
+        }
+    }
+
 }
 
 void Slime::Draw(float camera_work) const
@@ -53,6 +70,7 @@ void Slime::Draw(float camera_work) const
 
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
     {
-        DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
+        //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
+        DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE);    
     }
 }

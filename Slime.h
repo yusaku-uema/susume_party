@@ -5,6 +5,12 @@
 class Slime : public CharacterBase
 {
 private:
+    
+    int slime_image[12]; //スライムの画像
+    int image_type; //使う画像の指定
+
+    long int time;//時間測定、テスト用
+
     bool move_left; //左に動くか
 
 public:
