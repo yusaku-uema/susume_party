@@ -2,7 +2,7 @@
 #include"PlayerBase.h"
 #include"Key.h"
 
-#define PLAYER_SIZE 30.0f//サイズ
+#define PLAYER_SIZE 40.0f//サイズ
 #define WALK_SPEED 2.5f//1フレームで進む速さ
 #define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
 #define ACCELERATION 0.3f//歩く時の加速
@@ -20,8 +20,9 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previous_player)
+void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previous_player, PlayerManager* player_manager)
 {
+    if (Key::KeyDown(KEY_TYPE::B) && previous_player == nullptr)Attack(player_manager);
     //x座標の更新
     MoveX(stage, previous_player);
     location.x += speed.x;
@@ -134,6 +135,11 @@ bool PlayerBase::GetJumpLog()const
     return jump_log[0];
 }
 
+void PlayerBase::Attack(PlayerManager* player_manager)
+{
+    player_manager->AddAttack({ location.x + 40.0f, location.y }, { 20.0f, 20.0f }, { 0.0f,0.0f }, 0.1f, 5, NULL);
+}
+
 bool PlayerBase::GetIsDead()const//プレイヤーが死んでいるか？
 {
     return is_dead;
@@ -146,5 +152,6 @@ void PlayerBase::Draw(float camera_work) const
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
     {
         DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, color, TRUE);
+        //DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, player_image[0], TRUE);
     }
 }
