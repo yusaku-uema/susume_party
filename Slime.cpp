@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Slime.h"
 
-#define SLIME_SIZE 30.0f//サイズ
+#define SLIME_SIZE 48.0f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//歩く時の加速
 

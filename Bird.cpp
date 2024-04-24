@@ -13,6 +13,7 @@ Bird::Bird() : CharacterBase({ 900.0f, 50.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 
 
 	distance_moved = 0;
 
+	start_attack = false;
 	move_up = false;
 	move_left = true;
 
@@ -23,68 +24,50 @@ Bird::~Bird()
 	OutputDebugString("Birdデストラクタが呼ばれました。\n");
 }
 
-void Bird::Update(float delta_time, Stage* stage)
+void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 {
-	//x座標の更新
-	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (move_left) //フラグがTRUEの間、左に動き続ける。
+	if (start_attack)
 	{
-		location.x -= speed.x;
+		
 	}
 	else
 	{
-		location.x += speed.x;
-	}
+		//x座標の更新
+		if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (stage->HitBlock(this))
-	{
-		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
+		if (move_left) //フラグがTRUEの間、左に動き続ける。
 		{
-			if (move_left)
-			{
-				location.x += speed.x;
-			}
-			else
-			{
-				location.x -= speed.x;
-			}
+			location.x -= speed.x;
+		}
+		else
+		{
+			location.x += speed.x;
 		}
 
-		move_left = !move_left;
-	}
-
-
-	//y座標の更新
-
-	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;//スピードに加速度を足していって、最大値に達したら固定
-	if ((distance_moved += UP_SPEED) > FALL_MAX)distance_moved = 0, move_up = !move_up, speed.y = 0; //初期化
-
-	if (move_up) //フラグがTRUEの場合、上昇する
-	{
-		location.y -= speed.y;
-	}
-	else
-	{
-		location.y += speed.y;
-	}
-
-	if (stage->HitBlock(this))
-	{
-		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
+		if (stage->HitBlock(this))
 		{
-			if (move_up)
+			while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
 			{
-				location.y += speed.y;
+				if (move_left)
+				{
+					location.x += speed.x;
+				}
+				else
+				{
+					location.x -= speed.x;
+				}
 			}
-			else
-			{
-				location.y -= speed.y;
-			}
+
+			move_left = !move_left;
 		}
 
+		//先頭プレイヤーとの距離が300以下なら攻撃開始
+		if (CalculateDistance(player) < 300)
+		{
+			start_attack = true;
+		}
 	}
-
 
 }
 
@@ -96,4 +79,13 @@ void Bird::Draw(float camera_work) const
 	{
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
 	}
+}
+
+float Bird::CalculateDistance(PlayerManager* player)
+{
+	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	return distance;
 }

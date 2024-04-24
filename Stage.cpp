@@ -64,7 +64,7 @@ void Stage::Update(float delta_time)
 	slime->Update(delta_time, this);
 
 	fps = 1.0 / delta_time;
-	bird->Update(delta_time, this);
+	bird->Update(delta_time, this,player_manager);
 
 	SetCameraWork();
 }
