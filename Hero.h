@@ -1,13 +1,11 @@
 #pragma once
 #include"PlayerBase.h"
-#include"Stage.h"
 
-class PlayerBase : public CharacterBase
+class Hero : public PlayerBase
 {
-public:
-    PlayerBase();
-    ~PlayerBase();
+private:
 
-    virtual void Update(float delta_time, class Stage* stage, CharacterBase* character) = 0;
-    virtual void Draw() const = 0;
+public:
+    Hero();
+    ~Hero();
 };

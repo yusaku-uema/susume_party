@@ -4,8 +4,6 @@
 class CharacterBase : public BoxCollider
 {
 protected:
-
-    int character_image;//ƒLƒƒƒ‰‰æ‘œ
     int hp;//
     int mp;//
     int attack_power;//UŒ‚—Í

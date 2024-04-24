@@ -48,6 +48,8 @@ Stage::~Stage()
 	DeleteGraph(sky_image);
 	for (int i = 0; i < 2; i++)DeleteGraph(block_image[i]);
 
+	block.clear();
+	block.shrink_to_fit();
 
 	delete slime;
 	delete bird;
