@@ -7,66 +7,49 @@
 #define UP_SPEED 0.1f //上昇、下降の速度
 #define FALL_MAX 5  //上昇、下降の上限
 
-Bird::Bird() : CharacterBase({ 900.0f, 50.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+//-----------------------------------
+//コンストラクタ
+//-----------------------------------
+Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
 	OutputDebugString("Birdコンストラクタ呼ばれました。\n");
 
 	distance_moved = 0;
+	time = 0;
 
 	start_attack = false;
+	standby_attack = false;
 	move_up = false;
 	move_left = true;
 
+
+	state = BIRD_STATE::NORMAL;
+
 }
 
+//-----------------------------------
+//デストラクタ
+//-----------------------------------
 Bird::~Bird()
 {
 	OutputDebugString("Birdデストラクタが呼ばれました。\n");
 }
 
+
+//-----------------------------------
+// 
+//-----------------------------------
 void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 {
 
-	if (start_attack)
+
+	switch (state)
 	{
-		
-	}
-	else
-	{
-		//x座標の更新
-		if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
-
-		if (move_left) //フラグがTRUEの間、左に動き続ける。
-		{
-			location.x -= speed.x;
-		}
-		else
-		{
-			location.x += speed.x;
-		}
-
-		if (stage->HitBlock(this))
-		{
-			while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
-			{
-				if (move_left)
-				{
-					location.x += speed.x;
-				}
-				else
-				{
-					location.x -= speed.x;
-				}
-			}
-
-			move_left = !move_left;
-		}
-
-		//先頭プレイヤーとの距離が300以下なら攻撃開始
-		if (CalculateDistance(player) < 300)
-		{
-			start_attack = true;
-		}
+	case BIRD_STATE::NORMAL:
+		Move(stage, player); //通常移動
+		break;
+	case BIRD_STATE::STANDBY:
+		break;
 	}
 
 }
@@ -79,6 +62,66 @@ void Bird::Draw(float camera_work) const
 	{
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
 	}
+}
+
+
+void Bird::Move(Stage* stage, PlayerManager* player)
+{
+
+	//x座標の更新
+	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
+
+	if (move_left) //フラグがTRUEの間、左に動き続ける。
+	{
+		location.x -= speed.x;
+	}
+	else
+	{
+		location.x += speed.x;
+	}
+
+	if (stage->HitBlock(this))
+	{
+		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
+		{
+			if (move_left)
+			{
+				location.x += speed.x;
+			}
+			else
+			{
+				location.x -= speed.x;
+			}
+		}
+
+		move_left = !move_left;
+	}
+
+	//先頭プレイヤーとの距離が300以下なら攻撃準備
+	if (CalculateDistance(player) < 300)
+	{
+		standby_attack = true;
+	}
+
+
+}
+
+void Bird::Standby(PlayerManager* player)
+{
+	
+		//先頭プレイヤーとの距離が300以下なら攻撃開始
+		if (CalculateDistance(player) < 300)
+		{
+			if (++time % 120 == 0)
+			{
+
+			}
+		}
+		else
+		{
+			standby_attack = false;
+		}
+	
 }
 
 float Bird::CalculateDistance(PlayerManager* player)
