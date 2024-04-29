@@ -15,7 +15,12 @@ Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20,
 {
 	OutputDebugString("Birdコンストラクタ呼ばれました。\n");
 
+	if (LoadDivGraph("image/Enemy/Bird_image.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
 	
+
+	image_type = 0;
+	animation_time = 0;
+
 	time = 0;
 
 	attack_speed = 0;
@@ -64,6 +69,16 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 		break;
 	}
 
+
+	//画像切替処理,のちにそれぞれの画像に合わせつように作る
+	if (++animation_time % 12 == 0)
+	{
+		if (++image_type > 3)
+		{
+			image_type = 0;
+		}
+	}
+
 }
 
 //-----------------------------------
@@ -75,7 +90,8 @@ void Bird::Draw(float camera_work) const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE);
 	}
 }
 

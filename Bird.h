@@ -21,6 +21,10 @@ class Bird :
 private:
 
     int time;//攻撃待機時間
+    int bird_image[11]; //バードの画像
+    int image_type; //使う画像の要素指定
+    long int animation_time; //画像切替に使う変数
+   
 
     float distance_moved; //動いた距離
     float attack_speed; //攻撃速度
