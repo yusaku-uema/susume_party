@@ -61,7 +61,7 @@ void Stage::Update(float delta_time)
 {
 	player_manager->Update(delta_time, this);
 
-	slime->Update(delta_time, this);
+	slime->Update(delta_time, this,player_manager);
 
 	fps = 1.0 / delta_time;
 	bird->Update(delta_time, this,player_manager);

@@ -200,6 +200,10 @@ void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
 
 }
 
+
+//-----------------------------------
+// ‘Ò‹@‚µ‚Ä‚¢‚½ˆÊ’u‚É–ß‚é
+//-----------------------------------
 void Bird::Retur()
 {
 	float dx = old_location.x - location.x;
