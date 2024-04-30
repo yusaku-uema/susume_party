@@ -91,7 +91,7 @@ void Slime::Move(Stage* stage, PlayerManager* player)
     }
 
 
-    if (CalculateDistance(player) < 100)
+    if (CalculateDistance(player) < 60)
     {
         state = SLIME_STATE::ATTACK;
     }
@@ -104,7 +104,7 @@ void Slime::Attack(Stage* stage, PlayerManager* player, float delta_time)
 
 
 
-    if (CalculateDistance(player) > 100)
+    if (CalculateDistance(player) > 60|| stage->HitBlock(this))
     {
         state = SLIME_STATE::NORMAL;
     }
@@ -121,7 +121,7 @@ float Slime::CalculateDistance(PlayerManager* player)
 
     if (move_left)
     {
-        if (angle >= -180 && angle <= 180) {
+        if (angle >= -180 && angle <= -3) {
             return distance; // ƒvƒŒƒCƒ„[‚ª³–Ê‚É‚¢‚é
         }
    }
