@@ -11,8 +11,8 @@ private:
 	bool flag;
 	int FileHandle;
 	int count = 0;
-	int draw_x = 300;
-	int draw_y = 450;
+	int draw_x = 0;
+	int draw_y = 0;
 	
 public:
 	GameOverScene();
