@@ -99,6 +99,12 @@
     <ClInclude Include="PlayerManager.h">
       <Filter>ヘッダー ファイル\Character\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
+      <Filter>ヘッダー ファイル\Character\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -145,6 +151,12 @@
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
       <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>ソース ファイル\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
