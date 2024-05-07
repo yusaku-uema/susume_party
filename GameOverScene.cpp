@@ -19,7 +19,7 @@ void GameOverScene::Finalize() {}
 SCENE_TYPE GameOverScene::Update(float delta_time) {
     if (Key::KeyDown(KEY_TYPE::A)) return SCENE_TYPE::MAIN;
 
-    //ファイルを開く
+    // file.txtを開く
     FileHandle = FileRead_open("file.txt");
 
     while (FileRead_eof(FileHandle) == 0) {
@@ -31,32 +31,99 @@ SCENE_TYPE GameOverScene::Update(float delta_time) {
             ScreenFlip();
             ProcessMessage();
             ++count;
-            if (ProcessMessage() != 0) break; //キーが押されたらループを抜ける
+            if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
         }
-        if (ProcessMessage() != 0) break; //キーが押されたらループを抜ける
+        if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
         draw_y += 20;
     }
 
-    //キー入力待ち
+    // キー入力待ち
     while (!ProcessMessage()) {
         if (CheckHitKey(KEY_INPUT_A)) {
             break;
         }
     }
 
-    //ファイルを閉じる
+    // ファイルを閉じる
+    FileRead_close(FileHandle);
+
+    // 同様の処理をfile2.txtに対して行う
+    ClearDrawScreen();
+
+    draw_x = 0;
+    draw_y = 0;
+    FileHandle = FileRead_open("file2.txt");
+
+    while (FileRead_eof(FileHandle) == 0) {
+        FileRead_gets(text, sizeof(text), FileHandle);
+        flag = false;
+        count = 0;
+        while (!flag) {
+            talk(draw_x, draw_y, text, count);
+            ScreenFlip();
+            ProcessMessage();
+            ++count;
+            if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
+        }
+        if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
+        draw_y += 20;
+    }
+
+    // キー入力待ち
+    while (!ProcessMessage()) {
+        if (CheckHitKey(KEY_INPUT_A)) {
+            break;
+        }
+    }
+
+    // ファイルを閉じる
+    FileRead_close(FileHandle);
+
+    // 同様の処理をfile3.txtに対して行う
+    ClearDrawScreen();
+    draw_x = 0;
+    draw_y = 0;
+    FileHandle = FileRead_open("file3.txt");
+
+    while (FileRead_eof(FileHandle) == 0) {
+        FileRead_gets(text, sizeof(text), FileHandle);
+        flag = false;
+        count = 0;
+        while (!flag) {
+            talk(draw_x, draw_y, text, count);
+            ScreenFlip();
+            ProcessMessage();
+            ++count;
+            if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
+        }
+        if (ProcessMessage() != 0) break; // キーが押されたらループを抜ける
+        draw_y += 20;
+    }
+
+    // キー入力待ち
+    while (!ProcessMessage()) {
+        if (CheckHitKey(KEY_INPUT_A)) {
+            break;
+        }
+    }
+
+    // ファイルを閉じる
     FileRead_close(FileHandle);
 
     return GetNowScene();
 }
 
 //描画処理
-void GameOverScene::Draw() const {}
+void GameOverScene::Draw() const 
+{
+
+
+}
 
 void GameOverScene::talk(int x, int y, const char t[], int nCount) {
     int n = nCount / 15;
 
-    int fontHandle = CreateFontToHandle("dotfont", 15, -2);
+    int fontHandle = CreateFontToHandle("dotfont", 15, -1);
     ChangeFont("dotfont"); //フォントを設定
 
     unsigned int color = GetColor(255, 255, 255);
