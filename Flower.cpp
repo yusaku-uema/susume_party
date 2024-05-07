@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define FLOWER_SIZE 30.0f//サイズ
+#define FLOWER_SIZE 80.0f//サイズ
 
 
 Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
@@ -28,6 +28,16 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 {
 	//画像切替時間測定
 	++time;
+
+
+	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
+	location.y += speed.y;
+
+	if (stage->HitBlock(this))
+	{
+		location.y -= speed.y;
+	}
+
 
 	switch (state)
 	{

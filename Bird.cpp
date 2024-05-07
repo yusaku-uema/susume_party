@@ -178,6 +178,7 @@ void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
 	if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
 
 
+
 	if (stage->HitBlock(this))
 	{
 		state = BIRD_STATE::RETURN;
