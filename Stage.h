@@ -4,6 +4,7 @@
 #include"Block.h"
 #include"Slime.h"
 #include"Bird.h"
+#include"Flower.h"
 #include"PlayerManager.h"
 
 class Stage
@@ -12,6 +13,7 @@ private:
     class PlayerManager* player_manager;
     class Slime* slime;
     class Bird* bird;
+    class Flower* flower;
     std::vector<Block>block;
 
     int block_image[2];//ƒuƒƒbƒN‰æ‘œ

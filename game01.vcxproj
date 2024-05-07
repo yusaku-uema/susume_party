@@ -25,6 +25,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="Flower.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerManager.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
+    <ClCompile Include="Flower.cpp" />
     <ClCompile Include="GameMainScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Hero.cpp" />
