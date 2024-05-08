@@ -2,13 +2,14 @@
 #include"PlayerBase.h"
 #include"Key.h"
 
-#define PLAYER_SIZE 40.0f//サイズ
-#define WALK_SPEED 2.5f//1フレームで進む速さ
+#define PLAYER_SIZE_X 35.0f//サイズ
+#define PLAYER_SIZE_Y 45.0f//サイズ
+#define WALK_SPEED 3.0f//1フレームで進む速さ
 #define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
 #define ACCELERATION 0.3f//歩く時の加速
 #define CHARACTER_DISTANCE 60.0f//キャラクター同士の距離
 
-PlayerBase::PlayerBase(int color) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE, PLAYER_SIZE }, 20, 10, 5, 5), 
+PlayerBase::PlayerBase(int color) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5), 
 is_dead(false), color(color)
 {
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
