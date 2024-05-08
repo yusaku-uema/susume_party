@@ -21,7 +21,10 @@ Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE
 
 Flower::~Flower()
 {
-
+	for (int i = 0; i < 12; i++)
+	{
+		DeleteGraph(flower_image[i]);
+	}
 }
 
 void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)

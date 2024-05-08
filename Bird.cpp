@@ -180,7 +180,7 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 	{
 		standby_attack = true;
 		state = BIRD_STATE::STANDBY;
-		image_type = 8;
+		image_type = 7;
 	}
 
 

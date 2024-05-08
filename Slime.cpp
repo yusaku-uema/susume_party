@@ -31,24 +31,38 @@ Slime::~Slime()
 void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 {
 
+    ++time; //アニメーション時間更新
+
     switch (state)
     {
     case SLIME_STATE::NORMAL:
         Move(stage, player);
+
+        //画像切替処理
+        if (time % 12 == 0)
+        {
+            if (++image_type > 3)
+            {
+                image_type = 0;
+            }
+        }
+
         break;
     case SLIME_STATE::ATTACK:
         Attack(stage, player, delta_time);
+
+        //画像切替処理
+        if (time % 12 == 0)
+        {
+            if (++image_type > 8)
+            {
+                image_type = 4;
+            }
+        }
+
         break;
     }
 
-    //画像切替処理
-    if (++time % 12 == 0)
-    {
-        if (++image_type > 3)
-        {
-            image_type = 0;
-        }
-    }
 
 }
 
