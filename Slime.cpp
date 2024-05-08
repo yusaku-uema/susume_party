@@ -10,7 +10,7 @@
 Slime::Slime() : CharacterBase({ 1000.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
     OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
-    if (LoadDivGraph("image/Enemy/Slime_image.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
+    if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
     image_type = 0;
     move_left = true;
     
@@ -121,13 +121,15 @@ float Slime::CalculateDistance(PlayerManager* player)
 
     if (move_left)
     {
-        if (angle >= -180 && angle <= -3) {
+        if (angle >= -180 && angle <= -3) 
+        {
             return distance; // プレイヤーが正面にいる
         }
    }
     else
     {
-        if (angle >= -45 && angle <= 45) {
+        if (angle >= -45 && angle <= 45) 
+        {
             return distance; // プレイヤーが正面にいる
         }
     }

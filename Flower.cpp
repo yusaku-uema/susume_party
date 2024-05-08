@@ -8,7 +8,7 @@
 
 Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
 {
-	if (LoadDivGraph("image/Enemy/flowe_image.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
+	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
 
 	time = 0;
 	animation_time = 0;

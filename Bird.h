@@ -35,10 +35,12 @@ private:
     bool standby_attack; //攻撃準備 (空中待機)
     bool move_up; //上に移動
     bool move_left; //左に動く
+    bool lock_on; //プレイヤーに狙いを定める。
 
 
     BIRD_STATE state; //バードの状態
     DATA old_location; //前の座標
+    DATA player_location; //攻撃時のプレイヤーの位置
     
 
 public:
