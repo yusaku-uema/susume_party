@@ -35,6 +35,7 @@ private:
     bool standby_attack; //攻撃準備 (空中待機)
     bool move_up; //上に移動
     bool move_left; //左に動く
+    bool direction; //向いている方向
     bool lock_on; //プレイヤーに狙いを定める。
 
 

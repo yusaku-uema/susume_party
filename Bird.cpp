@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include"Bird.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define SLIME_SIZE 30.0f//サイズ
@@ -31,6 +32,7 @@ Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20,
 	standby_attack = false;
 	move_up = false;
 	move_left = true;
+	direction = true;
 	lock_on = false;
 
 
@@ -123,7 +125,17 @@ void Bird::Draw(float camera_work) const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
 		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
-		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE);
+		
+		
+		if (state == BIRD_STATE::STANDBY || state == BIRD_STATE::ATTACK)
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
+		}
+		else
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
+		}
+
 	}
 }
 
@@ -286,6 +298,17 @@ float Bird::CalculateDistance(PlayerManager* player)
 	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
 	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	float angle = atan2(dy, dx) * 180 / M_PI;
+
+	if (angle >= -45 && angle <= 85)
+	{
+		direction = true;
+	}
+	else
+	{
+		direction = false;
+	}
 
 	return distance;
 }
