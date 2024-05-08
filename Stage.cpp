@@ -11,7 +11,7 @@ Stage::Stage() : fps(0.0f), camera_work(0.0f)
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
 	//ブロック画像
-	if (LoadDivGraph("image/Stage/block.png", 2, 2, 1, 50, 50, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/block.png", 2, 2, 1, 35, 35, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
 	SetStage();
 	OutputDebugString("Stageコンストラクタ呼ばれました。\n");

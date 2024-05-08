@@ -105,6 +105,15 @@
     <ClInclude Include="Flower.h">
       <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Warrior.h">
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Wizard.h">
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Monk.h">
+      <Filter>ヘッダー ファイル\Character\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -157,6 +166,15 @@
     </ClCompile>
     <ClCompile Include="Flower.cpp">
       <Filter>ソース ファイル\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Wizard.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Monk.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

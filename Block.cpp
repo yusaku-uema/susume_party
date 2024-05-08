@@ -19,7 +19,9 @@ void Block::Draw(float camera_work)const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, block_image, FALSE);
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, TRUE);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x000000, FALSE);
+
 	}
 }
 

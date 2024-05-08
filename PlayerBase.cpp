@@ -2,15 +2,18 @@
 #include"PlayerBase.h"
 #include"Key.h"
 
-#define PLAYER_SIZE_X 35.0f//サイズ
-#define PLAYER_SIZE_Y 45.0f//サイズ
+#define PLAYER_SIZE_X 30.0f//サイズ
+#define PLAYER_SIZE_Y 60.0f//サイズ
 #define WALK_SPEED 3.0f//1フレームで進む速さ
 #define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
-#define ACCELERATION 0.3f//歩く時の加速
-#define CHARACTER_DISTANCE 60.0f//キャラクター同士の距離
+#define ACCELERATION 0.15f//歩く時の加速
+#define CHARACTER_DISTANCE 80.0f//キャラクター同士の距離
 
-PlayerBase::PlayerBase(int color) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5), 
-is_dead(false), color(color)
+#define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
+#define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
+
+PlayerBase::PlayerBase() : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5), 
+is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(1)
 {
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
     OutputDebugString("PlayerBaseコンストラクタ呼ばれました。\n");
@@ -26,7 +29,22 @@ void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previo
     if (Key::KeyDown(KEY_TYPE::B) && previous_player == nullptr)Attack(player_manager);
     //x座標の更新
     MoveX(stage, previous_player);
-    location.x += speed.x;
+
+    location.x += speed.x;//座標の加算
+    
+    if (speed.x == 0.0f)draw_image_num = 1;
+    else
+    {
+        if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
+        {
+            if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
+            image_change_time = 0.0f;
+        }
+        if (speed.x < 0.0f)is_facing_left = true;//左に進んでいるならis_facing_leftをtrueにする
+        else if (speed.x > 0.0f)is_facing_left = false;//右に進んでいるならis_facing_leftをfalseにする
+    }
+   
+
     if (stage->HitBlock(this))//ブロックに当たっている場合、座標を調整
     {
         location.x = roundf(location.x);//座標を整数値にする
@@ -34,8 +52,6 @@ void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previo
     }
 
     //y座標の更新
-    if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;//重力が一定数を越えないようにする
-    location.y += speed.y;//座標の加算
     MoveY(stage, previous_player);
 
     if (location.y > 600.0f)is_dead = false;
@@ -89,9 +105,14 @@ void PlayerBase::MoveX(class Stage* stage, PlayerBase* player)
     }
 }
 
+//y座標の更新
 void PlayerBase::MoveY(class Stage* stage, PlayerBase* previous_player)
 {
     bool is_jump = false;
+
+    speed.y += GRAVITY;//重力の加算
+    if (speed.y > JUMP_SPEED)speed.y = JUMP_SPEED;//重力が一定数を越えないようにする
+    location.y += speed.y;//座標の加算
 
     if (stage->HitBlock(this))//もしブロックに当たっていたら（地面か頭に当たっている）
     {
@@ -152,7 +173,9 @@ void PlayerBase::Draw(float camera_work) const
 
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
     {
-        DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, color, TRUE);
-        //DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, player_image[0], TRUE);
+         DrawRotaGraph(draw_location.x, draw_location.y, 2.5, 0, player_image[draw_image_num], TRUE, is_facing_left);
+         DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
     }
+
+    DrawFormatString(0, 500, 0xffffff, "%f", location.y);
 }
