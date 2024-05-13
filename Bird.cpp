@@ -199,7 +199,7 @@ void Bird::Standby(PlayerManager* player)
 	//先頭プレイヤーとの距離が300以下なら攻撃開始
 	if (CalculateDistance(player) < 300)
 	{
-		if (++time % 120 == 0)
+		if (++time % 60 == 0)
 		{
 			state = BIRD_STATE::ATTACK;
 			old_location = location;
