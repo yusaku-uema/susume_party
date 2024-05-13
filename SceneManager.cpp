@@ -61,7 +61,7 @@ void SceneManager::Update()
 
 			start_time = now_time;//フレーム開始時間を更新
 
-			if (next_scene == SCENE_TYPE::TITLE)break;//エンドが選択されていたらゲームを終了する
+			if (next_scene == SCENE_TYPE::GAME_END)break;//エンドが選択されていたらゲームを終了する
 
 			if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);//現在のシーンと次のシーンが違っていたらシーンを変える
 
