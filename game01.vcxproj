@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackManager.h" />
     <ClInclude Include="Bird.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackManager.cpp" />
     <ClCompile Include="Bird.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
