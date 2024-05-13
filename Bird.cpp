@@ -46,6 +46,10 @@ Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20,
 Bird::~Bird()
 {
 	OutputDebugString("Birdデストラクタが呼ばれました。\n");
+	for (int i = 0; i < 11; i++)
+	{
+		DeleteGraph(bird_image[i]);
+	}
 }
 
 
@@ -195,7 +199,7 @@ void Bird::Standby(PlayerManager* player)
 	//先頭プレイヤーとの距離が300以下なら攻撃開始
 	if (CalculateDistance(player) < 300)
 	{
-		if (++time % 120 == 0)
+		if (++time % 60 == 0)
 		{
 			state = BIRD_STATE::ATTACK;
 			old_location = location;
