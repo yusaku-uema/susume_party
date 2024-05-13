@@ -4,6 +4,7 @@
 
 TitleScene::TitleScene()
 {
+ 
 }
 
 TitleScene::~TitleScene()
@@ -23,8 +24,7 @@ void TitleScene::Finalize()
 SCENE_TYPE TitleScene::Update(float delta_time)
 {
 	if (Key::KeyDown(KEY_TYPE::A))return SCENE_TYPE::MAIN;
-	
-	return GetNowScene();//現在のシーンタイプを返す
+    return GetNowScene();//現在のシーンタイプを返す
 }
 
 //描画処理

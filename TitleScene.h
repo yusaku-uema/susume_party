@@ -4,6 +4,7 @@
 class TitleScene :public SceneBase
 {
 private:
+
 public:
 	TitleScene();
 	virtual ~TitleScene();
