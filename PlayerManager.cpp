@@ -21,29 +21,17 @@ PlayerManager::~PlayerManager()
 {
     for (int i = 0; i < PLAYER_NUM; i++)delete player[i];
 
-    attack.clear();
-    attack.shrink_to_fit();
-
     OutputDebugString("PlayerManagerデストラクタが呼ばれました。\n");
 }
 
 void PlayerManager::Update(float delta_time, class Stage* stage)
 {
-    for (int i = 0; i < attack.size(); i++)
-    {
-        if (attack[i].Update(delta_time))//攻撃の更新
-        {
-            attack.erase(attack.begin() + i);//攻撃を消す
-            i--;
-        }
-    }
-
     if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
 
     for (int i = 0; i < PLAYER_NUM; i++)
     {
-        if (i == 0)player[i]->Update(delta_time, stage, nullptr, this);
-        else player[i]->Update(delta_time, stage, player[i - 1], this);
+        if (i == 0)player[i]->Update(delta_time, stage, nullptr);
+        else player[i]->Update(delta_time, stage, player[i - 1]);
     }
 }
 
@@ -57,11 +45,6 @@ void PlayerManager::PlayerSorting()//プレイヤー並び替え
     }
 }
 
-void PlayerManager::AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
-{
-    attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image);
-}
-
 DATA PlayerManager::GetPlayerLocation()const
 {
     return player[0]->GetLocation();
@@ -69,6 +52,5 @@ DATA PlayerManager::GetPlayerLocation()const
 
 void PlayerManager::Draw(float camera_work) const
 {
-    for (int i = 0; i < attack.size(); i++)attack[i].Draw(camera_work);
     for (int i = 0; i < PLAYER_NUM; i++)player[i]->Draw(camera_work);
 }

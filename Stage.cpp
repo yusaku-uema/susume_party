@@ -4,6 +4,7 @@
 Stage::Stage() : fps(0.0f), camera_work(0.0f)
 {
 	player_manager = new PlayerManager();
+	attack_manager = new AttackManager();
 	slime = new Slime();
 	bird = new Bird();
 	flower = new Flower();
@@ -52,6 +53,8 @@ Stage::~Stage()
 	block.clear();
 	block.shrink_to_fit();
 
+	delete player_manager;
+	delete attack_manager;
 	delete slime;
 	delete bird;
 	delete flower;
@@ -61,21 +64,29 @@ Stage::~Stage()
 
 void Stage::Update(float delta_time)
 {
+	//攻撃の更新
+	attack_manager->Update(delta_time, this);
+
+	//プレイヤー(勇者一行)の更新
 	player_manager->Update(delta_time, this);
 
+	//敵の更新
 	slime->Update(delta_time, this,player_manager);
 	flower->Update(delta_time, this, player_manager);
+	bird->Update(delta_time, this, player_manager);
 
 	fps = 1.0 / delta_time;
-	bird->Update(delta_time, this,player_manager);
-
+	
 	SetCameraWork();
 }
 
 bool Stage::HitBlock(BoxCollider* bc)const
 {
-	for (int i = 0; i < block.size(); i++)if (block[i].HitBox(bc))return true;//ブロックに当たった場合trueを返す
-	return false;//ブロックに当たらなかった
+	//ブロックに当たった場合trueを返す
+	for (int i = 0; i < block.size(); i++)if (block[i].HitBox(bc))return true;
+
+	//ブロックに当たらなかった
+	return false;
 }
 
 void Stage::SetCameraWork()
@@ -101,14 +112,29 @@ void Stage::SetCameraWork()
 	camera_work = floorf(camera_work);
 }
 
+void Stage::AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
+{
+	attack_manager->AddAttack(location, size, speed, duration_time, attack_power, attack_image);
+}
+
 void Stage::Draw() const
 {
+	//空の画像表示
 	DrawGraph(0, 0, sky_image, FALSE);
+
+	//ステージ（ブロックなど）表示
+	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
+
+	//敵の表示
 	slime->Draw(camera_work);
 	bird->Draw(camera_work);
 	flower->Draw(camera_work);
 
-	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
+	//プレイヤー表示
 	player_manager->Draw(camera_work);
+
+	//攻撃（魔法の弾、斬撃、、）表示
+	attack_manager->Draw(camera_work);
+
 	DrawFormatString(0, 0, 0xffffff, "%f", fps);
 }

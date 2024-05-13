@@ -22,14 +22,12 @@ private:
     void SetJumpLog(bool is_jump);//ジャンプログを更新
     bool GetJumpLog()const;//一番古いジャンプログを渡す
 
-    void Attack(class PlayerManager* player_manager);
-
 public:
 
     PlayerBase();
     ~PlayerBase();
 
-    void Update(float delta_time, class Stage* stage, PlayerBase* previous_player, PlayerManager* player_manager);
+    void Update(float delta_time, class Stage* stage, PlayerBase* previous_player);
     void Draw(float camera_work) const;
 
     bool GetIsDead()const;//プレイヤーが死んでいるか？
