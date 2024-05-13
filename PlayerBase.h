@@ -9,9 +9,12 @@ class PlayerBase : public CharacterBase
 {
 protected:
     int player_image[4];
+
 private:
-    int color;//プレイヤーの色
     bool is_dead;//死んでいるか？
+    bool is_facing_left;//左を向いているか？
+    float image_change_time;//画像切り替え時間
+    int draw_image_num;//表示画像の番号
 
     void MoveX(class Stage* stage, PlayerBase* player);//X座標の更新
     void MoveY(class Stage* stage, PlayerBase* previous_player);//Y座標の更新
@@ -23,7 +26,7 @@ private:
 
 public:
 
-    PlayerBase(int color);
+    PlayerBase();
     ~PlayerBase();
 
     void Update(float delta_time, class Stage* stage, PlayerBase* previous_player, PlayerManager* player_manager);

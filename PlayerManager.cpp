@@ -2,13 +2,17 @@
 #include"Key.h"
 #include"PlayerManager.h"
 #include"Hero.h"
+#include"Warrior.h"
+#include"Wizard.h"
+#include"Monk.h"
+
 
 PlayerManager::PlayerManager()
 {
     player[0] = new Hero();//勇者
-    player[1] = new PlayerBase(0xff0000);//戦士
-    player[2] = new PlayerBase(0xff00ff);//魔法使い
-    player[3] = new PlayerBase(0x00ff00);//僧侶
+    player[1] = new Warrior();//戦士
+    player[2] = new Wizard();//魔法使い
+    player[3] = new Monk(); //僧侶
 
     OutputDebugString("PlayerManagerコンストラクタ呼ばれました。\n");
 }

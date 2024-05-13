@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackManager.h" />
     <ClInclude Include="Bird.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="Flower.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Monk.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Slime.h" />
@@ -37,10 +39,13 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Warrior.h" />
+    <ClInclude Include="Wizard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackManager.cpp" />
     <ClCompile Include="Bird.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
@@ -50,12 +55,15 @@
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Monk.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Warrior.cpp" />
+    <ClCompile Include="Wizard.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdio.h>
 #include"Slime.h"
 
 #define SLIME_SIZE 30.0f//サイズ
@@ -10,7 +11,7 @@
 Slime::Slime() : CharacterBase({ 1000.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
     OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
-    if (LoadDivGraph("image/Enemy/Slime_image.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
+    if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
     image_type = 0;
     move_left = true;
     
@@ -31,24 +32,38 @@ Slime::~Slime()
 void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 {
 
+    ++time; //アニメーション時間更新
+
     switch (state)
     {
     case SLIME_STATE::NORMAL:
         Move(stage, player);
+
+        //画像切替処理
+        if (time % 12 == 0)
+        {
+            if (++image_type > 3)
+            {
+                image_type = 0;
+            }
+        }
+
         break;
     case SLIME_STATE::ATTACK:
         Attack(stage, player, delta_time);
+
+        //画像切替処理
+        if (time % 12 == 0)
+        {
+            if (++image_type > 8)
+            {
+                image_type = 4;
+            }
+        }
+
         break;
     }
 
-    //画像切替処理
-    if (++time % 12 == 0)
-    {
-        if (++image_type > 3)
-        {
-            image_type = 0;
-        }
-    }
 
 }
 
@@ -121,13 +136,15 @@ float Slime::CalculateDistance(PlayerManager* player)
 
     if (move_left)
     {
-        if (angle >= -180 && angle <= -3) {
+        if (angle >= -180 && angle <= -3) 
+        {
             return distance; // プレイヤーが正面にいる
         }
    }
     else
     {
-        if (angle >= -45 && angle <= 45) {
+        if (angle >= -45 && angle <= 45) 
+        {
             return distance; // プレイヤーが正面にいる
         }
     }
