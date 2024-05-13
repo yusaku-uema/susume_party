@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdio.h>
 #include"Slime.h"
 
 #define SLIME_SIZE 30.0f//ÉTÉCÉY

@@ -21,7 +21,8 @@ Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE
 
 Flower::~Flower()
 {
-	for (int i = 0; i < 12; i++)
+
+	for (int i = 0; i < 7; i++)
 	{
 		DeleteGraph(flower_image[i]);
 	}
@@ -89,7 +90,6 @@ void Flower::Draw(float camera_work) const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
-		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE);
 	}
 }

@@ -46,6 +46,10 @@ Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20,
 Bird::~Bird()
 {
 	OutputDebugString("Birdデストラクタが呼ばれました。\n");
+	for (int i = 0; i < 11; i++)
+	{
+		DeleteGraph(bird_image[i]);
+	}
 }
 
 
