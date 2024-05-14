@@ -6,11 +6,13 @@
 #include"Bird.h"
 #include"Flower.h"
 #include"PlayerManager.h"
+#include"AttackManager.h"
 
 class Stage
 {
 private:
     class PlayerManager* player_manager;
+    class AttackManager* attack_manager;
     class Slime* slime;
     class Bird* bird;
     class Flower* flower;
@@ -22,8 +24,8 @@ private:
     float fps;
     float camera_work;
 
-
     void SetStage();//ステージを生成
+
 public:
     Stage();
     ~Stage();
@@ -34,4 +36,5 @@ public:
 
     void SetCameraWork();
     bool HitBlock(BoxCollider* bc)const;
+    void AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
 };

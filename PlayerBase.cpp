@@ -24,9 +24,10 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previous_player, PlayerManager* player_manager)
+void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previous_player)
 {
-    if (Key::KeyDown(KEY_TYPE::B) && previous_player == nullptr)Attack(player_manager);
+
+    if (Key::KeyDown(KEY_TYPE::B) && previous_player == nullptr)stage->AddAttack(location, { 10,10 }, { 5,0 }, 5.0, 3, 0);
     //x座標の更新
     MoveX(stage, previous_player);
 
@@ -155,11 +156,6 @@ void PlayerBase::SetJumpLog(bool is_jump)
 bool PlayerBase::GetJumpLog()const
 {
     return jump_log[0];
-}
-
-void PlayerBase::Attack(PlayerManager* player_manager)
-{
-    player_manager->AddAttack({ location.x + 40.0f, location.y }, { 20.0f, 20.0f }, { 0.0f,0.0f }, 0.1f, 5, NULL);
 }
 
 bool PlayerBase::GetIsDead()const//プレイヤーが死んでいるか？
