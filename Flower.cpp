@@ -6,7 +6,7 @@
 #define FLOWER_SIZE 80.0f//サイズ
 
 
-Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
+Flower::Flower() : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
 {
 	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
 
@@ -14,6 +14,8 @@ Flower::Flower() : CharacterBase({ 1300.0f, 350.0f }, { FLOWER_SIZE, FLOWER_SIZE
 	animation_time = 0;
 	image_type = 4;
 	start_attack = false;
+
+	direction = true;
 
 	state = FLOWER_STATE::STANDBY;
 
@@ -55,6 +57,8 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 			}
 		}
 
+		Attack(stage, player, delta_time);
+
 		if (CalculateDistance(player) > 250)
 		{
 			state = FLOWER_STATE::STANDBY;
@@ -90,12 +94,30 @@ void Flower::Draw(float camera_work) const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE);
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
 	}
 }
 
 void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 {
+
+	if (++animation_time % 120 == 0)
+	{
+		if (direction)
+		{
+			//攻撃
+			stage->AddAttack(location, { 15,15 }, { +5,0 }, 10, 3, 1);
+		}
+		else
+		{
+			//攻撃
+			stage->AddAttack(location, { 15,15 }, { -5,0 }, 10, 3, 1);
+		}
+	}
+
+	
+
+	//攻撃後新しく攻撃待機関数を作って、数秒待って、攻撃関数を呼び出す。
 
 }
 
@@ -104,6 +126,17 @@ float Flower::CalculateDistance(PlayerManager* player)
 	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
 	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	float angle = atan2(dy, dx) * 180 / M_PI;
+
+	if (angle >= -45 && angle <= 85)
+	{
+		direction = true;
+	}
+	else
+	{
+		direction = false;
+	}
 
 	return distance;
 }
