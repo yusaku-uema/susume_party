@@ -7,28 +7,25 @@
 
 class GameOverScene : public SceneBase {
 private:
-    int gameover_image;  // ゲームオーバー画像
+    int gameover_image;
     int transparency;
     int transparencySpeed;
     int imagePosX, imagePosY;
-    int FileHandle;
-    char text[256];
-    std::vector<std::string> textLines;
     bool textLoaded = false;
-    int frameCount = 0; // フレームカウンタ
-
-    void LoadText();  // テキストファイルを読み込むメソッドの宣言
+    std::vector<std::string> textLines;
+    int FileHandle = 0;
+    float timeSinceFullTransparency = 0; // 透明度が255になってからの時間
+    int frameCount = 0;
 
 public:
     GameOverScene();
-    virtual ~GameOverScene();
-
-    virtual void Initialize() override;
-    virtual void Finalize() override;
-    virtual SCENE_TYPE Update(float delta_time) override;
-    virtual void Draw() const override;
-    virtual SCENE_TYPE GetNowScene() const override;
-
+    ~GameOverScene();
+    void LoadText();
+    void Initialize();
+    void Finalize();
+    SCENE_TYPE Update(float delta_time);
+    void Draw() const;
     void talk(int x, int y, const char* t, int frameCount) const;
+    SCENE_TYPE GetNowScene() const;
 };
 #endif  // GAME_OVER_SCENE_H
