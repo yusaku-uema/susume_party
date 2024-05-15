@@ -267,6 +267,19 @@ void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
 		}
 	}
 
+	if (direction)
+	{
+		//UŒ‚
+		stage->AddAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+	}
+	else
+	{
+		//UŒ‚
+		stage->AddAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+	}
+
+
+
 }
 
 
