@@ -8,6 +8,9 @@
 #define SEARCH_RANGE 250 //交戦距離
 
 
+//-----------------------------------
+//コンストラクタ
+//-----------------------------------
 Flower::Flower() : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
 {
 	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
@@ -23,6 +26,10 @@ Flower::Flower() : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE 
 
 }
 
+
+//-----------------------------------
+//デストラクタ
+//-----------------------------------
 Flower::~Flower()
 {
 
@@ -32,6 +39,10 @@ Flower::~Flower()
 	}
 }
 
+
+//-----------------------------------
+//更新処理
+//-----------------------------------
 void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 {
 	//画像切替時間測定
@@ -77,6 +88,10 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 
 }
 
+
+//-----------------------------------
+//描画
+//-----------------------------------
 void Flower::Draw(float camera_work) const
 {
 	DATA draw_location = { location.x + camera_work, location.y };
@@ -87,6 +102,10 @@ void Flower::Draw(float camera_work) const
 	}
 }
 
+
+//-----------------------------------
+//攻撃
+//-----------------------------------
 void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 {
 
@@ -129,6 +148,9 @@ void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 }
 
 
+//-----------------------------------
+//相手との距離を測る
+//-----------------------------------
 float Flower::CalculateDistance(PlayerManager* player)
 {
 	float dx = player->GetPlayerLocation().x - this->GetLocation().x;

@@ -9,6 +9,10 @@
 #define ACCELERATION 0.1f//歩く時の加速
 #define ATTACK_DISTANCE 38// 攻撃に移る距離
 
+
+//-----------------------------------
+//コンストラクタ
+//-----------------------------------
 Slime::Slime() : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
@@ -21,6 +25,10 @@ Slime::Slime() : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 2
 	state = SLIME_STATE::NORMAL;
 }
 
+
+//-----------------------------------
+//デストラクタ
+//-----------------------------------
 Slime::~Slime()
 {
 	OutputDebugString("Slimeデストラクタが呼ばれました。\n");
@@ -30,6 +38,10 @@ Slime::~Slime()
 	}
 }
 
+
+//-----------------------------------
+//更新処理
+//-----------------------------------
 void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 {
 	++time; //アニメーション時間更新
@@ -67,6 +79,10 @@ void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 
 }
 
+
+//-----------------------------------
+//描画処理
+//-----------------------------------
 void Slime::Draw(float camera_work) const
 {
 	DATA draw_location = { location.x + camera_work, location.y };
@@ -78,6 +94,10 @@ void Slime::Draw(float camera_work) const
 	}
 }
 
+
+//-----------------------------------
+//移動
+//-----------------------------------
 void Slime::Move(Stage* stage, PlayerManager* player)
 {
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
@@ -113,6 +133,10 @@ void Slime::Move(Stage* stage, PlayerManager* player)
 
 }
 
+
+//-----------------------------------
+//攻撃
+//-----------------------------------
 void Slime::Attack(Stage* stage, PlayerManager* player, float delta_time)
 {
 	//当たり判定の処理を書く
@@ -136,6 +160,10 @@ void Slime::Attack(Stage* stage, PlayerManager* player, float delta_time)
 
 }
 
+
+//-----------------------------------
+//相手との距離を測る
+//-----------------------------------
 float Slime::CalculateDistance(PlayerManager* player)
 {
 	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
