@@ -15,7 +15,6 @@ class Flower :
     int time; //アニメーション時間測定
     int flower_image[7]; //フラワーの画像
     int image_type; //使う画像の要素指定
-    int rest_time;//攻撃待機時間
     long int animation_time; //画像切替に使う変数
 
 

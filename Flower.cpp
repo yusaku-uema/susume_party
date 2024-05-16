@@ -4,6 +4,8 @@
 #include <math.h>
 
 #define FLOWER_SIZE 80.0f//ƒTƒCƒY
+#define TIMING_ATTACK 120 //UŒ‚ƒ^ƒCƒ~ƒ“ƒO
+#define SEARCH_RANGE 250 //Œðí‹——£
 
 
 Flower::Flower() : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
@@ -48,22 +50,8 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 	switch (state)
 	{
 	case FLOWER_STATE::ATTACK:
-		//‰æ‘œØ‘Öˆ—
-		if (time % 12 == 0)
-		{
-			if (++image_type > 4)
-			{
-				image_type = 0;
-			}
-		}
-
+		
 		Attack(stage, player, delta_time);
-
-		if (CalculateDistance(player) > 250)
-		{
-			state = FLOWER_STATE::STANDBY;
-			image_type = 4;
-		}
 
 		break;
 	case FLOWER_STATE::STANDBY:
@@ -76,12 +64,13 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 				image_type = 4;
 			}
 		}
-		if (CalculateDistance(player) < 250)
+		if (CalculateDistance(player) < SEARCH_RANGE)
 		{
 			state = FLOWER_STATE::ATTACK;
 			image_type = 0;
 		}
 		break;
+
 	default:
 		break;
 	}
@@ -101,7 +90,7 @@ void Flower::Draw(float camera_work) const
 void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 {
 
-	if (++animation_time % 120 == 0)
+	if (++animation_time % TIMING_ATTACK == 0)
 	{
 		if (direction)
 		{
@@ -113,13 +102,32 @@ void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 			//UŒ‚
 			stage->AddAttack(location, { 15,15 }, { -5,0 }, 10, 3, 1);
 		}
+		image_type = 1;
 	}
 
-	
 
-	//UŒ‚ŒãV‚µ‚­UŒ‚‘Ò‹@ŠÖ”‚ðì‚Á‚ÄA”•b‘Ò‚Á‚ÄAUŒ‚ŠÖ”‚ðŒÄ‚Ño‚·B
+	if (image_type > 0)
+	{
+		//‰æ‘œØ‘Öˆ—
+		if (time % 12 == 0)
+		{
+			if (++image_type > 4)
+			{
+				image_type = 0;
+			}
+		}
+	}
+
+	//Œðí‹——£‚©‚ç—£‚ê‚½‚çUŒ‚’âŽ~
+	if (CalculateDistance(player) > SEARCH_RANGE)
+	{
+		state = FLOWER_STATE::STANDBY;
+		image_type = 4;
+	}
+
 
 }
+
 
 float Flower::CalculateDistance(PlayerManager* player)
 {
