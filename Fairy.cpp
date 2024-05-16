@@ -34,8 +34,6 @@ Fairy::Fairy() : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 2
 	distance_moved = 0;
 
 
-	start_attack = false;
-	standby_attack = false;
 	move_left = true;
 	direction = true;
 	lock_on = false;
@@ -64,16 +62,19 @@ Fairy::~Fairy()
 //-----------------------------------
 void Fairy::Update(float delta_time, Stage* stage, PlayerManager* player)
 {
+	//アニメーション時間更新
+	++animation_time;
+
 	switch (state)
 	{
 	case FAIRY_STATE::NORMAL:
 		Move(stage, player);
 		break;
 	case FAIRY_STATE::ATTACK:
-
+		Attack(stage, player, delta_time);		
 		break;
 	case FAIRY_STATE::STANDBY:
-
+		Standby(player);
 		break;
 	default:
 		break;
@@ -138,13 +139,19 @@ void Fairy::Move(Stage* stage, PlayerManager* player)
 		move_left = !move_left;
 	}
 
-	////先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
-	//if (CalculateDistance(player) < SEARCH_RANGE)
-	//{
-	//	standby_attack = true;
-	//	state = BIRD_STATE::STANDBY;
-	//	image_type = 7;
-	//}
+	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
+	if (CalculateDistance(player) < SEARCH_RANGE)
+	{
+		state = FAIRY_STATE::STANDBY;
+	}
+
+	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
+	{
+		if (++image_type > 3)
+		{
+			image_type = 0;
+		}
+	}
 
 
 }
@@ -156,6 +163,30 @@ void Fairy::Move(Stage* stage, PlayerManager* player)
 void Fairy::Standby(PlayerManager* player)
 {
 
+	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
+	{
+		if (++image_type > 12)
+		{
+			image_type = 8;
+		}
+	}
+
+
+	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃開始
+	if (CalculateDistance(player) < SEARCH_RANGE)
+	{
+		if (++time % WAITING_TIME_FOR_ATTACK == 0)
+		{
+			state = FAIRY_STATE::ATTACK;
+			time = 0;
+		}
+	}
+	else //距離が離れたら通常移動へ
+	{
+		state = FAIRY_STATE::NORMAL;
+		time = 0;
+	}
+
 }
 
 
@@ -164,7 +195,14 @@ void Fairy::Standby(PlayerManager* player)
 //-----------------------------------
 void Fairy::Attack(Stage* stage, PlayerManager* player, float delta_time)
 {
-
+	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
+	{
+		if (++image_type > 7)
+		{
+			image_type = 4;
+		}
+	}
+	
 }
 
 
@@ -173,5 +211,20 @@ void Fairy::Attack(Stage* stage, PlayerManager* player, float delta_time)
 //-----------------------------------
 float Fairy::CalculateDistance(PlayerManager* player)
 {
-	return 0.0f;
+	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	float angle = atan2(dy, dx) * 180 / M_PI;
+
+	if (angle >= -45 && angle <= 85)
+	{
+		direction = true;
+	}
+	else
+	{
+		direction = false;
+	}
+
+	return distance;
 }

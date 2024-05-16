@@ -27,15 +27,12 @@ private:
     float distance; //相手との距離
     float dx, dy; //変化量
 
-    bool start_attack; //攻撃開始
-    bool standby_attack; //攻撃準備 (空中待機)
     bool move_left; //左に動く
     bool direction; //向いている方向
     bool lock_on; //プレイヤーに狙いを定める。
 
 
     FAIRY_STATE state; //妖精の状態
-    DATA old_location; //前の座標
     DATA player_location; //攻撃時のプレイヤーの位置
 
 

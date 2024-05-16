@@ -30,9 +30,6 @@ Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20,
 	attack_speed = 0;
     distance_moved = 0;
 
-
-	start_attack = false;
-	standby_attack = false;
 	move_up = false;
 	move_left = true;
 	direction = true;
@@ -178,7 +175,6 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 	//æ“ªƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªSEARCH_RANGEˆÈ‰º‚È‚çUŒ‚€”õ
 	if (CalculateDistance(player) < SEARCH_RANGE)
 	{
-		standby_attack = true;
 		state = BIRD_STATE::STANDBY;
 		image_type = 7;
 	}
@@ -204,7 +200,6 @@ void Bird::Standby(PlayerManager* player)
 	}
 	else //‹——£‚ª—£‚ê‚½‚ç’ÊíˆÚ“®‚Ö
 	{
-		standby_attack = false;
 		state = BIRD_STATE::NORMAL;
 		time = 0;
 	}

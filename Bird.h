@@ -31,8 +31,6 @@ private:
     float distance; //‘Šè‚Æ‚Ì‹——£
     float dx, dy; //•Ï‰»—Ê
 
-    bool start_attack; //UŒ‚ŠJn
-    bool standby_attack; //UŒ‚€”õ (‹ó’†‘Ò‹@)
     bool move_up; //ã‚ÉˆÚ“®
     bool move_left; //¶‚É“®‚­
     bool direction; //Œü‚¢‚Ä‚¢‚é•ûŒü
