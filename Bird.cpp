@@ -115,11 +115,6 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 
 		break;
 	}
-
-
-
-	
-
 }
 
 //-----------------------------------

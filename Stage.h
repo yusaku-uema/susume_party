@@ -5,6 +5,7 @@
 #include"Slime.h"
 #include"Bird.h"
 #include"Flower.h"
+#include"Fairy.h"
 #include"PlayerManager.h"
 #include"AttackManager.h"
 
@@ -16,6 +17,7 @@ private:
     class Slime* slime;
     class Bird* bird;
     class Flower* flower;
+    class Fairy* fairy;
     std::vector<Block>block;
 
     int block_image[2];//ƒuƒƒbƒN‰æ‘œ

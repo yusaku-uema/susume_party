@@ -17,7 +17,7 @@ class Fairy :
 private:
     
     int time;//UŒ‚‘Ò‹@ŠÔ
-    int bird_image[12]; //—d¸‚Ì‰æ‘œ
+    int fairy_image[12]; //—d¸‚Ì‰æ‘œ
     int image_type; //g‚¤‰æ‘œ‚Ì—v‘fw’è
     long int animation_time; //‰æ‘œØ‘Ö‚Ég‚¤•Ï”
 

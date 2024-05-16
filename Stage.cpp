@@ -8,6 +8,7 @@ Stage::Stage() : fps(0.0f), camera_work(0.0f)
 	slime = new Slime();
 	bird = new Bird();
 	flower = new Flower();
+	fairy = new Fairy();
 
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
@@ -74,6 +75,7 @@ void Stage::Update(float delta_time)
 	slime->Update(delta_time, this,player_manager);
 	flower->Update(delta_time, this, player_manager);
 	bird->Update(delta_time, this, player_manager);
+	fairy->Update(delta_time, this, player_manager);
 
 	fps = 1.0 / delta_time;
 	
@@ -129,6 +131,7 @@ void Stage::Draw() const
 	slime->Draw(camera_work);
 	bird->Draw(camera_work);
 	flower->Draw(camera_work);
+	fairy->Draw(camera_work);
 
 	//プレイヤー表示
 	player_manager->Draw(camera_work);
