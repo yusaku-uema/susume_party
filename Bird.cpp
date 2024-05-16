@@ -8,6 +8,9 @@
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
 #define FALL_MAX 7.5  //上昇、下降の上限
+#define SEARCH_RANGE 300 //交戦距離
+#define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
+#define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
 
 //-----------------------------------
 //コンストラクタ
@@ -66,7 +69,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 	case BIRD_STATE::NORMAL: //通常移動
 		Move(stage, player);
 
-		if (animation_time % 12 == 0)
+		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
 			if (++image_type > 3)
 			{
@@ -78,7 +81,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 	case BIRD_STATE::STANDBY: //攻撃準備（待機）
 		Standby(player);
 
-		if (animation_time % 12 == 0)
+		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
 			if (++image_type > 10)
 			{
@@ -90,7 +93,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 	case BIRD_STATE::ATTACK: //攻撃
 		Attack(stage, player, delta_time);
 
-		if (animation_time % 12 == 0)
+		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
 			if (++image_type > 6)
 			{
@@ -102,7 +105,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 	case BIRD_STATE::RETURN:
 		Retur();
 
-		if (animation_time % 12 == 0)
+		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
 			if (++image_type > 3)
 			{
@@ -128,9 +131,7 @@ void Bird::Draw(float camera_work) const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
-		
-		
+
 		if (state == BIRD_STATE::STANDBY || state == BIRD_STATE::ATTACK)
 		{
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
@@ -179,8 +180,8 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 		move_left = !move_left;
 	}
 
-	//先頭プレイヤーとの距離が300以下なら攻撃準備
-	if (CalculateDistance(player) < 300)
+	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
+	if (CalculateDistance(player) < SEARCH_RANGE)
 	{
 		standby_attack = true;
 		state = BIRD_STATE::STANDBY;
@@ -196,10 +197,10 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 void Bird::Standby(PlayerManager* player)
 {
 
-	//先頭プレイヤーとの距離が300以下なら攻撃開始
-	if (CalculateDistance(player) < 300)
+	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃開始
+	if (CalculateDistance(player) < SEARCH_RANGE)
 	{
-		if (++time % 60 == 0)
+		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
 			state = BIRD_STATE::ATTACK;
 			old_location = location;
