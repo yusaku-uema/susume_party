@@ -3,11 +3,15 @@
 #include"Key.h"
 
 #define PLAYER_SIZE_X 30.0f//サイズ
-#define PLAYER_SIZE_Y 60.0f//サイズ
+#define PLAYER_SIZE_Y 50.0f//サイズ
+
 #define WALK_SPEED 3.0f//1フレームで進む速さ
+
 #define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
+
 #define ACCELERATION 0.15f//歩く時の加速
-#define CHARACTER_DISTANCE 80.0f//キャラクター同士の距離
+
+#define CHARACTER_DISTANCE 90.0f//キャラクター同士の距離
 
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
@@ -33,18 +37,13 @@ void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previo
 
     location.x += speed.x;//座標の加算
     
-    if (speed.x == 0.0f)draw_image_num = 1;
-    else
+    if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
     {
-        if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
-        {
-            if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
-            image_change_time = 0.0f;
-        }
-        if (speed.x < 0.0f)is_facing_left = true;//左に進んでいるならis_facing_leftをtrueにする
-        else if (speed.x > 0.0f)is_facing_left = false;//右に進んでいるならis_facing_leftをfalseにする
+        if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
+        image_change_time = 0.0f;
     }
-   
+    if (speed.x < 0.0f)is_facing_left = true;//左に進んでいるならis_facing_leftをtrueにする
+    else if (speed.x > 0.0f)is_facing_left = false;//右に進んでいるならis_facing_leftをfalseにする
 
     if (stage->HitBlock(this))//ブロックに当たっている場合、座標を調整
     {
@@ -169,9 +168,10 @@ void PlayerBase::Draw(float camera_work) const
 
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
     {
-         DrawRotaGraph(draw_location.x, draw_location.y, 2.5, 0, player_image[draw_image_num], TRUE, is_facing_left);
-         DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+        bool is_wait = (speed.x == 0.0f);
+        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[is_wait][draw_image_num], TRUE, is_facing_left);
+        //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
     }
 
-    //DrawFormatString(0, 500, 0xffffff, "%f", location.y);
+    DrawFormatString(0, 500, 0xffffff, "%f", location.y);
 }

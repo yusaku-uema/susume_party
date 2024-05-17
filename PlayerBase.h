@@ -8,7 +8,7 @@
 class PlayerBase : public CharacterBase
 {
 protected:
-    int player_image[4];
+    int player_image[2][5];
 
 private:
     bool is_dead;//€‚ñ‚Å‚¢‚é‚©H
