@@ -16,9 +16,10 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase() : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5), 
-is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(1)
+PlayerBase::PlayerBase(class Stage* stage) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
+stage(stage), is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(0)
 {
+    draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
     OutputDebugString("PlayerBaseコンストラクタ呼ばれました。\n");
 }
@@ -28,119 +29,167 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-void PlayerBase::Update(float delta_time, class Stage* stage, PlayerBase* previous_player)
+void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 {
+    //先頭キャラがいない場合
+    if (previous_player == nullptr)UpdateLeader();
+    else UpdateFollower(previous_player);
 
-    if (Key::KeyDown(KEY_TYPE::B) && previous_player == nullptr)stage->AddAttack(location, { 10,10 }, { 5,0 }, 5.0, 3, 0);
-    //x座標の更新
-    MoveX(stage, previous_player);
-
-    location.x += speed.x;//座標の加算
-    
     if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
     {
         if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
         image_change_time = 0.0f;
     }
-    if (speed.x < 0.0f)is_facing_left = true;//左に進んでいるならis_facing_leftをtrueにする
-    else if (speed.x > 0.0f)is_facing_left = false;//右に進んでいるならis_facing_leftをfalseにする
-
-    if (stage->HitBlock(this))//ブロックに当たっている場合、座標を調整
-    {
-        location.x = roundf(location.x);//座標を整数値にする
-        while (stage->HitBlock(this))location.x -= (speed.x / fabsf(speed.x));//ブロックに当たっている間、進行方向とは逆に進める
-    }
-
-    //y座標の更新
-    MoveY(stage, previous_player);
-
+    
     if (location.y > 600.0f)is_dead = false;
 }
 
-void PlayerBase::MoveX(class Stage* stage, PlayerBase* player)
-{
-    if (player == nullptr)
-    {
-        if (Key::KeyPressed(KEY_TYPE::LEFT))//左が押されてるなら左に進む
-        {
-            if ((speed.x -= ACCELERATION) < -WALK_SPEED) speed.x = -WALK_SPEED;
-        }
-        else if (Key::KeyPressed(KEY_TYPE::RIGHT))//右が押されてるなら右に進む
-        {
-            if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
-        }
-        else//何も押されていない時は、徐々にスピードを落とす
-        {
-            if (speed.x < 0.0f)
-            {
-                if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
-            }
-            else if (speed.x > 0.0f)
-            {
-                if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
-            }
-        }
-    }
-    else
-    {
-        if ((player->GetLocation().x > location.x) && ((player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
-        {
-            if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
-        }
-        else if ((player->GetLocation().x < location.x) && ((location.x - player->GetLocation().x) > CHARACTER_DISTANCE))
-        {
-            if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
-        }
-        else
-        {
-            if (speed.x < 0.0f)
-            {
-                if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
-            }
-            else if (speed.x > 0.0f)
-            {
-                if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
-            }
-        }
-    }
-}
 
-//y座標の更新
-void PlayerBase::MoveY(class Stage* stage, PlayerBase* previous_player)
+void PlayerBase::UpdateLeader()
 {
+    //攻撃
+    if (Key::KeyDown(KEY_TYPE::B))stage->AddAttack(location, { 10,10 }, { 5,0 }, 5.0, 3, 0);
+
+    //X座標の更新
+
+    if (Key::KeyPressed(KEY_TYPE::LEFT))//左が押されてるなら左に進む
+    {
+        if ((speed.x -= ACCELERATION) < -WALK_SPEED) speed.x = -WALK_SPEED;
+    }
+    else if (Key::KeyPressed(KEY_TYPE::RIGHT))//右が押されてるなら右に進む
+    {
+        if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
+    }
+    else//何も押されていない時は、徐々にスピードを落とす
+    {
+        if (speed.x < 0.0f)
+        {
+            if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
+        }
+        else if (speed.x > 0.0f)
+        {
+            if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
+        }
+    }
+
+    //座標の加算
+    location.x += speed.x;
+
+    //ブロックに当たっている場合
+    if (stage->HitBlock(this))
+    {
+        //座標を調整
+        location.x = roundf(location.x);
+        while (stage->HitBlock(this))location.x -= (speed.x / fabsf(speed.x));
+    }
+
+    //左右どちらに進んでいるか？
+    if (speed.x < 0.0f)is_facing_left = true;
+    else if (speed.x > 0.0f)is_facing_left = false;
+
+
+    //Y座標の更新
+
+    //ジャンプしたか？
     bool is_jump = false;
 
-    speed.y += GRAVITY;//重力の加算
-    if (speed.y > JUMP_SPEED)speed.y = JUMP_SPEED;//重力が一定数を越えないようにする
-    location.y += speed.y;//座標の加算
+    //重力の加算
+    if((speed.y += GRAVITY) > JUMP_SPEED)speed.y = JUMP_SPEED;
 
-    if (stage->HitBlock(this))//もしブロックに当たっていたら（地面か頭に当たっている）
+    //座標の加算
+    location.y += speed.y;
+
+    //ブロックに当たった場合
+    if (stage->HitBlock(this))
     {
-        location.y = roundf(location.y);//座標を整数値にする
-        while (stage->HitBlock(this))location.y -= (speed.y / fabsf(speed.y));//ブロックに当たっている間、進行方向とは逆に進める
+        //座標の調整
+        location.y = roundf(location.y);
+        while (stage->HitBlock(this))location.y -= (speed.y / fabsf(speed.y));
 
-        if (speed.y > 0.0f)//地面に当たっている場合
+        //地面に当たっている場合
+        if (speed.y > 0.0f)
         {
-            if (previous_player == nullptr)//先頭キャラがいない場合
+            if (Key::KeyDown(KEY_TYPE::A))
             {
-                if (Key::KeyDown(KEY_TYPE::A))
-                {
-                    speed.y = -JUMP_SPEED;//Aボタンでジャンプ
-                    is_jump = true;
-                }
-                else speed.y = 0.0f;
+                speed.y = -JUMP_SPEED;//Aボタンでジャンプ
+                is_jump = true;
             }
-            else//先頭キャラがいる場合
-            {
-                if (previous_player->GetJumpLog())speed.y = -JUMP_SPEED;
-                else speed.y = 0.0f; 
-            } 
+            else speed.y = 0.0f;
         }
         else speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
     }
 
-    if(previous_player == nullptr)SetJumpLog(is_jump);
-    else SetJumpLog(previous_player->GetJumpLog());
+    SetJumpLog(is_jump);
+}
+
+void PlayerBase::UpdateFollower(PlayerBase* previous_player)
+{
+    //X座標の更新
+
+    if ((previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
+    {
+        if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
+    }
+    else if ((previous_player->GetLocation().x < location.x) && ((location.x - previous_player->GetLocation().x) > CHARACTER_DISTANCE))
+    {
+        if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
+    }
+    else
+    {
+        if (speed.x < 0.0f)
+        {
+            if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
+        }
+        else if (speed.x > 0.0f)
+        {
+            if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
+        }
+    }
+
+    //座標の加算
+    location.x += speed.x;
+
+    //ブロックに当たっている場合
+    if (stage->HitBlock(this))
+    {
+        //座標を調整
+        location.x = roundf(location.x);
+        while (stage->HitBlock(this))location.x -= (speed.x / fabsf(speed.x));
+    }
+
+    //左右どちらに進んでいるか？
+    if (speed.x < 0.0f)is_facing_left = true;
+    else if (speed.x > 0.0f)is_facing_left = false;
+
+
+    //Y座標の更新
+
+    //ジャンプしたか？
+    bool is_jump = false;
+
+    //重力の加算
+    if ((speed.y += GRAVITY) > JUMP_SPEED)speed.y = JUMP_SPEED;
+
+    //座標の加算
+    location.y += speed.y;
+
+    //ブロックに当たった場合
+    if (stage->HitBlock(this))
+    {
+        //座標の調整
+        location.y = roundf(location.y);
+        while (stage->HitBlock(this))location.y -= (speed.y / fabsf(speed.y));
+
+        //地面に当たっている場合
+        if (speed.y > 0.0f)
+        {
+            if (previous_player->GetJumpLog())speed.y = -JUMP_SPEED;
+            else speed.y = 0.0f;
+        }
+        else speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
+    }
+
+    SetJumpLog(previous_player->GetJumpLog());
 }
 
 void PlayerBase::SetJumpLog(bool is_jump)

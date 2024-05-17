@@ -6,6 +6,6 @@ class Monk : public PlayerBase
 private:
 
 public:
-    Monk();
+    Monk(class Stage* stage);
     ~Monk();
 };

@@ -6,6 +6,6 @@ class Hero : public PlayerBase
 private:
 
 public:
-    Hero();
+    Hero(class Stage* stage);
     ~Hero();
 };

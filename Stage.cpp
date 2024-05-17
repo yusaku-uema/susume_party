@@ -3,7 +3,7 @@
 
 Stage::Stage() : fps(0.0f), camera_work(0.0f)
 {
-	player_manager = new PlayerManager();
+	player_manager = new PlayerManager(this);
 	attack_manager = new AttackManager();
 	slime = new Slime();
 	bird = new Bird();
@@ -69,7 +69,7 @@ void Stage::Update(float delta_time)
 	attack_manager->Update(delta_time, this);
 
 	//プレイヤー(勇者一行)の更新
-	player_manager->Update(delta_time, this);
+	player_manager->Update(delta_time);
 
 	//敵の更新
 	slime->Update(delta_time, this,player_manager);
@@ -140,4 +140,6 @@ void Stage::Draw() const
 	attack_manager->Draw(camera_work);
 
 	DrawFormatString(0, 0, 0xffffff, "%f", fps);
+
+
 }

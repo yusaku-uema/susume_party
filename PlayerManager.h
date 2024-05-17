@@ -11,10 +11,10 @@ private:
     void PlayerSorting();//ƒvƒŒƒCƒ„[•À‚Ñ‘Ö‚¦
 public:
 
-    PlayerManager();
+    PlayerManager(class Stage* stage);
     ~PlayerManager();
 
-    void Update(float delta_time, class Stage* stage);
+    void Update(float delta_time);
     void Draw(float camera_work) const;
 
     DATA GetPlayerLocation()const;

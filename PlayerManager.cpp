@@ -7,12 +7,12 @@
 #include"Monk.h"
 
 
-PlayerManager::PlayerManager()
+PlayerManager::PlayerManager(class Stage* stage)
 {
-    player[0] = new Hero();//勇者
-    player[1] = new Warrior();//戦士
-    player[2] = new Wizard();//魔法使い
-    player[3] = new Monk(); //僧侶
+    player[0] = new Hero(stage);//勇者
+    player[1] = new Warrior(stage);//戦士
+    player[2] = new Wizard(stage);//魔法使い
+    player[3] = new Monk(stage); //僧侶
 
     OutputDebugString("PlayerManagerコンストラクタ呼ばれました。\n");
 }
@@ -24,14 +24,14 @@ PlayerManager::~PlayerManager()
     OutputDebugString("PlayerManagerデストラクタが呼ばれました。\n");
 }
 
-void PlayerManager::Update(float delta_time, class Stage* stage)
+void PlayerManager::Update(float delta_time)
 {
     if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
 
     for (int i = 0; i < PLAYER_NUM; i++)
     {
-        if (i == 0)player[i]->Update(delta_time, stage, nullptr);
-        else player[i]->Update(delta_time, stage, player[i - 1]);
+        if (i == 0)player[i]->Update(delta_time, nullptr);
+        else player[i]->Update(delta_time, player[i - 1]);
     }
 }
 
