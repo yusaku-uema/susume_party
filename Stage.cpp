@@ -13,7 +13,7 @@ Stage::Stage() : fps(0.0f), camera_work(0.0f)
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
 	//ブロック画像
-	if (LoadDivGraph("image/Stage/block.png", 2, 2, 1, 35, 35, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/block1.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
 	SetStage();
 	OutputDebugString("Stageコンストラクタ呼ばれました。\n");
@@ -35,7 +35,7 @@ void Stage::SetStage()
 		{
 			int block_type;
 			fscanf_s(stage_data, "%d", &block_type);//ブロックの種類を取得
-			if(block_type != 0)block.emplace_back(DATA{ j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) }, static_cast<BLOCK_TYPE>(block_type), block_image[block_type - 1]);//ブロックの生成
+			if(block_type !=-1)block.emplace_back(DATA{ j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) }, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);//ブロックの生成
 		}
 	}
 	block.shrink_to_fit();//必要ないブロックのメモリの解放

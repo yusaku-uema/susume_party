@@ -173,5 +173,5 @@ void PlayerBase::Draw(float camera_work) const
          DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
     }
 
-    DrawFormatString(0, 500, 0xffffff, "%f", location.y);
+    //DrawFormatString(0, 500, 0xffffff, "%f", location.y);
 }

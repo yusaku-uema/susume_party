@@ -20,7 +20,7 @@ private:
     class Fairy* fairy;
     std::vector<Block>block;
 
-    int block_image[2];//ブロック画像
+    int block_image[BLOCK_TYPE_NUM];//ブロック画像
     int sky_image;//空画像
 
     float fps;
