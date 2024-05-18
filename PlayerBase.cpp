@@ -21,12 +21,14 @@ stage(stage),player_job(player_job), is_dead(false), is_facing_left(false), imag
 {
     draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
+    if (LoadDivGraph("image/Player/casket.png", 5, 5, 1, 50, 50, player_image[2]) == -1)throw("image/Player/casket.pngが読み込めません\n");
+
     OutputDebugString("PlayerBaseコンストラクタ呼ばれました。\n");
 }
 
 PlayerBase::~PlayerBase()
 {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 5; j++)DeleteGraph(player_image[i][j]);
     }
@@ -42,7 +44,11 @@ void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     //プレイヤー画像の切り替え
     if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
     {
-        if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
+        if (!is_dead || speed.x != 0.0f)
+        {
+            if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
+        }
+
         image_change_time = 0.0f;
     }
 
@@ -50,7 +56,11 @@ void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     if (is_leader)UpdateLeader();
     else UpdateFollower(previous_player);
 
-    if (location.y > SCREEN_HEIGHT)is_dead = true;
+    if (location.y > SCREEN_HEIGHT)
+    {
+        location.y = -2000.0f;
+        is_dead = true;
+    }
 }
 
 
@@ -246,7 +256,10 @@ void PlayerBase::Draw(float camera_work) const
 
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
     {
-        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[speed.x == 0.0f][draw_image_num], TRUE, is_facing_left);
+        int draw_image_type = (speed.x == 0.0f);
+        if (is_dead)draw_image_type = 2;
+
+        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
         //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
     }
 

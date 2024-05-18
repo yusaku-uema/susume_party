@@ -7,7 +7,7 @@
 class PlayerBase : public CharacterBase
 {
 protected:
-    int player_image[2][5];
+    int player_image[3][5];
 
 private:
     class Stage* stage;
