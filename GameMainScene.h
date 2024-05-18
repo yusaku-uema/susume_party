@@ -1,11 +1,14 @@
 #pragma once
 #include"SceneBase.h"
 #include"Stage.h"
+#include"Ui.h"
 
 class GameMainScene :public SceneBase
 {
 private:
 	Stage* stage;
+	Ui* ui;
+
 	bool is_pause;//ポーズ画面表示するか？
 public:
 	GameMainScene();

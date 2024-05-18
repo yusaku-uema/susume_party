@@ -21,3 +21,13 @@ int CharacterBase::GetDefensePower()const
 {
     return defense_power;
 }
+
+int CharacterBase::GetHp()const
+{
+    return hp;
+}
+
+int CharacterBase::GetMp()const
+{
+    return mp;
+}

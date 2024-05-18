@@ -1,9 +1,9 @@
 #include"DxLib.h"
 #include"Stage.h"
 
-Stage::Stage() : fps(0.0f), camera_work(0.0f)
+Stage::Stage(Ui* ui) : fps(0.0f), camera_work(0.0f)
 {
-	player_manager = new PlayerManager(this);
+	player_manager = new PlayerManager(this, ui);
 	attack_manager = new AttackManager();
 	slime = new Slime();
 	bird = new Bird();
@@ -40,10 +40,6 @@ void Stage::SetStage()
 	}
 	block.shrink_to_fit();//必要ないブロックのメモリの解放
 	fclose(stage_data);
-}
-
-void Stage::Initialize()
-{
 }
 
 Stage::~Stage()
@@ -94,19 +90,19 @@ bool Stage::HitBlock(BoxCollider* bc)const
 void Stage::SetCameraWork()
 {
 	//カメラワーク
-	if (player_manager->GetPlayerLocation().x > 350.0f)
+	if (player_manager->GetPlayerLocation().x > 450.0f)
 	{
 		const float camera_work_speed = 5.0f;
 
-		if ((-player_manager->GetPlayerLocation().x + 350.0f) > camera_work)
+		if ((-player_manager->GetPlayerLocation().x + 450.0f) > camera_work)
 		{
-			if ((-player_manager->GetPlayerLocation().x + 350.0f) - camera_work > camera_work_speed)camera_work += camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + 350.0f;
+			if ((-player_manager->GetPlayerLocation().x + 450.0f) - camera_work > camera_work_speed)camera_work += camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + 450.0f;
 		}
-		else if ((-player_manager->GetPlayerLocation().x + 350.0f) < camera_work)
+		else if ((-player_manager->GetPlayerLocation().x + 450.0f) < camera_work)
 		{
-			if (camera_work - (-player_manager->GetPlayerLocation().x + 350.0f) > camera_work_speed)camera_work -= camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + 350.0f;
+			if (camera_work - (-player_manager->GetPlayerLocation().x + 450.0f) > camera_work_speed)camera_work -= camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + 450.0f;
 		}
 	}
 	else camera_work = 0.0f;

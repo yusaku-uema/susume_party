@@ -40,6 +40,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Ui.h" />
     <ClInclude Include="Warrior.h" />
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
@@ -64,6 +65,7 @@
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Ui.cpp" />
     <ClCompile Include="Warrior.cpp" />
     <ClCompile Include="Wizard.cpp" />
   </ItemGroup>

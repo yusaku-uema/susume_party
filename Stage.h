@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include"define.h"
+#include"Ui.h"
 #include"Block.h"
 #include"Slime.h"
 #include"Bird.h"
@@ -29,10 +30,9 @@ private:
     void SetStage();//ステージを生成
 
 public:
-    Stage();
+    Stage(class Ui* ui);
     ~Stage();
 
-    void Initialize();//初期化
     void Update(float delta_time);
     void Draw() const;
 

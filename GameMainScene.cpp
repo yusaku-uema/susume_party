@@ -13,7 +13,8 @@ GameMainScene::~GameMainScene()
 //初期化処理
 void GameMainScene::Initialize()
 {
-	stage = new Stage();
+	ui = new Ui();
+	stage = new Stage(ui);
 }
 
 //終了時処理
@@ -25,6 +26,7 @@ void GameMainScene::Finalize()
 //更新処理
 SCENE_TYPE GameMainScene::Update(float delta_time)
 {
+	ui->Update();
 	stage->Update(delta_time);
 
 	return GetNowScene();
@@ -35,9 +37,7 @@ void GameMainScene::Draw() const
 {
 	stage->Draw();
 
-	//画面下のUI（仮）
-	DrawBox(0, 540, 1280, 720, 0x000000, TRUE);
-	DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
+	ui->Draw();
 }
 
 //現在のシーン情報を取得

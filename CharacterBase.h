@@ -16,4 +16,6 @@ public:
 
     int GetAttackPower()const;
     int GetDefensePower()const;
+    int GetHp()const;
+    int GetMp()const;
 };

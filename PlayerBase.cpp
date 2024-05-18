@@ -7,7 +7,7 @@
 
 #define WALK_SPEED 3.0f//1フレームで進む速さ
 
-#define JUMP_SPEED 8.0f//1フレームでジャンプする高さ
+#define JUMP_SPEED 7.0f//1フレームでジャンプする高さ
 
 #define ACCELERATION 0.15f//歩く時の加速
 
@@ -16,8 +16,8 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase(class Stage* stage) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
-stage(stage), is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(0)
+PlayerBase::PlayerBase(class Stage* stage,PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
+stage(stage),player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(0), is_leader(false)
 {
     draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
@@ -26,22 +26,31 @@ stage(stage), is_dead(false), is_facing_left(false), image_change_time(0.0f), dr
 
 PlayerBase::~PlayerBase()
 {
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 5; j++)DeleteGraph(player_image[i][j]);
+    }
+
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
 void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 {
-    //先頭キャラがいない場合
-    if (previous_player == nullptr)UpdateLeader();
-    else UpdateFollower(previous_player);
+    if (previous_player == nullptr)is_leader = true;
+    else is_leader = false;
 
+    //プレイヤー画像の切り替え
     if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
     {
         if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
         image_change_time = 0.0f;
     }
-    
-    if (location.y > 600.0f)is_dead = false;
+
+    //キャラクターの座標更新
+    if (is_leader)UpdateLeader();
+    else UpdateFollower(previous_player);
+
+    if (location.y > SCREEN_HEIGHT)is_dead = true;
 }
 
 
@@ -116,8 +125,13 @@ void PlayerBase::UpdateLeader()
             }
             else speed.y = 0.0f;
         }
-        else speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
+        else
+        {
+            speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
+            draw_image_num = 4;
+        }
     }
+    else draw_image_num = 4;
 
     SetJumpLog(is_jump);
 }
@@ -186,8 +200,13 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
             if (previous_player->GetJumpLog())speed.y = -JUMP_SPEED;
             else speed.y = 0.0f;
         }
-        else speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
+        else
+        {
+            speed.y = 0.0f;//頭にブロックが当たっている場合、Yのスピードを0にする
+            draw_image_num = 4;
+        }
     }
+    else draw_image_num = 4;
 
     SetJumpLog(previous_player->GetJumpLog());
 }
@@ -211,16 +230,25 @@ bool PlayerBase::GetIsDead()const//プレイヤーが死んでいるか？
     return is_dead;
 }
 
+bool PlayerBase::GetIsLeader()const
+{
+    return is_leader;
+}
+
+PLAYER_JOB PlayerBase::GetPlayerJob()const
+{
+    return player_job;
+}
+
 void PlayerBase::Draw(float camera_work) const
 {
     DATA draw_location = { location.x + camera_work, location.y };
 
     if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
     {
-        bool is_wait = (speed.x == 0.0f);
-        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[is_wait][draw_image_num], TRUE, is_facing_left);
+        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[speed.x == 0.0f][draw_image_num], TRUE, is_facing_left);
         //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
     }
 
-    DrawFormatString(0, 500, 0xffffff, "%f", location.y);
+    //DrawFormatString(0, 500, 0xffffff, "%f", location.y);
 }
