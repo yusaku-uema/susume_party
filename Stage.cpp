@@ -92,6 +92,24 @@ bool Stage::HitBlock(BoxCollider* bc)const
 void Stage::SetCameraWork()
 {
 	//カメラワーク
+	/*if (player_manager->GetPlayerLocation().x > DRAW_PLAYER_LOCATION_X)
+	{
+		const float camera_work_speed = 5.0f;
+
+		if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work)
+		{
+			if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) - camera_work > camera_work_speed)camera_work += camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
+		}
+		else if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) < camera_work)
+		{
+			if (camera_work - (-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work_speed)camera_work -= camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
+		}
+	}
+	else camera_work = 0.0f;*/
+
+
 	if (player_manager->GetPlayerLocation().x > DRAW_PLAYER_LOCATION_X)
 	{
 		const float camera_work_speed = 5.0f;
@@ -107,7 +125,7 @@ void Stage::SetCameraWork()
 			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
 		}
 	}
-	else camera_work = 0.0f;
+	else if ((camera_work += 5.0f) > 0.0f)camera_work = 0.0f;
 
 	camera_work = floorf(camera_work);
 }
@@ -142,7 +160,10 @@ void Stage::Draw() const
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw(camera_work);
 
-	DrawFormatString(0, 0, 0xffffff, "%f", fps);
+	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
+	DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
+
+	//DrawFormatString(0, 0, 0xffffff, "%f", fps);
 
 
 }
