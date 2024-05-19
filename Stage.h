@@ -38,5 +38,6 @@ public:
 
     void SetCameraWork();
     bool HitBlock(BoxCollider* bc)const;
+    float GetCameraWork()const;
     void AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
 };

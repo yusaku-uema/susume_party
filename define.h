@@ -3,6 +3,9 @@
 #define SCREEN_WIDTH 1280 //横画面サイズ
 #define SCREEN_HEIGHT 720 //縦画面サイズ
 
+#define SCREEN_CENTER_X 640
+#define SCREEN_CENTER_Y 360
+
 #define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
 #define STAGE_BLOCK_NUM_X 120 //ステージの横ブロックの数
 

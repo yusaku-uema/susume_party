@@ -35,8 +35,8 @@ public:
     PlayerBase(class Stage* stage,PLAYER_JOB player_job);
     ~PlayerBase();
 
-    bool Update(float delta_time, PlayerBase* previous_player, DATA leader_location);
-    void Draw(float camera_work) const;
+    bool Update(float delta_time, PlayerBase* previous_player, DATA leader_location, float center_location_x);
+    void Draw() const;
 
     bool GetIsDead()const;//プレイヤーが死んでいるか？
     PLAYER_JOB GetPlayerJob()const;

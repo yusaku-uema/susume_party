@@ -8,6 +8,7 @@ class PlayerManager
 {
 private:
     class PlayerBase* player[4];
+    class Stage* stage;
 
     int arrow_image;//先頭プレイヤーを指す矢印画像
     float draw_arrow_time;//矢印の表示時間
@@ -20,7 +21,7 @@ public:
     ~PlayerManager();
 
     void Update(float delta_time);
-    void Draw(float camera_work) const;
+    void Draw() const;
 
     DATA GetPlayerLocation()const;
     

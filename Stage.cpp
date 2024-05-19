@@ -112,6 +112,11 @@ void Stage::SetCameraWork()
 	camera_work = floorf(camera_work);
 }
 
+float Stage::GetCameraWork()const
+{
+	return camera_work;
+}
+
 void Stage::AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
 {
 	attack_manager->AddAttack(location, size, speed, duration_time, attack_power, attack_image);
@@ -132,7 +137,7 @@ void Stage::Draw() const
 	fairy->Draw(camera_work);
 
 	//プレイヤー表示
-	player_manager->Draw(camera_work);
+	player_manager->Draw();
 
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw(camera_work);

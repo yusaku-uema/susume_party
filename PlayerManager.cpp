@@ -8,7 +8,7 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-PlayerManager::PlayerManager(class Stage* stage, Ui* ui) : draw_arrow_time(0.0f)
+PlayerManager::PlayerManager(class Stage* stage, Ui* ui) : stage(stage), draw_arrow_time(0.0f)
 {
     player[0] = new Hero(stage);//勇者
     player[1] = new Warrior(stage);//戦士
@@ -39,10 +39,12 @@ void PlayerManager::Update(float delta_time)
     int alive_player = 0;
     int sorting_player = -1;
 
+    float center_location_x = -stage->GetCameraWork() + SCREEN_CENTER_X;
     PlayerBase* player = nullptr;
+
     for (int i = 0; i < PLAYER_NUM; i++)
     {
-        if (this->player[i]->Update(delta_time, player, this->player[0]->GetLocation()))sorting_player = i;
+        if (this->player[i]->Update(delta_time, player, this->player[0]->GetLocation(), center_location_x))sorting_player = i;
         player = this->player[i];
         if (!this->player[i]->GetIsDead())alive_player++;
     }
@@ -89,8 +91,12 @@ DATA PlayerManager::GetPlayerLocation()const
     return player[0]->GetLocation();
 }
 
-void PlayerManager::Draw(float camera_work) const
+void PlayerManager::Draw() const
 {
-    for (int i = PLAYER_NUM - 1; i >= 0; i--)player[i]->Draw(camera_work);
-    if (draw_arrow_time != DRAW_ARROW_TIME)DrawRotaGraph(player[0]->GetLocation().x + camera_work, player[0]->GetLocation().y - 80, 1, 0, arrow_image, TRUE);
+    for (int i = PLAYER_NUM - 1; i >= 0; i--)player[i]->Draw();
+
+    if (draw_arrow_time != DRAW_ARROW_TIME)
+    {
+        DrawRotaGraph(player[0]->GetLocation().x + stage->GetCameraWork(), player[0]->GetLocation().y - 80, 1, 0, arrow_image, TRUE);
+    }
 }

@@ -37,7 +37,7 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA leader_location)
+bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA leader_location, float center_location_x)
 {
     //Rキー入力でパーティー切り離し
     if (Key::KeyDown(KEY_TYPE::R))
@@ -66,9 +66,9 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA lead
 
     //キャラが死んだとき(穴に落ちるか、画面外に出る)
     if ((location.y > SCREEN_HEIGHT) ||
-       ((location.x > leader_location.x + 900.0f) || (location.x < leader_location.x - 900.0f)))
+       ((location.x > center_location_x + 800.0f) || (location.x < center_location_x - 800.0f)))
     {
-        //先頭キャラの真上から落とす
+        //先頭キャラの真上に落とす
         location.x = leader_location.x;
         location.y = -300.f;
 
@@ -285,9 +285,9 @@ PLAYER_JOB PlayerBase::GetPlayerJob()const
     return player_job;
 }
 
-void PlayerBase::Draw(float camera_work) const
+void PlayerBase::Draw() const
 {
-    DATA draw_location = { location.x + camera_work, location.y };
+    DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
     int draw_image_type = (speed.x == 0.0f);
     if (is_dead)draw_image_type = 2;
@@ -295,6 +295,6 @@ void PlayerBase::Draw(float camera_work) const
     DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
     //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 
-
-    //DrawFormatString(0, 500, 0xffffff, "%f", location.y);
+    //DrawRotaGraph(stage->GetCameraWork() + (), 500, 1, 0, player_image[0][0], TRUE);
+    //DrawFormatString(0, 500, 0xffffff, "%f", (-stage->GetCameraWork() + 600));
 }
