@@ -12,15 +12,14 @@ Attack::~Attack()
 
 }
 
-bool Attack::Update(float delta_time)
+bool Attack::Update(float delta_time, class Stage* stage)
 {
-	if ((duration_time -= delta_time) > 0.0f)
-	{
-		location.x += speed.x;
-		location.y += speed.y;
-		return false;
-	}
-	return true;
+	location.x += speed.x;
+	location.y += speed.y;
+
+	if (stage->HitBlock(this))return true;
+
+	return ((duration_time -= delta_time) < 0.0f);
 }
 
 void Attack::Draw(float camera_work)const

@@ -6,7 +6,7 @@
 Stage::Stage(Ui* ui) : fps(0.0f), camera_work(0.0f)
 {
 	player_manager = new PlayerManager(this, ui);
-	attack_manager = new AttackManager();
+	attack_manager = new AttackManager(this);
 	slime = new Slime();
 	bird = new Bird();
 	flower = new Flower();
@@ -64,7 +64,7 @@ Stage::~Stage()
 void Stage::Update(float delta_time)
 {
 	//攻撃の更新
-	attack_manager->Update(delta_time, this);
+	attack_manager->Update(delta_time);
 
 	//プレイヤー(勇者一行)の更新
 	player_manager->Update(delta_time);
@@ -92,24 +92,7 @@ bool Stage::HitBlock(BoxCollider* bc)const
 void Stage::SetCameraWork()
 {
 	//カメラワーク
-	/*if (player_manager->GetPlayerLocation().x > DRAW_PLAYER_LOCATION_X)
-	{
-		const float camera_work_speed = 5.0f;
-
-		if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work)
-		{
-			if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) - camera_work > camera_work_speed)camera_work += camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
-		}
-		else if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) < camera_work)
-		{
-			if (camera_work - (-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work_speed)camera_work -= camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
-		}
-	}
-	else camera_work = 0.0f;*/
-
-
+	
 	if (player_manager->GetPlayerLocation().x > DRAW_PLAYER_LOCATION_X)
 	{
 		const float camera_work_speed = 5.0f;
@@ -158,7 +141,7 @@ void Stage::Draw() const
 	player_manager->Draw();
 
 	//攻撃（魔法の弾、斬撃、、）表示
-	attack_manager->Draw(camera_work);
+	attack_manager->Draw();
 
 	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
 	DrawString(950,0, "RB = パーティ切り離し", 0xffffff);

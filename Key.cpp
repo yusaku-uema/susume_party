@@ -26,6 +26,8 @@ void Key::Update()
 
 	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_A))key[static_cast<int>(KEY_TYPE::A)].now_flg = TRUE;//Aボタンが押されているか
 	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_B)) key[static_cast<int>(KEY_TYPE::B)].now_flg = TRUE;//Bボタンが押されているか
+	//if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6))key[static_cast<int>(KEY_TYPE::X)].now_flg = TRUE;//Aボタンが押されているか
+	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_4)) key[static_cast<int>(KEY_TYPE::Y)].now_flg = TRUE;//Bボタンが押されているか
 	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_6)) key[static_cast<int>(KEY_TYPE::R)].now_flg = TRUE;//Rボタンが押されているか
 	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_5)) key[static_cast<int>(KEY_TYPE::L)].now_flg = TRUE;//Lボタンが押されているか
 	if ((GetJoypadInputState(DX_INPUT_PAD1) & PAD_INPUT_UP))key[static_cast<int>(KEY_TYPE::UP)].now_flg = TRUE;//UPボタンが押されているか

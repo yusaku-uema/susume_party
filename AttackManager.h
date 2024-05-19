@@ -5,16 +5,17 @@
 class AttackManager
 {
 private:
-    std::vector<Attack>attack;
-
+    std::vector<class Attack>attack;
+    class Stage* stage;
+   
 public:
 
-    AttackManager();
+    AttackManager(class Stage* stage);
     ~AttackManager();
 
     //UŒ‚‚·‚éˆ—(UŒ‚À•WAUŒ‚ƒTƒCƒYAUŒ‚ƒXƒs[ƒhAUŒ‚‚ÌŒp‘±ŠÔAUŒ‚—ÍAUŒ‚‚Ì‰æ‘œ)
     void AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
 
-    void Update(float delta_time, class Stage* stage);
-    void Draw(float camera_work) const;
+    void Update(float delta_time);
+    void Draw() const;
 };

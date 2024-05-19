@@ -20,7 +20,6 @@ PlayerBase::PlayerBase(class Stage* stage, PLAYER_JOB player_job) : CharacterBas
 stage(stage), player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
 draw_image_num(0), is_leader(false),is_casket_fall(false), is_party_member(true)
 {
-    draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
     if (LoadDivGraph("image/Player/casket.png", 5, 5, 1, 50, 50, player_image[2]) == -1)throw("image/Player/casket.pngが読み込めません\n");
 
@@ -64,7 +63,8 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA lead
     if (is_leader)UpdateLeader();
     else UpdateFollower(previous_player);
 
-    //キャラが死んだとき(穴に落ちるか、画面外に出る)
+    //キャラが死んだ場合(穴に落ちるか、画面外に出る)
+
     if ((location.y > SCREEN_HEIGHT) ||
        ((location.x > center_location_x + 800.0f) || (location.x < center_location_x - 800.0f)))
     {
@@ -89,8 +89,21 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA lead
 
 void PlayerBase::UpdateLeader()
 {
-    //攻撃
-    if (Key::KeyDown(KEY_TYPE::B))stage->AddAttack(location, { 10,10 }, { 5,0 }, 5.0, 3, 0);
+    //攻撃1(物理攻撃)
+    if (Key::KeyDown(KEY_TYPE::B))
+    {
+        //プレイヤーの向きで攻撃方向を変える
+        if (is_facing_left)stage->AddAttack({location.x - 50, location.y}, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+        else stage->AddAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+    }
+    //攻撃2(魔法弾的な?)
+    else if (Key::KeyDown(KEY_TYPE::Y))
+    {
+        //プレイヤーの向きで攻撃方向を変える
+        if (is_facing_left)stage->AddAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
+        else stage->AddAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
+    }
+
 
     //X座標の更新
 
