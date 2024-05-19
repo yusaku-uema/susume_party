@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"Stage.h"
 
+#define DRAW_PLAYER_LOCATION_X 550.0f//操作キャラの表示位置
+
 Stage::Stage(Ui* ui) : fps(0.0f), camera_work(0.0f)
 {
 	player_manager = new PlayerManager(this, ui);
@@ -90,19 +92,19 @@ bool Stage::HitBlock(BoxCollider* bc)const
 void Stage::SetCameraWork()
 {
 	//カメラワーク
-	if (player_manager->GetPlayerLocation().x > 450.0f)
+	if (player_manager->GetPlayerLocation().x > DRAW_PLAYER_LOCATION_X)
 	{
 		const float camera_work_speed = 5.0f;
 
-		if ((-player_manager->GetPlayerLocation().x + 450.0f) > camera_work)
+		if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work)
 		{
-			if ((-player_manager->GetPlayerLocation().x + 450.0f) - camera_work > camera_work_speed)camera_work += camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + 450.0f;
+			if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) - camera_work > camera_work_speed)camera_work += camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
 		}
-		else if ((-player_manager->GetPlayerLocation().x + 450.0f) < camera_work)
+		else if ((-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) < camera_work)
 		{
-			if (camera_work - (-player_manager->GetPlayerLocation().x + 450.0f) > camera_work_speed)camera_work -= camera_work_speed;
-			else camera_work = -player_manager->GetPlayerLocation().x + 450.0f;
+			if (camera_work - (-player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X) > camera_work_speed)camera_work -= camera_work_speed;
+			else camera_work = -player_manager->GetPlayerLocation().x + DRAW_PLAYER_LOCATION_X;
 		}
 	}
 	else camera_work = 0.0f;

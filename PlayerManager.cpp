@@ -8,7 +8,7 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-PlayerManager::PlayerManager(class Stage* stage, Ui* ui) : draw_arrow_time(0.0f), alive_player(PLAYER_NUM)
+PlayerManager::PlayerManager(class Stage* stage, Ui* ui) : draw_arrow_time(0.0f)
 {
     player[0] = new Hero(stage);//勇者
     player[1] = new Warrior(stage);//戦士
@@ -37,36 +37,27 @@ void PlayerManager::Update(float delta_time)
     }
 
     int alive_player = 0;
+    int sorting_player = -1;
 
+    PlayerBase* player = nullptr;
     for (int i = 0; i < PLAYER_NUM; i++)
     {
-        if (i == 0)player[i]->Update(delta_time, nullptr);
-        else player[i]->Update(delta_time, player[i - 1]);
-
-        if (!player[i]->GetIsDead())alive_player++;
+        if (this->player[i]->Update(delta_time, player, this->player[0]->GetLocation()))sorting_player = i;
+        player = this->player[i];
+        if (!this->player[i]->GetIsDead())alive_player++;
     }
 
-    if (this->alive_player != alive_player)
-    {
-        this->alive_player = alive_player;
-        DeadPlayerSorting();
-    }
-
-    if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
+    DeadPlayerSorting(sorting_player);
+    if (Key::KeyDown(KEY_TYPE::L))PlayerSorting(alive_player);
 }
 
-void PlayerManager::DeadPlayerSorting()//死亡プレイヤー並び替え
+void PlayerManager::DeadPlayerSorting(int sorting_player)//死亡プレイヤー並び替え
 {
-    PlayerBase* player = nullptr;
-
-    for (int i = 0; i < PLAYER_NUM; i++)
+    if (sorting_player != -1)
     {
-        if (player == nullptr)
-        {
-            if (this->player[i]->GetIsDead())player = this->player[i];
-        }
+        PlayerBase* player = this->player[sorting_player];
 
-        if(player != nullptr)
+        for (int i = sorting_player; i < PLAYER_NUM; i++)
         {
             if (i == PLAYER_NUM - 1)
             {
@@ -78,7 +69,7 @@ void PlayerManager::DeadPlayerSorting()//死亡プレイヤー並び替え
     }
 }
 
-void PlayerManager::PlayerSorting()//プレイヤー並び替え
+void PlayerManager::PlayerSorting(int alive_player)//プレイヤー並び替え
 {
     if (alive_player > 0)
     {

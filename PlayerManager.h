@@ -12,10 +12,8 @@ private:
     int arrow_image;//先頭プレイヤーを指す矢印画像
     float draw_arrow_time;//矢印の表示時間
 
-    int alive_player;//生きてるプレイヤー数
-
-    void DeadPlayerSorting();//死亡キャラの並び替え
-    void PlayerSorting();//プレイヤー並び替え
+    void DeadPlayerSorting(int sorting_player);//死亡キャラの並び替え
+    void PlayerSorting(int alive_player);//プレイヤー並び替え
 public:
 
     PlayerManager(class Stage* stage, class Ui* ui);

@@ -18,7 +18,7 @@
 
 PlayerBase::PlayerBase(class Stage* stage, PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
 stage(stage), player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
-draw_image_num(0), is_leader(false),is_casket_fall(false)
+draw_image_num(0), is_leader(false),is_casket_fall(false), is_party_member(true)
 {
     draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
@@ -37,8 +37,16 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
+bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA leader_location)
 {
+    //Rキー入力でパーティー切り離し
+    if (Key::KeyDown(KEY_TYPE::R))
+    {
+        is_party_member = !is_party_member;
+        for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
+    }
+
+    //操作キャラが先頭か？
     if (previous_player == nullptr)is_leader = true;
     else is_leader = false;
 
@@ -49,7 +57,6 @@ void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
         {
             if (++draw_image_num >= PLAYER_IMAGE_NUM)draw_image_num = 0;
         }
-
         image_change_time = 0.0f;
     }
 
@@ -57,14 +64,28 @@ void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     if (is_leader)UpdateLeader();
     else UpdateFollower(previous_player);
 
-    if (location.y > SCREEN_HEIGHT)
+    //キャラが死んだとき(穴に落ちるか、画面外に出る)
+    if ((location.y > SCREEN_HEIGHT) ||
+       ((location.x > leader_location.x + 900.0f) || (location.x < leader_location.x - 900.0f)))
     {
-        location.y = -500.0f;
-        is_dead = true;
+        //先頭キャラの真上から落とす
+        location.x = leader_location.x;
+        location.y = -300.f;
+
+        //落ちている状態にする
         is_casket_fall = true;
+
+        //死亡状態にする
+        is_dead = true;
+
+        return true;
     }
+
+    return false;
 }
 
+
+//先頭キャラの操作
 
 void PlayerBase::UpdateLeader()
 {
@@ -145,7 +166,8 @@ void PlayerBase::UpdateLeader()
     }
     else draw_image_num = 4;
 
-    SetJumpLog(is_jump);
+    //ジャンプしたことを記録する
+    if(is_party_member)SetJumpLog(is_jump);
 }
 
 
@@ -154,14 +176,15 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
 {
     //X座標の更新
 
-    if (is_casket_fall && location.y > 0.0f - PLAYER_SIZE_Y)speed.x = 0.0f;
+    //落ちている状態（棺桶で空から降ってくる）の時は横に動かさない
+    if (is_casket_fall)speed.x = 0.0f;
     else
     {
-        if ((previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
+        if ((is_party_member) && (previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
         {
             if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
         }
-        else if ((previous_player->GetLocation().x < location.x) && ((location.x - previous_player->GetLocation().x) > CHARACTER_DISTANCE))
+        else if ((is_party_member) && (previous_player->GetLocation().x < location.x) && ((location.x - previous_player->GetLocation().x) > CHARACTER_DISTANCE))
         {
             if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
         }
@@ -266,14 +289,12 @@ void PlayerBase::Draw(float camera_work) const
 {
     DATA draw_location = { location.x + camera_work, location.y };
 
-    if ((draw_location.x >= -50.0f) && (draw_location.x <= SCREEN_WIDTH + 50.0f))
-    {
-        int draw_image_type = (speed.x == 0.0f);
-        if (is_dead)draw_image_type = 2;
+    int draw_image_type = (speed.x == 0.0f);
+    if (is_dead)draw_image_type = 2;
 
-        DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
-        //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
-    }
+    DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
+    //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+
 
     //DrawFormatString(0, 500, 0xffffff, "%f", location.y);
 }
