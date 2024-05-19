@@ -17,6 +17,7 @@ private:
     bool is_dead;//死んでいるか？
     bool is_facing_left;//左を向いているか？
     bool is_leader;//キャラが先頭か？
+    bool is_casket_fall;//棺桶が空から降っている間
     float image_change_time;//画像切り替え時間
     int draw_image_num;//表示画像の番号
 

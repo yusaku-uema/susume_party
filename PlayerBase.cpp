@@ -16,8 +16,9 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase(class Stage* stage,PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
-stage(stage),player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f), draw_image_num(0), is_leader(false)
+PlayerBase::PlayerBase(class Stage* stage, PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
+stage(stage), player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
+draw_image_num(0), is_leader(false),is_casket_fall(false)
 {
     draw_image_num = GetRand(3);
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
@@ -58,8 +59,9 @@ void PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 
     if (location.y > SCREEN_HEIGHT)
     {
-        location.y = -2000.0f;
+        location.y = -500.0f;
         is_dead = true;
+        is_casket_fall = true;
     }
 }
 
@@ -146,27 +148,33 @@ void PlayerBase::UpdateLeader()
     SetJumpLog(is_jump);
 }
 
+
+
 void PlayerBase::UpdateFollower(PlayerBase* previous_player)
 {
     //X座標の更新
 
-    if ((previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
-    {
-        if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
-    }
-    else if ((previous_player->GetLocation().x < location.x) && ((location.x - previous_player->GetLocation().x) > CHARACTER_DISTANCE))
-    {
-        if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
-    }
+    if (is_casket_fall && location.y > 0.0f - PLAYER_SIZE_Y)speed.x = 0.0f;
     else
     {
-        if (speed.x < 0.0f)
+        if ((previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
         {
-            if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
+            if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
         }
-        else if (speed.x > 0.0f)
+        else if ((previous_player->GetLocation().x < location.x) && ((location.x - previous_player->GetLocation().x) > CHARACTER_DISTANCE))
         {
-            if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
+            if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
+        }
+        else
+        {
+            if (speed.x < 0.0f)
+            {
+                if ((speed.x += ACCELERATION) > 0.0f) speed.x = 0.0f;
+            }
+            else if (speed.x > 0.0f)
+            {
+                if ((speed.x -= ACCELERATION) < 0.0f)speed.x = 0.0f;
+            }
         }
     }
 
@@ -192,7 +200,9 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
     bool is_jump = false;
 
     //重力の加算
-    if ((speed.y += GRAVITY) > JUMP_SPEED)speed.y = JUMP_SPEED;
+
+    if (is_casket_fall)speed.y = JUMP_SPEED * 1.5;
+    else if ((speed.y += GRAVITY) > JUMP_SPEED)speed.y = JUMP_SPEED;
 
     //座標の加算
     location.y += speed.y;
@@ -207,6 +217,8 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
         //地面に当たっている場合
         if (speed.y > 0.0f)
         {
+            if (is_casket_fall)is_casket_fall = false;
+
             if (previous_player->GetJumpLog())speed.y = -JUMP_SPEED;
             else speed.y = 0.0f;
         }
@@ -254,7 +266,7 @@ void PlayerBase::Draw(float camera_work) const
 {
     DATA draw_location = { location.x + camera_work, location.y };
 
-    if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
+    if ((draw_location.x >= -50.0f) && (draw_location.x <= SCREEN_WIDTH + 50.0f))
     {
         int draw_image_type = (speed.x == 0.0f);
         if (is_dead)draw_image_type = 2;
