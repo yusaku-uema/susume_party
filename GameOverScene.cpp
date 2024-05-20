@@ -6,6 +6,8 @@
 #include <locale>   // for wstring_convert
 #include <iostream>
 
+#define  FONT_SIZE 48
+
 GameOverScene::GameOverScene() {
 	// ゲームオーバー画像の読み込み
 	if ((gameover_image = LoadGraph("image/GameOver/gameover.png")) == -1)
@@ -45,7 +47,10 @@ GameOverScene::~GameOverScene() {
 }
 
 
-void GameOverScene::Initialize() {}
+void GameOverScene::Initialize() 
+{
+	SetFontSize(FONT_SIZE);
+}
 
 
 void GameOverScene::Finalize() {}
@@ -97,7 +102,7 @@ void GameOverScene::Draw() const {
 				break; // これ以上表示する文字がないのでループを抜ける
 			}
 			charCounter += lineCharCount; // この行の文字数をカウンターに追加
-			y += 20;
+			y += FONT_SIZE;
 		}
 	}
 
@@ -107,9 +112,9 @@ void GameOverScene::Draw() const {
 //1文字ずつ文字を表示　全角半角対応
 void GameOverScene::talk(int x, int y, const char* t, int availableChars) const {
 
-	//フォント替える時に使う　今は使わない
-	int fontHandle = CreateFontToHandle("dotfont", 15, -2);
-    ChangeFont("dotfont"); // フォントを設定
+	////フォント替える時に使う　今は使わない
+    int fontHandle = CreateFontToHandle("dotfont", 15, -2);
+   ChangeFont("dotfont"); // フォントを設定
 
 	int color = GetColor(255, 255, 255);//色	
 	int length = strlen(t); // 文字列の長さを取得
@@ -117,16 +122,16 @@ void GameOverScene::talk(int x, int y, const char* t, int availableChars) const 
 	for (int i = 0; i < availableChars && i < length; i++) {
 		int Size = GetCharBytes(DX_CHARCODEFORMAT_SHIFTJIS, t + i);
 		if (t[i] == '\n') { // 改行文字を検出
-			y += 20; // y座標を更新して改行
+			y += FONT_SIZE; // y座標を更新して改行
 			x = 100; // x座標をリセット
 		}
 		else if (Size == 1) { // 半角文字
 			DrawFormatString(x, y, color, "%c", t[i]);
-			x += 18; // 次の文字のためのX座標を更新
+			x += FONT_SIZE/2; // 次の文字のためのX座標を更新
 		}
 		else { // 全角文字
 			DrawFormatString(x, y, color, "%c%c", t[i], t[i + 1]);
-			x += 34; // 全角文字のためのX座標を更新
+			x += FONT_SIZE; // 全角文字のためのX座標を更新
 			i++; // 全角文字は2バイトなのでインデックスを1つ追加でスキップ
 		}
 	}
