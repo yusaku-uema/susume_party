@@ -202,6 +202,8 @@ void Fairy::Attack(Stage* stage, PlayerManager* player, float delta_time)
 			image_type = 4;
 		}
 	}
+
+
 	
 }
 

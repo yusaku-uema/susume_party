@@ -22,6 +22,7 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AttackManager.h" />
     <ClInclude Include="Bird.h" />
+    <ClInclude Include="BlackMage.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="define.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AttackManager.cpp" />
     <ClCompile Include="Bird.cpp" />
+    <ClCompile Include="BlackMage.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
