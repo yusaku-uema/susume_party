@@ -2,12 +2,14 @@
 #include"SceneBase.h"
 #include"Stage.h"
 #include"Ui.h"
+#include"Message.h"
 
 class GameMainScene :public SceneBase
 {
 private:
 	Stage* stage;
 	Ui* ui;
+	Message* message;
 
 	bool is_pause;//ポーズ画面表示するか？
 public:

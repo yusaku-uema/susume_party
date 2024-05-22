@@ -124,7 +124,7 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 	case SCENE_TYPE::MAIN:
 		return new GameMainScene;
 	case SCENE_TYPE::GAME_OVER:
-		return new GameOverScene;
+		//return new GameOverScene;
 	case SCENE_TYPE::ENDING:
 	default:
 		return nullptr;

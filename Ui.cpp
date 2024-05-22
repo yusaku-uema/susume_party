@@ -9,17 +9,17 @@ Ui::Ui() : player(nullptr)
 
     SetFontSize(30);
 
-    OutputDebugString("PlayerManagerコンストラクタ呼ばれました。\n");
+    OutputDebugString("Uiコンストラクタ呼ばれました。\n");
 }
 
 Ui::~Ui()
 {
     for (int i = 0; i < 3; i++)
     {
-        for (int j = 0; j < 4; i++)DeleteGraph(player_image[i][j]);
+        for (int j = 0; j < 4; j++)DeleteGraph(player_image[i][j]);
     }
 
-    OutputDebugString("PlayerManagerデストラクタが呼ばれました。\n");
+    OutputDebugString("Uiデストラクタが呼ばれました。\n");
 }
 
 void Ui::Update()

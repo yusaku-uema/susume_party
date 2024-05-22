@@ -15,11 +15,13 @@ void GameMainScene::Initialize()
 {
 	ui = new Ui();
 	stage = new Stage(ui);
+	message = new Message("txt/comment.txt");
 }
 
 //I—¹Žžˆ—
 void GameMainScene::Finalize()
 {
+	delete ui;
 	delete stage;
 }
 
@@ -28,6 +30,7 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	ui->Update();
 	stage->Update(delta_time);
+	message->Update(delta_time);
 
 	return GetNowScene();
 }
@@ -38,6 +41,8 @@ void GameMainScene::Draw() const
 	stage->Draw();
 
 	ui->Draw();
+
+	message->Draw();
 }
 
 //Œ»Ý‚ÌƒV[ƒ“î•ñ‚ðŽæ“¾
