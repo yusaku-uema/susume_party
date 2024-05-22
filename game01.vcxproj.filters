@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{d8020643-a341-470d-935d-42b449bf13e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Character\Enemy\Boss">
+      <UniqueIdentifier>{98de1463-bc53-42be-b60f-0612ead249d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Character\Enemy\Boss">
+      <UniqueIdentifier>{17416cc9-d2d1-440e-90de-b29c202d2365}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -123,6 +129,9 @@
     <ClInclude Include="Ui.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="BlackMage.h">
+      <Filter>ヘッダー ファイル\Character\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -193,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="Ui.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackMage.cpp">
+      <Filter>ソース ファイル\Character\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
