@@ -17,7 +17,8 @@ private:
 
     int draw_start_text_line;//表示するメッセージ桁の最初
     int update_text_line;//更新中のメッセージ桁
-    bool can_update_text_line;//メッセージ桁を更新できるか？
+
+    bool draw_arrow;//矢印を表示するか？
 
     int GetLineTextNum(int draw_text_line)const;//指定した桁の文字数を数える
     void UpdateTextLine();//表示中のメッセージ桁の更新
@@ -25,7 +26,7 @@ private:
 public:
     Message(const char* text_data_name);
     ~Message();
-    
+
     bool Update(float delta_time);
     void Draw() const;
 };
