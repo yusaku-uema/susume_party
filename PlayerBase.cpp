@@ -136,6 +136,7 @@ void PlayerBase::UpdateLeader()
         //座標を調整
         location.x = roundf(location.x);
         while (stage->HitBlock(this))location.x -= (speed.x / fabsf(speed.x));
+        speed.x = 0.0f;
     }
 
     //左右どちらに進んでいるか？
@@ -223,6 +224,7 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
         //座標を調整
         location.x = roundf(location.x);
         while (stage->HitBlock(this))location.x -= (speed.x / fabsf(speed.x));
+        speed.x = 0.0f;
     }
 
     //左右どちらに進んでいるか？
