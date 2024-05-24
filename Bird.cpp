@@ -15,8 +15,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Bird::Bird() : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Bird::Bird(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
+	this->stage = stage;
+	this->player_manager = player_manager;
+
 	OutputDebugString("Birdコンストラクタ呼ばれました。\n");
 
 	if (LoadDivGraph("image/Enemy/Bird.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
@@ -56,7 +59,7 @@ Bird::~Bird()
 //-----------------------------------
 // 更新処理
 //-----------------------------------
-void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
+void Bird::Update(float delta_time)
 {
 	//アニメーション時間更新
 	++animation_time;
@@ -64,7 +67,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 	switch (state)
 	{
 	case BIRD_STATE::NORMAL: //通常移動
-		Move(stage, player);
+		Move();
 
 		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
@@ -76,7 +79,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 
 		break;
 	case BIRD_STATE::STANDBY: //攻撃準備（待機）
-		Standby(player);
+		Standby();
 
 		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
@@ -88,7 +91,7 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 
 		break;
 	case BIRD_STATE::ATTACK: //攻撃
-		Attack(stage, player, delta_time);
+		Attack(delta_time);
 
 		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
@@ -117,9 +120,9 @@ void Bird::Update(float delta_time, Stage* stage, class PlayerManager* player)
 //-----------------------------------
 // 描画
 //-----------------------------------
-void Bird::Draw(float camera_work) const
+void Bird::Draw() const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
@@ -140,7 +143,7 @@ void Bird::Draw(float camera_work) const
 //-----------------------------------
 // 通常移動(右に動くか左に動くか)
 //-----------------------------------
-void Bird::Move(Stage* stage, PlayerManager* player)
+void Bird::Move()
 {
 
 	//x座標の更新
@@ -173,7 +176,7 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 	}
 
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
-	if (CalculateDistance(player) < SEARCH_RANGE)
+	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		state = BIRD_STATE::STANDBY;
 		image_type = 7;
@@ -185,11 +188,11 @@ void Bird::Move(Stage* stage, PlayerManager* player)
 //-----------------------------------
 // 攻撃準備(待機)
 //-----------------------------------
-void Bird::Standby(PlayerManager* player)
+void Bird::Standby()
 {
 
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃開始
-	if (CalculateDistance(player) < SEARCH_RANGE)
+	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
@@ -209,7 +212,7 @@ void Bird::Standby(PlayerManager* player)
 //-----------------------------------
 // 攻撃時の移動
 //-----------------------------------
-void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
+void Bird::Attack(float delta_time)
 {
 
 	if (lock_on)
@@ -220,8 +223,8 @@ void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
 	}
 	else
 	{
-		float dx = player->GetPlayerLocation().x - location.x;
-		float dy = player->GetPlayerLocation().y - location.y;
+		float dx = player_manager->GetPlayerLocation().x - location.x;
+		float dy = player_manager->GetPlayerLocation().y - location.y;
 		distance = sqrtf(dx * dx + dy * dy);
 	}
 
@@ -243,7 +246,7 @@ void Bird::Attack(Stage* stage, PlayerManager* player, float delta_time)
 		if (distance > 20 && lock_on == false)
 		{
 			lock_on = true;
-			player_location = player->GetPlayerLocation(); //座標更新
+			player_location = player_manager->GetPlayerLocation(); //座標更新
 		}
 		else if (distance > 5)  //ここに、プレイヤーに当たったか、壁に当たったのかを書くこと
 		{
@@ -301,10 +304,10 @@ void Bird::Retur()
 //-----------------------------------
 // 先頭にいるプレイヤーとの当たり判定
 //-----------------------------------
-float Bird::CalculateDistance(PlayerManager* player)
+float Bird::CalculateDistance()
 {
-	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

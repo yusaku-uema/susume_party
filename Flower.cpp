@@ -11,8 +11,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower() : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
+Flower::Flower(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
 {
+	this->stage = stage;
+	this->player_manager = player_manager;
+
 	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
 
 	time = 0;
@@ -43,7 +46,7 @@ Flower::~Flower()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
+void Flower::Update(float delta_time)
 {
 	//画像切替時間測定
 	++time;
@@ -62,7 +65,7 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 	{
 	case FLOWER_STATE::ATTACK:
 		
-		Attack(stage, player, delta_time);
+		Attack(delta_time);
 
 		break;
 	case FLOWER_STATE::STANDBY:
@@ -75,7 +78,7 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 				image_type = 4;
 			}
 		}
-		if (CalculateDistance(player) < SEARCH_RANGE)
+		if (CalculateDistance() < SEARCH_RANGE)
 		{
 			state = FLOWER_STATE::ATTACK;
 			image_type = 0;
@@ -92,9 +95,9 @@ void Flower::Update(float delta_time, Stage* stage, PlayerManager* player)
 //-----------------------------------
 //描画
 //-----------------------------------
-void Flower::Draw(float camera_work) const
+void Flower::Draw() const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
@@ -106,7 +109,7 @@ void Flower::Draw(float camera_work) const
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
+void Flower::Attack(float delta_time)
 {
 
 	if (++animation_time % TIMING_ATTACK == 0)
@@ -138,7 +141,7 @@ void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 	}
 
 	//交戦距離から離れたら攻撃停止
-	if (CalculateDistance(player) > SEARCH_RANGE)
+	if (CalculateDistance() > SEARCH_RANGE)
 	{
 		state = FLOWER_STATE::STANDBY;
 		image_type = 4;
@@ -151,10 +154,10 @@ void Flower::Attack(Stage* stage, PlayerManager* player, float delta_time)
 //-----------------------------------
 //相手との距離を測る
 //-----------------------------------
-float Flower::CalculateDistance(PlayerManager* player)
+float Flower::CalculateDistance()
 {
-	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

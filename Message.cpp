@@ -3,7 +3,7 @@
 #include "DxLib.h"
 
 #define FONT_SIZE 35//•¶š‚Ì‘å‚«‚³
-#define DRAW_TEXT_TIME 0.05f//1•¶š•\¦‚·‚é‚Ü‚Å‚ÌŠÔ
+#define DRAW_TEXT_TIME 0.08f//1•¶š•\¦‚·‚é‚Ü‚Å‚ÌŠÔ
 
 #define DRAW_TEXT_LOCATION_X 50.0f
 #define DRAW_TEXT_LOCATION_Y 550.0f
@@ -148,5 +148,7 @@ void Message::Draw() const
 		}
 	}
 
-	if (draw_arrow)DrawString(SCREEN_CENTER_X, 680, "«", 0xffffff);
+	if (draw_arrow){}
+
+	DrawFormatString(SCREEN_CENTER_X, 680, 0xffffff, "%f", draw_text_time);
 }

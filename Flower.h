@@ -26,14 +26,14 @@ class Flower :
 
 public:
 
-    Flower();
+    Flower(class Stage* stage, class PlayerManager* player_manager);
     ~Flower();
 
-    void Update(float delta_time, class Stage* stage, class PlayerManager* player); //更新処理
-    void Draw(float camera_work) const; //描画関係
-    void Attack(class Stage* stage, class PlayerManager* player, float delta_time); //攻撃
+    void Update(float delta_time); //更新処理
+    void Draw() const; //描画関係
+    void Attack(float delta_time); //攻撃
 
-    float CalculateDistance(class PlayerManager* player); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
+    float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
 };
 

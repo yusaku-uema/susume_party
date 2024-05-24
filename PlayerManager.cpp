@@ -1,6 +1,8 @@
 #include"DxLib.h"
-#include"Key.h"
 #include"PlayerManager.h"
+#include"Key.h"
+#include"Stage.h"
+#include"Ui.h"
 #include"Hero.h"
 #include"Warrior.h"
 #include"Wizard.h"
@@ -8,12 +10,12 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-PlayerManager::PlayerManager(class Stage* stage, Ui* ui) : stage(stage), draw_arrow_time(0.0f)
+PlayerManager::PlayerManager(class Stage* stage, class Ui* ui) : stage(stage), draw_arrow_time(0.0f)
 {
-    player[0] = new Hero(stage);//勇者
-    player[1] = new Warrior(stage);//戦士
-    player[2] = new Wizard(stage);//魔法使い
-    player[3] = new Monk(stage); //僧侶
+    player[0] = new Hero(stage, this);//勇者
+    player[1] = new Warrior(stage, this);//戦士
+    player[2] = new Wizard(stage, this);//魔法使い
+    player[3] = new Monk(stage, this); //僧侶
 
     ui->SetPlayerPointer(player);
 
@@ -31,56 +33,74 @@ PlayerManager::~PlayerManager()
 
 void PlayerManager::Update(float delta_time)
 {
-    if (draw_arrow_time != DRAW_ARROW_TIME)
-    {
-        if ((draw_arrow_time += delta_time) > DRAW_ARROW_TIME)draw_arrow_time = DRAW_ARROW_TIME;
-    }
+    //先頭キャラ切り替え時の矢印の表示時間
+    if ((draw_arrow_time += delta_time) > DRAW_ARROW_TIME)draw_arrow_time = DRAW_ARROW_TIME;
 
-    int alive_player = 0;
-    int sorting_player = -1;
+    //死亡キャラの要素数
+    int dead_player = -1;
 
-    float center_location_x = -stage->GetCameraWork() + SCREEN_CENTER_X;
-    PlayerBase* player = nullptr;
+
+    //更新キャラの前のキャラ情報
+    PlayerBase* previous_player = nullptr;
 
     for (int i = 0; i < PLAYER_NUM; i++)
     {
-        if (this->player[i]->Update(delta_time, player, this->player[0]->GetLocation(), center_location_x))sorting_player = i;
-        player = this->player[i];
-        if (!this->player[i]->GetIsDead())alive_player++;
+        //キャラクター更新
+        if (player[i]->Update(delta_time, previous_player))
+        {
+            //キャラが死んだら要素数を入れる
+            dead_player = i;
+        }
+
+        //現在のキャラの情報を入れる
+        previous_player = player[i];
+
+
+        
     }
 
-    DeadPlayerSorting(sorting_player);
-    if (Key::KeyDown(KEY_TYPE::L))PlayerSorting(alive_player);
+    DeadPlayerSorting(dead_player);
+
+    if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
 }
 
-void PlayerManager::DeadPlayerSorting(int sorting_player)//死亡プレイヤー並び替え
+void PlayerManager::DeadPlayerSorting(int dead_player)//死亡プレイヤー並び替え
 {
-    if (sorting_player != -1)
+    //死亡キャラがいる場合、入れ替える
+    if (dead_player != -1)
     {
-        PlayerBase* player = this->player[sorting_player];
+        PlayerBase* change_player = player[dead_player];
 
-        for (int i = sorting_player; i < PLAYER_NUM; i++)
+        for (int i = dead_player; i < PLAYER_NUM; i++)
         {
             if (i == PLAYER_NUM - 1)
             {
-                this->player[i] = player;
-                if (this->player[i]->GetIsLeader())draw_arrow_time = 0.0f;
+                player[i] = change_player;
+                if (player[i]->GetIsLeader())draw_arrow_time = 0.0f;
             }
-            else this->player[i] = this->player[i + 1];
+            else player[i] = player[i + 1];
         }
     }
 }
 
-void PlayerManager::PlayerSorting(int alive_player)//プレイヤー並び替え
+void PlayerManager::PlayerSorting()//プレイヤー並び替え
 {
+    //生きているキャラの数確認
+    int alive_player = 0;
+    for (int i = 0; i < PLAYER_NUM; i++)
+    {
+        if (!player[i]->GetIsDead())alive_player++;
+    }
+
+    //生きているキャラがいたら、順番を変える
     if (alive_player > 0)
     {
-        PlayerBase* player = this->player[0];
+        PlayerBase* change_player = player[0];
 
         for (int i = 0; i < alive_player; i++)
         {
-            if (i == alive_player - 1)this->player[i] = player;
-            else this->player[i] = this->player[i + 1];
+            if (i == alive_player - 1)player[i] = change_player;
+            else player[i] = player[i + 1];
         }
         draw_arrow_time = 0.0f;
     }

@@ -6,6 +6,6 @@ class Wizard : public PlayerBase
 private:
 
 public:
-    Wizard(class Stage* stage);
+    Wizard(class Stage* stage, class PlayerManager* player_manager);
     ~Wizard();
 };
