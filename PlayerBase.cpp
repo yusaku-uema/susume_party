@@ -109,12 +109,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            stage->AddAttack({ location.x - 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+            attack_manager->AddPlayerAttack({ location.x - 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            stage->AddAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+            attack_manager->AddPlayerAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
         }
     }
 
@@ -125,12 +125,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            stage->AddAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
+            attack_manager->AddPlayerAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            stage->AddAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
+            attack_manager->AddPlayerAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
         }
     }
 

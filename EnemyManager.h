@@ -10,7 +10,7 @@ private:
 
 public:
 
-    EnemyManager(class Stage* stage, class PlayerManager* player_manager);
+    EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~EnemyManager();
 
     void Update(float delta_time);

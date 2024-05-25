@@ -1,18 +1,20 @@
 #include"DxLib.h"
 #include"Attack.h"
 
-Attack::Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image) : BoxCollider(location, size),
+Attack::Attack(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager,
+	DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image) : 
+	BoxCollider(location, size),stage(stage), player_manager(player_manager), enemy_manager(enemy_manager),
 duration_time(duration_time),speed(speed),attack_power(attack_power), attack_image(attack_image)
 {
-
+	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
 }
 
 Attack::~Attack()
 {
-
+	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
 }
 
-bool Attack::Update(float delta_time, class Stage* stage)
+bool Attack::Update(float delta_time, bool is_player_attack)
 {
 	location.x += speed.x;
 	location.y += speed.y;
@@ -22,9 +24,9 @@ bool Attack::Update(float delta_time, class Stage* stage)
 	return ((duration_time -= delta_time) < 0.0f);
 }
 
-void Attack::Draw(float camera_work)const
+void Attack::Draw()const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
 	{

@@ -10,12 +10,12 @@
 
 #define DRAW_ARROW_TIME 2.0f//ƒvƒŒƒCƒ„[‚ðŽw‚·–îˆó‚Ì•\Ž¦ŽžŠÔ
 
-PlayerManager::PlayerManager(class Stage* stage, class Ui* ui) : stage(stage), draw_arrow_time(0.0f)
+PlayerManager::PlayerManager(class Stage* stage, class AttackManager* attack_manager, class Ui* ui) : stage(stage), draw_arrow_time(0.0f)
 {
-    player[0] = new Hero(stage, this);//—EŽÒ
-    player[1] = new Warrior(stage, this);//íŽm
-    player[2] = new Wizard(stage, this);//–‚–@Žg‚¢
-    player[3] = new Monk(stage, this); //‘m—µ
+    player[0] = new Hero(stage, this, attack_manager);//—EŽÒ
+    player[1] = new Warrior(stage, this, attack_manager);//íŽm
+    player[2] = new Wizard(stage, this, attack_manager);//–‚–@Žg‚¢
+    player[3] = new Monk(stage, this, attack_manager); //‘m—µ
 
     ui->SetPlayerPointer(player);
 

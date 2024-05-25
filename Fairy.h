@@ -38,7 +38,7 @@ private:
 
 public:
 
-    Fairy(class Stage* stage, class PlayerManager* player_manager); //コンストラクタ
+    Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Fairy(); //デストラクタ
 
     void Update(float delta_time); //更新処理

@@ -26,7 +26,7 @@ class Flower :
 
 public:
 
-    Flower(class Stage* stage, class PlayerManager* player_manager);
+    Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Flower();
 
     void Update(float delta_time); //XVˆ—

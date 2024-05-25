@@ -44,7 +44,7 @@ private:
 
 public:
 
-    Bird(class Stage* stage, class PlayerManager* player_manager); //コンストラクタ
+    Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Bird(); //デストラクタ
 
     void Update(float delta_time); //更新処理

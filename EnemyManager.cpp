@@ -11,12 +11,12 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager)
+EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager)
 {
-    slime = new Slime(stage, player_manager);
-    bird = new Bird(stage, player_manager);
-    flower = new Flower(stage, player_manager);
-    fairy = new Fairy(stage, player_manager);
+    slime = new Slime(stage, player_manager, attack_manager);
+    bird = new Bird(stage, player_manager, attack_manager);
+    flower = new Flower(stage, player_manager, attack_manager);
+    fairy = new Fairy(stage, player_manager, attack_manager);
 
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
 }

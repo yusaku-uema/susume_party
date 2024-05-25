@@ -5,9 +5,9 @@
 
 Stage::Stage(Ui* ui) : camera_work(0.0f)
 {
-	player_manager = new PlayerManager(this, ui);
-	attack_manager = new AttackManager(this);
-	enemy_manager = new EnemyManager(this, player_manager);
+	attack_manager = new AttackManager(this, player_manager, enemy_manager);
+	player_manager = new PlayerManager(this, attack_manager, ui);
+	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
 	
 	//‹ó‰æ‘œ
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ\n");
@@ -116,11 +116,6 @@ float Stage::GetCameraWork()const
 float Stage::GetCenterLocationX()const
 {
 	return center_location_x;
-}
-
-void Stage::AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
-{
-	attack_manager->AddAttack(location, size, speed, duration_time, attack_power, attack_image);
 }
 
 void Stage::Draw() const

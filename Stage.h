@@ -35,6 +35,4 @@ public:
     void SetCameraWork();
     float GetCameraWork()const;
     float GetCenterLocationX()const;
-
-    void AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
 };

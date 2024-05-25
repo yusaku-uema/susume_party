@@ -13,10 +13,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Slime::Slime(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
 	image_type = 0;
@@ -148,12 +149,12 @@ void Slime::Attack(float delta_time)
 	if (move_left)
 	{
 		//攻撃
-		stage->AddAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, 1);
 	}
 	else
 	{
 		//攻撃
-		stage->AddAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, 1);
 	}
 
 

@@ -11,10 +11,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
+Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
 
@@ -117,12 +118,12 @@ void Flower::Attack(float delta_time)
 		if (direction)
 		{
 			//攻撃
-			stage->AddAttack(location, { 15,15 }, { +5,0 }, 10, 3, 1);
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, 1);
 		}
 		else
 		{
 			//攻撃
-			stage->AddAttack(location, { 15,15 }, { -5,0 }, 10, 3, 1);
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, 1);
 		}
 		image_type = 1;
 	}

@@ -15,10 +15,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Bird::Bird(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	OutputDebugString("Birdコンストラクタ呼ばれました。\n");
 
@@ -264,12 +265,12 @@ void Bird::Attack(float delta_time)
 	if (direction)
 	{
 		//攻撃
-		stage->AddAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+		attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
 	}
 	else
 	{
 		//攻撃
-		stage->AddAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+		attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
 	}
 
 

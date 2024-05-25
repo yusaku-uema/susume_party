@@ -17,7 +17,7 @@ private:
     void PlayerSorting();//ƒvƒŒƒCƒ„[•À‚Ñ‘Ö‚¦
 public:
 
-    PlayerManager(class Stage* stage, class Ui* ui);
+    PlayerManager(class Stage* stage, class AttackManager* attack_manager, class Ui* ui);
     ~PlayerManager();
 
     void Update(float delta_time);

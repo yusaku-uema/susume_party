@@ -23,7 +23,7 @@ private:
     SLIME_STATE state; //ƒXƒ‰ƒCƒ€‚Ìó‘Ô
 
 public:
-    Slime(class Stage* stage, class PlayerManager* player_manager);
+    Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Slime();
 
     void Update(float delta_time);

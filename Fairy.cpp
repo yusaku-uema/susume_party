@@ -17,10 +17,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager) : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 20, 10, 5, 5)
+Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 20, 10, 5, 5)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	OutputDebugString("妖精コンストラクタ呼ばれました。\n");
 
