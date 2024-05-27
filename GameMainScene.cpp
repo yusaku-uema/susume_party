@@ -23,6 +23,7 @@ void GameMainScene::Finalize()
 {
 	delete ui;
 	delete stage;
+	delete message;
 }
 
 //更新処理
@@ -30,7 +31,14 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	ui->Update();
 	stage->Update(delta_time);
-	message->Update(delta_time);
+	if (message != nullptr)
+	{
+		if (message->Update(delta_time))
+		{
+			delete message;
+			message = nullptr;
+		}
+	}
 
 	return GetNowScene();
 }
@@ -42,7 +50,7 @@ void GameMainScene::Draw() const
 
 	ui->Draw();
 
-	message->Draw();
+	if(message != nullptr)message->Draw();
 }
 
 //現在のシーン情報を取得

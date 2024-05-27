@@ -4,8 +4,13 @@
 class CharacterBase : public BoxCollider
 {
 protected:
-    int hp;//
-    int mp;//
+    class Stage* stage;
+    class PlayerManager* player_manager;
+    class EnemyManager* enemy_manager;
+    class AttackManager* attack_manager;
+
+    int hp;
+    int mp;
     int attack_power;//UŒ‚—Í
     int defense_power;//ç”õ—Í
 

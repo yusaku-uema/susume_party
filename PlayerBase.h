@@ -1,6 +1,5 @@
 #pragma once
 #include"CharacterBase.h"
-#include"Stage.h"
 
 #define JUMP_LOG 40//過去数回分のジャンプの記録
 
@@ -10,7 +9,6 @@ protected:
     int player_image[3][5];
 
 private:
-    class Stage* stage;
 
     PLAYER_JOB player_job;
     
@@ -32,10 +30,10 @@ private:
 
 public:
 
-    PlayerBase(class Stage* stage,PLAYER_JOB player_job);
+    PlayerBase(PLAYER_JOB player_job);
     ~PlayerBase();
 
-    bool Update(float delta_time, PlayerBase* previous_player, DATA leader_location, float center_location_x);
+    bool Update(float delta_time, PlayerBase* previous_player);
     void Draw() const;
 
     bool GetIsDead()const;//プレイヤーが死んでいるか？
