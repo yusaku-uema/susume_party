@@ -36,6 +36,7 @@ public:
     bool Update(float delta_time, PlayerBase* previous_player);
     void Draw() const;
 
+    virtual bool HitDamege(int attack_power)override;
     bool GetIsDead()const;//プレイヤーが死んでいるか？
     PLAYER_JOB GetPlayerJob()const;
     bool GetIsLeader()const;//このキャラが先頭か？

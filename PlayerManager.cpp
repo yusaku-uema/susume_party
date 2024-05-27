@@ -106,6 +106,17 @@ void PlayerManager::PlayerSorting()//ƒvƒŒƒCƒ„[•À‚Ñ‘Ö‚¦
     }
 }
 
+void PlayerManager::CheckHitDamage(BoxCollider* bc, int attack_power)
+{
+    for (int i = 0; i < PLAYER_NUM; i++)
+    {
+        if (player[i]->HitBox(bc))
+        {
+
+        }
+    }
+}
+
 DATA PlayerManager::GetPlayerLocation()const
 {
     return player[0]->GetLocation();

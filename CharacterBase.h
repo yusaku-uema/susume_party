@@ -19,8 +19,8 @@ public:
     CharacterBase(DATA location, DATA size, int hp, int mp, int attack_power, int defense_power);
     ~CharacterBase();
 
-    int GetAttackPower()const;
-    int GetDefensePower()const;
+    virtual bool HitDamege(int attack_power) { return false; }//UŒ‚‚ğH‚ç‚Á‚½‚Ìˆ—
+
     int GetHp()const;
     int GetMp()const;
 };

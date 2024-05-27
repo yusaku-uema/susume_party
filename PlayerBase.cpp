@@ -316,6 +316,16 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
     SetJumpLog(previous_player->GetJumpLog());
 }
 
+bool PlayerBase::HitDamege(int attack_power)
+{
+    if ((hp -= attack_power) <= 0)
+    {
+        hp = 0;
+        return true;
+    }
+    return false;
+}
+
 void PlayerBase::SetJumpLog(bool is_jump)
 {
     for (int i = 0; i < JUMP_LOG; i++)
