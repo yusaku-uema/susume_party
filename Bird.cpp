@@ -305,8 +305,7 @@ void Bird::Retur()
 //-----------------------------------
 // 先頭にいるプレイヤーとの当たり判定
 //-----------------------------------
-float Bird::CalculateDistance()
-{
+float Bird::CalculateDistance(){
 	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
 	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）

@@ -2,10 +2,15 @@
 
 #include"EnemyManager.h"
 
+//ザコ敵
 #include"Slime.h"
 #include"Bird.h"
 #include"Flower.h"
 #include"Fairy.h"
+
+//ボス
+#include"BlackMage.h"
+
 
 //#include"Stage.h"
 
