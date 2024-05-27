@@ -20,6 +20,8 @@ public:
     PlayerManager(class Stage* stage, class AttackManager* attack_manager, class Ui* ui);
     ~PlayerManager();
 
+    void CheckHitDamage(BoxCollider* bc, int attack_power);//UŒ‚‚ª“–‚½‚Á‚½‚©Šm‚©‚ß‚é
+
     void Update(float delta_time);
     void Draw() const;
 

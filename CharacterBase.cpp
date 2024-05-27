@@ -12,16 +12,6 @@ CharacterBase::~CharacterBase()
     OutputDebugString("CharacterBaseデストラクタが呼ばれました。\n");
 }
 
-int CharacterBase::GetAttackPower()const
-{
-    return attack_power;
-}
-
-int CharacterBase::GetDefensePower()const
-{
-    return defense_power;
-}
-
 int CharacterBase::GetHp()const
 {
     return hp;
