@@ -11,6 +11,7 @@ Stage::Stage(Ui* ui) : fps(0.0f), camera_work(0.0f)
 	bird = new Bird();
 	flower = new Flower();
 	fairy = new Fairy();
+	blackmage = new BlackMage();
 
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
@@ -57,6 +58,7 @@ Stage::~Stage()
 	delete slime;
 	delete bird;
 	delete flower;
+	delete blackmage;
 
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
@@ -74,6 +76,7 @@ void Stage::Update(float delta_time)
 	flower->Update(delta_time, this, player_manager);
 	bird->Update(delta_time, this, player_manager);
 	fairy->Update(delta_time, this, player_manager);
+	blackmage->Update(delta_time, this, player_manager);
 
 	fps = 1.0 / delta_time;
 	
@@ -136,6 +139,7 @@ void Stage::Draw() const
 	bird->Draw(camera_work);
 	flower->Draw(camera_work);
 	fairy->Draw(camera_work);
+	blackmage->Draw(camera_work);
 
 	//プレイヤー表示
 	player_manager->Draw();

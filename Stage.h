@@ -7,6 +7,7 @@
 #include"Bird.h"
 #include"Flower.h"
 #include"Fairy.h"
+#include"BlackMage.h"
 #include"PlayerManager.h"
 #include"AttackManager.h"
 
@@ -19,6 +20,7 @@ private:
     class Bird* bird;
     class Flower* flower;
     class Fairy* fairy;
+    class BlackMage* blackmage;
     std::vector<Block>block;
 
     int block_image[BLOCK_TYPE_NUM];//ƒuƒƒbƒN‰æ‘œ

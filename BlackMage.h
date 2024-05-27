@@ -1,8 +1,11 @@
 #pragma once
 #include "CharacterBase.h"
+#include"PlayerManager.h"
+#include"Stage.h"
 
 enum class BLACKMAGE_STATE
 {
+    WAIT, //プレイヤーが視覚に入るまでは待機命令
     NORMAL,   //通常移動 
     ATTACK, //攻撃
     ATTACK_STANDBY, //攻撃待機
@@ -13,7 +16,7 @@ class BlackMage :
     public CharacterBase
 {
     int time;//攻撃待機時間
-    int blackmage_image[11]; //ボス（黒魔導士）の画像
+    int blackmage_image[14]; //ボス（黒魔導士）の画像
     int image_type; //使う画像の要素指定
     long int animation_time; //画像切替に使う変数
 
@@ -42,8 +45,9 @@ public:
     void Update(float delta_time, class Stage* stage, class PlayerManager* player); //更新処理
     void Draw(float camera_work) const; //描画関係
     void Move(class Stage* stage, class PlayerManager* player); //通常移動
-    void Standby(class PlayerManager* player); //攻撃準備時間
-    void Attack(class Stage* stage, class PlayerManager* player, float delta_time); //攻撃
+    void Standby(class PlayerManager* player); //プレイヤーが視覚に入るまで待機状態にする
+    void Wait(class PlayerManager* player); //攻撃準備時間
+    void Attack(class Stage* stage, class PlayerManager* playere); //攻撃
 
     float CalculateDistance(class PlayerManager* player); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
