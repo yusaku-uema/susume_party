@@ -13,9 +13,14 @@
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
 
 
-BlackMage::BlackMage() : CharacterBase({ 500.0f, 400.0f }, { BLACKMAGE_SIZE, BLACKMAGE_SIZE }, 20, 10, 5, 5)
+BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
 	OutputDebugString("魔導士コンストラクタ呼ばれました。\n");
+
+
+	this->stage = stage;
+	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	if (LoadDivGraph("image/Enemy/blackmage.png", 14, 14, 1, 131, 132, blackmage_image) == -1)throw("魔導士（ボス）像読込み失敗\n");
 
@@ -35,6 +40,11 @@ BlackMage::BlackMage() : CharacterBase({ 500.0f, 400.0f }, { BLACKMAGE_SIZE, BLA
 
 
 	state = BLACKMAGE_STATE::WAIT;
+
+	//テスト 座標
+	this->location = { 1000,400 };
+
+
 }
 
 BlackMage::~BlackMage()
@@ -46,7 +56,7 @@ BlackMage::~BlackMage()
 	}
 }
 
-void BlackMage::Update(float delta_time, Stage* stage, PlayerManager* player)
+void BlackMage::Update()
 {
 
 	//アニメーション時間更新
@@ -56,10 +66,10 @@ void BlackMage::Update(float delta_time, Stage* stage, PlayerManager* player)
 	switch (state)
 	{
 	case BLACKMAGE_STATE::WAIT:
-		Wait(player); //プレイヤーを見つけるまで何もしないニート
+		Wait(); //プレイヤーを見つけるまで何もしないニート
 		break;
 	case BLACKMAGE_STATE::NORMAL:
-		Move(stage, player); //動き
+		Move(); //動き
 		break;
 	case BLACKMAGE_STATE::ATTACK:
 
@@ -75,12 +85,13 @@ void BlackMage::Update(float delta_time, Stage* stage, PlayerManager* player)
 	}
 }
 
-void BlackMage::Draw(float camera_work) const
+void BlackMage::Draw() const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
+
 
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, blackmage_image[image_type], TRUE, !move_left);
 
@@ -88,7 +99,7 @@ void BlackMage::Draw(float camera_work) const
 	}
 }
 
-void BlackMage::Move(Stage* stage, PlayerManager* player)
+void BlackMage::Move()
 {
 	//画像切替処理
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
@@ -130,26 +141,26 @@ void BlackMage::Move(Stage* stage, PlayerManager* player)
 
 }
 
-void BlackMage::Standby(PlayerManager* player)
+void BlackMage::Standby()
 {
 
 }
 
-void BlackMage::Wait(PlayerManager* player)
+void BlackMage::Wait()
 {
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
-	if (CalculateDistance(player) < SEARCH_RANGE)
+	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		state = BLACKMAGE_STATE::NORMAL;
 	}
 }
 
-void BlackMage::Attack(Stage* stage, PlayerManager* player)
+void BlackMage::Attack()
 {
 
 }
 
-float BlackMage::CalculateDistance(PlayerManager* player)
+float BlackMage::CalculateDistance()
 {
 	return 0.0f;
 }

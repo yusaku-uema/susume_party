@@ -7,6 +7,7 @@ private:
     class Bird* bird;
     class Flower* flower;
     class Fairy* fairy;
+    class BlackMage* blackmage;
 
 public:
 

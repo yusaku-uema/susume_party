@@ -17,7 +17,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 20, 10, 5, 5)
+Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -44,6 +44,9 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 
 	state = FAIRY_STATE::NORMAL;
 
+	//テスト 座標
+	this->location = { 1400.0f, 50.0f };
+
 }
 
 
@@ -63,7 +66,7 @@ Fairy::~Fairy()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Fairy::Update(float delta_time)
+void Fairy::Update()
 {
 	//アニメーション時間更新
 	++animation_time;
@@ -74,7 +77,7 @@ void Fairy::Update(float delta_time)
 		Move();
 		break;
 	case FAIRY_STATE::ATTACK:
-		Attack(delta_time);		
+		Attack();		
 		break;
 	case FAIRY_STATE::STANDBY:
 		Standby();
@@ -196,7 +199,7 @@ void Fairy::Standby()
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Fairy::Attack(float delta_time)
+void Fairy::Attack()
 {
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 	{

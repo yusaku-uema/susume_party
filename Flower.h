@@ -1,5 +1,5 @@
 #pragma once
-#include "CharacterBase.h"
+#include"EnemyBase.h"
 #include"PlayerManager.h"
 #include"Stage.h"
 
@@ -10,7 +10,7 @@ enum class FLOWER_STATE
 };
 
 class Flower :
-    public CharacterBase
+    public EnemyBase
 {
     int time; //アニメーション時間測定
     int flower_image[7]; //フラワーの画像
@@ -29,9 +29,9 @@ public:
     Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Flower();
 
-    void Update(float delta_time); //更新処理
+    void Update(); //更新処理
     void Draw() const; //描画関係
-    void Attack(float delta_time); //攻撃
+    void Attack(); //攻撃
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 

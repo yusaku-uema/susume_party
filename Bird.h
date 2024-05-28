@@ -1,7 +1,7 @@
 #pragma once
-#include "CharacterBase.h"
 #include"PlayerManager.h"
 #include"EnemyManager.h"
+#include"EnemyBase.h"
 #include"Stage.h"
 
 
@@ -17,7 +17,7 @@ enum class BIRD_STATE
 
 
 class Bird :
-    public CharacterBase
+    public EnemyBase
 {
 private:
 
@@ -49,11 +49,11 @@ public:
     Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Bird(); //デストラクタ
 
-    void Update(float delta_time); //更新処理
+    void Update(); //更新処理
     void Draw() const; //描画関係
     void Move(); //通常移動
     void Standby(); //攻撃準備時間
-    void Attack(float delta_time); //攻撃
+    void Attack(); //攻撃
     void Retur(); //攻撃後元の座標に戻る。
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて

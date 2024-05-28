@@ -13,7 +13,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -26,6 +26,9 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	time = 0;
 
 	state = SLIME_STATE::NORMAL;
+
+	//テスト 座標
+	this->location = { 300.0f, 300.0f };
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
@@ -47,7 +50,7 @@ Slime::~Slime()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Slime::Update(float delta_time)
+void Slime::Update()
 {
 	++time; //アニメーション時間更新
 
@@ -67,7 +70,7 @@ void Slime::Update(float delta_time)
 
 		break;
 	case SLIME_STATE::ATTACK:
-		Attack(delta_time);
+		Attack();
 
 		//画像切替処理
 		if (time % 12 == 0)
@@ -142,7 +145,7 @@ void Slime::Move()
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Slime::Attack(float delta_time)
+void Slime::Attack()
 {
 	//当たり判定の処理を書く
 

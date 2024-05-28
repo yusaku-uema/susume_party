@@ -1,5 +1,5 @@
 #pragma once
-#include"CharacterBase.h"
+#include"EnemyBase.h"
 #include"PlayerManager.h"
 #include"Stage.h"
 
@@ -9,7 +9,7 @@ enum class SLIME_STATE
     ATTACK //攻撃
 };
 
-class Slime : public CharacterBase
+class Slime : public EnemyBase
 {
 private:
     
@@ -26,10 +26,10 @@ public:
     Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Slime();
 
-    void Update(float delta_time);
+    void Update();
     void Draw() const;
     void Move(); //通常移動
-    void Attack(float delta_time); //攻撃
+    void Attack(); //攻撃
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
