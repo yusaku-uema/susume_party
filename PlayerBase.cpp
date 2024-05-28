@@ -1,5 +1,5 @@
 #include"DxLib.h"
-#include"PlayerBase.h"
+#include"Stage.h"
 #include"Key.h"
 
 #define PLAYER_SIZE_X 30.0f//サイズ
@@ -16,11 +16,13 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase(class Stage* stage, PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
-stage(stage), player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
+PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
+player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
 draw_image_num(0), is_leader(false),is_casket_fall(false), is_party_member(true)
 {
+    //ジャンプの記録をリセット
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
+
     if (LoadDivGraph("image/Player/casket.png", 5, 5, 1, 50, 50, player_image[2]) == -1)throw("image/Player/casket.pngが読み込めません\n");
 
     OutputDebugString("PlayerBaseコンストラクタ呼ばれました。\n");
@@ -36,16 +38,17 @@ PlayerBase::~PlayerBase()
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
-bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA leader_location, float center_location_x)
+
+bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 {
-    //Rキー入力でパーティー切り離し
+    //パーティの切り離し
     if (Key::KeyDown(KEY_TYPE::R))
     {
         is_party_member = !is_party_member;
         for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
     }
-
-    //操作キャラが先頭か？
+    
+    //キャラが先頭か？
     if (previous_player == nullptr)is_leader = true;
     else is_leader = false;
 
@@ -60,16 +63,25 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA lead
     }
 
     //キャラクターの座標更新
-    if (is_leader)UpdateLeader();
-    else UpdateFollower(previous_player);
+    if (is_leader)
+    {
+        //先頭キャラの場合
+        UpdateLeader();
+    }
+    else
+    {
+        //先頭キャラ以外の場合
+        UpdateFollower(previous_player);
+    }
+
 
     //キャラが死んだ場合(穴に落ちるか、画面外に出る)
 
     if ((location.y > SCREEN_HEIGHT) ||
-       ((location.x > center_location_x + 800.0f) || (location.x < center_location_x - 800.0f)))
+       ((location.x > stage->GetCenterLocationX() + 800.0f) || (location.x < stage->GetCenterLocationX() - 800.0f)))
     {
         //先頭キャラの真上に落とす
-        location.x = leader_location.x;
+        location.x = player_manager->GetPlayerLocation().x;
         location.y = -300.f;
 
         //落ちている状態にする
@@ -85,37 +97,60 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player, DATA lead
 }
 
 
-//先頭キャラの操作
+////先頭キャラの更新//////
 
 void PlayerBase::UpdateLeader()
 {
-    //攻撃1(物理攻撃)
+
+    //攻撃1(Bボタン入力時)
+
     if (Key::KeyDown(KEY_TYPE::B))
     {
-        //プレイヤーの向きで攻撃方向を変える
-        if (is_facing_left)stage->AddAttack({location.x - 50, location.y}, { 40,40 }, { 0,0 }, 0.1, 3, 0);
-        else stage->AddAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+        if (is_facing_left)
+        {
+            //左に攻撃
+            attack_manager->AddPlayerAttack({ location.x - 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+        }
+        else
+        {
+            //右に攻撃
+            attack_manager->AddPlayerAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+        }
     }
-    //攻撃2(魔法弾的な?)
+
+    //攻撃2(Yボタン入力時)
+
     else if (Key::KeyDown(KEY_TYPE::Y))
     {
-        //プレイヤーの向きで攻撃方向を変える
-        if (is_facing_left)stage->AddAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
-        else stage->AddAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
+        if (is_facing_left)
+        {
+            //左に攻撃
+            attack_manager->AddPlayerAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
+        }
+        else
+        {
+            //右に攻撃
+            attack_manager->AddPlayerAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
+        }
     }
 
+   
+    //////X座標の更新////////
 
-    //X座標の更新
 
-    if (Key::KeyPressed(KEY_TYPE::LEFT))//左が押されてるなら左に進む
+    //左右キー入力された場合、その方向に進める
+
+    if (Key::KeyPressed(KEY_TYPE::LEFT))
     {
         if ((speed.x -= ACCELERATION) < -WALK_SPEED) speed.x = -WALK_SPEED;
     }
-    else if (Key::KeyPressed(KEY_TYPE::RIGHT))//右が押されてるなら右に進む
+    else if (Key::KeyPressed(KEY_TYPE::RIGHT))
     {
         if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
     }
-    else//何も押されていない時は、徐々にスピードを落とす
+
+    //左右キーが入力されていない場合、徐々にスピードを落とす
+    else
     {
         if (speed.x < 0.0f)
         {
@@ -144,7 +179,8 @@ void PlayerBase::UpdateLeader()
     else if (speed.x > 0.0f)is_facing_left = false;
 
 
-    //Y座標の更新
+    /////Y座標の更新/////////////
+
 
     //ジャンプしたか？
     bool is_jump = false;
@@ -185,15 +221,23 @@ void PlayerBase::UpdateLeader()
 }
 
 
+///先頭キャラ以外の更新/////////
 
 void PlayerBase::UpdateFollower(PlayerBase* previous_player)
 {
-    //X座標の更新
+    ////X座標の更新////////
 
-    //落ちている状態（棺桶で空から降ってくる）の時は横に動かさない
-    if (is_casket_fall)speed.x = 0.0f;
+    //棺桶で空から降ってくる
+    if (is_casket_fall)
+    {
+        //x座標は動かさない
+        speed.x = 0.0f;
+    }
+
+    //棺桶じゃないとき
     else
     {
+        //パーティ状態で、前のキャラと離れていたら動く
         if ((is_party_member) && (previous_player->GetLocation().x > location.x) && ((previous_player->GetLocation().x - location.x) > CHARACTER_DISTANCE))
         {
             if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
@@ -202,6 +246,8 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
         {
             if ((speed.x -= ACCELERATION) < -WALK_SPEED)speed.x = -WALK_SPEED;
         }
+
+        //徐々に止まる
         else
         {
             if (speed.x < 0.0f)
@@ -232,13 +278,12 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
     else if (speed.x > 0.0f)is_facing_left = false;
 
 
-    //Y座標の更新
+    ////Y座標の更新/////////////////
 
     //ジャンプしたか？
     bool is_jump = false;
 
     //重力の加算
-
     if (is_casket_fall)speed.y = JUMP_SPEED * 1.5;
     else if ((speed.y += GRAVITY) > JUMP_SPEED)speed.y = JUMP_SPEED;
 
@@ -269,6 +314,16 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
     else draw_image_num = 4;
 
     SetJumpLog(previous_player->GetJumpLog());
+}
+
+bool PlayerBase::HitDamege(int attack_power)
+{
+    if ((hp -= attack_power) <= 0)
+    {
+        hp = 0;
+        return true;
+    }
+    return false;
 }
 
 void PlayerBase::SetJumpLog(bool is_jump)

@@ -1,5 +1,5 @@
 #pragma once
-#include "CharacterBase.h"
+#include "EnemyBase.h"
 #include"PlayerManager.h"
 #include"Stage.h"
 
@@ -12,7 +12,7 @@ enum class FAIRY_STATE
 
 
 class Fairy :
-    public CharacterBase
+    public EnemyBase
 {
 private:
     
@@ -38,16 +38,16 @@ private:
 
 public:
 
-    Fairy(); //コンストラクタ
+    Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Fairy(); //デストラクタ
 
-    void Update(float delta_time, class Stage* stage, class PlayerManager* player); //更新処理
-    void Draw(float camera_work) const; //描画関係
-    void Move(class Stage* stage, class PlayerManager* player); //通常移動
-    void Standby(class PlayerManager* player); //攻撃準備時間
-    void Attack(class Stage* stage, class PlayerManager* player, float delta_time); //攻撃
+    void Update(); //更新処理
+    void Draw() const; //描画関係
+    void Move(); //通常移動
+    void Standby(); //攻撃準備時間
+    void Attack(); //攻撃
 
-    float CalculateDistance(class PlayerManager* player); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
+    float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
 };
 

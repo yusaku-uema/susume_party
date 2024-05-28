@@ -1,6 +1,7 @@
 #pragma once
-#include "CharacterBase.h"
 #include"PlayerManager.h"
+#include"EnemyManager.h"
+#include"EnemyBase.h"
 #include"Stage.h"
 
 
@@ -16,7 +17,7 @@ enum class BIRD_STATE
 
 
 class Bird :
-    public CharacterBase
+    public EnemyBase
 {
 private:
 
@@ -24,6 +25,7 @@ private:
     int bird_image[11]; //バードの画像
     int image_type; //使う画像の要素指定
     long int animation_time; //画像切替に使う変数
+  
    
 
     float distance_moved; //動いた距離
@@ -44,17 +46,17 @@ private:
 
 public:
 
-    Bird(); //コンストラクタ
+    Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Bird(); //デストラクタ
 
-    void Update(float delta_time, class Stage* stage, class PlayerManager* player); //更新処理
-    void Draw(float camera_work) const; //描画関係
-    void Move(class Stage* stage, class PlayerManager* player); //通常移動
-    void Standby(class PlayerManager* player); //攻撃準備時間
-    void Attack(class Stage* stage, class PlayerManager* player, float delta_time); //攻撃
+    void Update(); //更新処理
+    void Draw() const; //描画関係
+    void Move(); //通常移動
+    void Standby(); //攻撃準備時間
+    void Attack(); //攻撃
     void Retur(); //攻撃後元の座標に戻る。
 
-    float CalculateDistance(class PlayerManager* player); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
+    float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
 };
 

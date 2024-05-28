@@ -13,9 +13,12 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Slime::Slime() : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
-	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
+	this->stage = stage;
+	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
+
 	if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
 	image_type = 0;
 	move_left = true;
@@ -23,6 +26,11 @@ Slime::Slime() : CharacterBase({ 300.0f, 300.0f }, { SLIME_SIZE, SLIME_SIZE }, 2
 	time = 0;
 
 	state = SLIME_STATE::NORMAL;
+
+	//テスト 座標
+	this->location = { 300.0f, 300.0f };
+
+	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
 
 
@@ -42,14 +50,14 @@ Slime::~Slime()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
+void Slime::Update()
 {
 	++time; //アニメーション時間更新
 
 	switch (state)
 	{
 	case SLIME_STATE::NORMAL:
-		Move(stage, player);
+		Move();
 
 		//画像切替処理
 		if (time % 12 == 0)
@@ -62,7 +70,7 @@ void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 
 		break;
 	case SLIME_STATE::ATTACK:
-		Attack(stage, player, delta_time);
+		Attack();
 
 		//画像切替処理
 		if (time % 12 == 0)
@@ -83,9 +91,9 @@ void Slime::Update(float delta_time, Stage* stage, class PlayerManager* player)
 //-----------------------------------
 //描画処理
 //-----------------------------------
-void Slime::Draw(float camera_work) const
+void Slime::Draw() const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
@@ -98,7 +106,7 @@ void Slime::Draw(float camera_work) const
 //-----------------------------------
 //移動
 //-----------------------------------
-void Slime::Move(Stage* stage, PlayerManager* player)
+void Slime::Move()
 {
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
 	location.y += speed.y;
@@ -126,7 +134,7 @@ void Slime::Move(Stage* stage, PlayerManager* player)
 	}
 
 
-	if (CalculateDistance(player) < ATTACK_DISTANCE)
+	if (CalculateDistance() < ATTACK_DISTANCE)
 	{
 		state = SLIME_STATE::ATTACK;
 	}
@@ -137,23 +145,23 @@ void Slime::Move(Stage* stage, PlayerManager* player)
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Slime::Attack(Stage* stage, PlayerManager* player, float delta_time)
+void Slime::Attack()
 {
 	//当たり判定の処理を書く
 
 	if (move_left)
 	{
 		//攻撃
-		stage->AddAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, 1);
 	}
 	else
 	{
 		//攻撃
-		stage->AddAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, 1);
 	}
 
 
-	if (CalculateDistance(player) > ATTACK_DISTANCE || stage->HitBlock(this))
+	if (CalculateDistance() > ATTACK_DISTANCE || stage->HitBlock(this))
 	{
 		state = SLIME_STATE::NORMAL;
 	}
@@ -164,10 +172,10 @@ void Slime::Attack(Stage* stage, PlayerManager* player, float delta_time)
 //-----------------------------------
 //相手との距離を測る
 //-----------------------------------
-float Slime::CalculateDistance(PlayerManager* player)
+float Slime::CalculateDistance()
 {
-	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 	// プレイヤーと敵の座標から角度を計算
 	float angle = atan2(dy, dx) * 180 / M_PI;

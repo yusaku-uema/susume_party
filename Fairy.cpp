@@ -17,8 +17,11 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Fairy::Fairy() : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 20, 10, 5, 5)
+Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
+	this->stage = stage;
+	this->player_manager = player_manager;
+	this->attack_manager = attack_manager;
 
 	OutputDebugString("妖精コンストラクタ呼ばれました。\n");
 
@@ -41,6 +44,9 @@ Fairy::Fairy() : CharacterBase({ 1400.0f, 50.0f }, { FAIRY_SIZE, FAIRY_SIZE }, 2
 
 	state = FAIRY_STATE::NORMAL;
 
+	//テスト 座標
+	this->location = { 1400.0f, 50.0f };
+
 }
 
 
@@ -60,7 +66,7 @@ Fairy::~Fairy()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Fairy::Update(float delta_time, Stage* stage, PlayerManager* player)
+void Fairy::Update()
 {
 	//アニメーション時間更新
 	++animation_time;
@@ -68,13 +74,13 @@ void Fairy::Update(float delta_time, Stage* stage, PlayerManager* player)
 	switch (state)
 	{
 	case FAIRY_STATE::NORMAL:
-		Move(stage, player);
+		Move();
 		break;
 	case FAIRY_STATE::ATTACK:
-		Attack(stage, player, delta_time);		
+		Attack();		
 		break;
 	case FAIRY_STATE::STANDBY:
-		Standby(player);
+		Standby();
 		break;
 	default:
 		break;
@@ -85,9 +91,9 @@ void Fairy::Update(float delta_time, Stage* stage, PlayerManager* player)
 //-----------------------------------
 //描画
 //-----------------------------------
-void Fairy::Draw(float camera_work) const
+void Fairy::Draw() const
 {
-	DATA draw_location = { location.x + camera_work, location.y };
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
@@ -108,7 +114,7 @@ void Fairy::Draw(float camera_work) const
 //-----------------------------------
 //移動
 //-----------------------------------
-void Fairy::Move(Stage* stage, PlayerManager* player)
+void Fairy::Move()
 {
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
@@ -140,7 +146,7 @@ void Fairy::Move(Stage* stage, PlayerManager* player)
 	}
 
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
-	if (CalculateDistance(player) < SEARCH_RANGE)
+	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		state = FAIRY_STATE::STANDBY;
 	}
@@ -160,7 +166,7 @@ void Fairy::Move(Stage* stage, PlayerManager* player)
 //-----------------------------------
 //待機
 //-----------------------------------
-void Fairy::Standby(PlayerManager* player)
+void Fairy::Standby()
 {
 
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
@@ -173,7 +179,7 @@ void Fairy::Standby(PlayerManager* player)
 
 
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃開始
-	if (CalculateDistance(player) < SEARCH_RANGE)
+	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
@@ -193,7 +199,7 @@ void Fairy::Standby(PlayerManager* player)
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Fairy::Attack(Stage* stage, PlayerManager* player, float delta_time)
+void Fairy::Attack()
 {
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 	{
@@ -211,10 +217,10 @@ void Fairy::Attack(Stage* stage, PlayerManager* player, float delta_time)
 //-----------------------------------
 //相手との距離を測る
 //-----------------------------------
-float Fairy::CalculateDistance(PlayerManager* player)
+float Fairy::CalculateDistance()
 {
-	float dx = player->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

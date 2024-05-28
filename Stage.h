@@ -1,31 +1,25 @@
 #pragma once
 #include <vector>
 #include"define.h"
-#include"Ui.h"
 #include"Block.h"
-#include"Slime.h"
-#include"Bird.h"
-#include"Flower.h"
-#include"Fairy.h"
 #include"PlayerManager.h"
+#include"EnemyManager.h"
 #include"AttackManager.h"
 
 class Stage
 {
 private:
     class PlayerManager* player_manager;
+    class EnemyManager* enemy_manager;
     class AttackManager* attack_manager;
-    class Slime* slime;
-    class Bird* bird;
-    class Flower* flower;
-    class Fairy* fairy;
-    std::vector<Block>block;
+    
+    std::vector<class Block>block;
 
     int block_image[BLOCK_TYPE_NUM];//ブロック画像
     int sky_image;//空画像
 
-    float fps;
     float camera_work;
+    float center_location_x;
 
     void SetStage();//ステージを生成
 
@@ -36,8 +30,9 @@ public:
     void Update(float delta_time);
     void Draw() const;
 
+    bool HitBlock(class BoxCollider* bc)const;
+
     void SetCameraWork();
-    bool HitBlock(BoxCollider* bc)const;
     float GetCameraWork()const;
-    void AddAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
+    float GetCenterLocationX()const;
 };

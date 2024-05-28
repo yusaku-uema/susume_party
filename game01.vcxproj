@@ -27,6 +27,8 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="EnemyBase.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="Fairy.h" />
     <ClInclude Include="Flower.h" />
@@ -56,6 +58,8 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Fairy.cpp" />
     <ClCompile Include="Flower.cpp" />
