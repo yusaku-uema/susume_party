@@ -3,12 +3,12 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define BLACKMAGE_SIZE 132
+#define BLACKMAGE_SIZE 50
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
 #define FALL_MAX 7.5  //上昇、下降の上限
-#define SEARCH_RANGE 300 //交戦距離
+#define SEARCH_RANGE 300 //索敵範囲
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
 
@@ -42,7 +42,8 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	state = BLACKMAGE_STATE::WAIT;
 
 	//テスト 座標
-	this->location = { 1000,400 };
+	this->location = { 2300,330 };
+	this->radius = { BLACKMAGE_SIZE, BLACKMAGE_SIZE };
 
 
 }
@@ -91,11 +92,7 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-
-
-		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, blackmage_image[image_type], TRUE, !move_left);
-
-
+		DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, blackmage_image[image_type], TRUE, !move_left);
 	}
 }
 
@@ -148,7 +145,7 @@ void BlackMage::Standby()
 
 void BlackMage::Wait()
 {
-	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃準備
+	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら動き出す
 	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		state = BLACKMAGE_STATE::NORMAL;
@@ -160,7 +157,27 @@ void BlackMage::Attack()
 
 }
 
+void BlackMage::MoveAttack()
+{
+
+}
+
 float BlackMage::CalculateDistance()
 {
-	return 0.0f;
+	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	float angle = atan2(dy, dx) * 180 / M_PI;
+
+	if (angle >= -45 && angle <= 85)
+	{
+		direction = true;
+	}
+	else
+	{
+		direction = false;
+	}
+
+	return distance;
 }

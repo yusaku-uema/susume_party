@@ -17,13 +17,8 @@ class BlackMage :
     public EnemyBase
 {
     int blackmage_image[14]; //ボス（黒魔導士）の画像
-
-
-    float distance_moved; //動いた距離
-    float attack_speed; //攻撃速度
-    float distance; //相手との距離
-    float dx, dy; //変化量
-
+    int roundtrips; //画面を往復した回数
+    
     bool move_up; //上に移動
     bool lock_on; //プレイヤーに狙いを定める。
 
@@ -44,6 +39,7 @@ public:
     void Standby(); //プレイヤーが視覚に入るまで待機状態にする
     void Wait(); //攻撃準備時間
     void Attack(); //攻撃
+    void MoveAttack(); //移動時の攻撃
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
