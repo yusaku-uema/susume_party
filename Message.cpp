@@ -106,7 +106,7 @@ int Message::GetLineTextNum(int draw_text_line)const
 void Message::Draw() const
 {
 	DrawBox(0, 540, 1280, 720, 0x000000, TRUE);
-	DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
+	//DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
 
 	//Œ»İ•\¦‚Å‚«‚é•¶š”
 	int draw_line_text_num = this->draw_line_text_num;

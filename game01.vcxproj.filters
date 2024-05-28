@@ -135,6 +135,9 @@
     <ClInclude Include="BlackMage.h">
       <Filter>ヘッダー ファイル\Character\Enemy\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="TalkUi.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="BlackMage.cpp">
       <Filter>ソース ファイル\Character\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="TalkUi.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
