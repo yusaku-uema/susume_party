@@ -43,6 +43,7 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="TalkUi.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="Warrior.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="TalkUi.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="Warrior.cpp" />

@@ -4,6 +4,7 @@
 enum SCENE_TYPE
 {
 	TITLE,
+	TALKUI,
 	MAIN,
 	GAME_OVER,
 	ENDING,

@@ -1,17 +1,24 @@
 #pragma once
-#pragma once
+#include "SceneBase.h"
+#include"Message.h"
 
-class TalkUi
+class TalkUi : public SceneBase
 {
 private:
-    
+
+	Message* message;
+
+	int window_image;
 
 public:
-    TalkUi();
-    ~TalkUi();
+	TalkUi();
+	virtual ~TalkUi();
 
-    void Update();
-    void Draw() const;
+	virtual void Initialize() override;
+	virtual void Finalize() override;
 
-  
+	virtual SCENE_TYPE Update(float delta_time) override;
+	virtual void Draw() const override;
+
+	virtual SCENE_TYPE GetNowScene() const override;
 };
