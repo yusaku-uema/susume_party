@@ -23,7 +23,7 @@ public:
 
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
 
-    bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
+    void Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
     void Draw() const;
 
     DATA GetPlayerLocation()const;
