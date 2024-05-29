@@ -11,7 +11,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 1400.0f, 50.0f }, { FLOWER_SIZE, FLOWER_SIZE }, 20, 10, 5, 5)
+Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -27,6 +27,10 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	direction = true;
 
 	state = FLOWER_STATE::STANDBY;
+
+
+	//テスト 座標
+	this->location = { 1400.0f, 50.0f };
 
 }
 
@@ -47,7 +51,7 @@ Flower::~Flower()
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Flower::Update(float delta_time)
+void Flower::Update()
 {
 	//画像切替時間測定
 	++time;
@@ -66,7 +70,7 @@ void Flower::Update(float delta_time)
 	{
 	case FLOWER_STATE::ATTACK:
 		
-		Attack(delta_time);
+		Attack();
 
 		break;
 	case FLOWER_STATE::STANDBY:
@@ -110,7 +114,7 @@ void Flower::Draw() const
 //-----------------------------------
 //攻撃
 //-----------------------------------
-void Flower::Attack(float delta_time)
+void Flower::Attack()
 {
 
 	if (++animation_time % TIMING_ATTACK == 0)

@@ -22,6 +22,7 @@ EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manag
     bird = new Bird(stage, player_manager, attack_manager);
     flower = new Flower(stage, player_manager, attack_manager);
     fairy = new Fairy(stage, player_manager, attack_manager);
+    blackmage = new BlackMage(stage, player_manager, attack_manager);
 
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
 }
@@ -31,16 +32,18 @@ EnemyManager::~EnemyManager()
     delete slime;
     delete bird;
     delete flower;
+    delete blackmage;
 
     OutputDebugString("EnemyManagerデストラクタが呼ばれました。\n");
 }
 
 void EnemyManager::Update(float delta_time)
 {
-    slime->Update(delta_time);
-    flower->Update(delta_time);
-    bird->Update(delta_time);
-    fairy->Update(delta_time);
+    slime->Update();
+    flower->Update();
+    bird->Update();
+    fairy->Update();
+    blackmage->Update();
 }
 
 void EnemyManager::Draw() const
@@ -49,4 +52,5 @@ void EnemyManager::Draw() const
     bird->Draw();
     flower->Draw();
     fairy->Draw();
+    blackmage->Draw();
 }

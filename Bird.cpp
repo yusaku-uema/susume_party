@@ -15,7 +15,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : CharacterBase({ 900.0f, 100.0f }, { SLIME_SIZE, SLIME_SIZE }, 20, 10, 5, 5)
+Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -42,6 +42,9 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	state = BIRD_STATE::NORMAL;
 
+	//テスト 座標
+	this->location = { 900.0f, 100.0f };
+
 }
 
 //-----------------------------------
@@ -60,7 +63,7 @@ Bird::~Bird()
 //-----------------------------------
 // 更新処理
 //-----------------------------------
-void Bird::Update(float delta_time)
+void Bird::Update()
 {
 	//アニメーション時間更新
 	++animation_time;
@@ -92,7 +95,7 @@ void Bird::Update(float delta_time)
 
 		break;
 	case BIRD_STATE::ATTACK: //攻撃
-		Attack(delta_time);
+		Attack();
 
 		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
@@ -213,7 +216,7 @@ void Bird::Standby()
 //-----------------------------------
 // 攻撃時の移動
 //-----------------------------------
-void Bird::Attack(float delta_time)
+void Bird::Attack()
 {
 
 	if (lock_on)
