@@ -22,13 +22,14 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
 	image_type = 0;
 	move_left = true;
+	direction = true;
 
 	time = 0;
 
 	state = SLIME_STATE::NORMAL;
 
 	//テスト 座標
-	this->location = { 300.0f, 300.0f };
+	this->location = { 600.0f, 300.0f };
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
@@ -174,25 +175,21 @@ void Slime::Attack()
 //-----------------------------------
 float Slime::CalculateDistance()
 {
+
 	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
 	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
-	// プレイヤーと敵の座標から角度を計算
+
 	float angle = atan2(dy, dx) * 180 / M_PI;
 
-	if (move_left)
+	if (angle >= -45 && angle <= 85)
 	{
-		if (angle >= -180 && angle <= -3)
-		{
-			return distance; // プレイヤーが正面にいる
-		}
+		direction = true;
 	}
 	else
 	{
-		if (angle >= -45 && angle <= 45)
-		{
-			return distance; // プレイヤーが正面にいる
-		}
+		direction = false;
 	}
-	return 999; // プレイヤーが正面にいないか、索敵範囲外
+
+	return distance;
 }

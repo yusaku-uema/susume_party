@@ -27,7 +27,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 
 	image_type = 0;
 	animation_time = 0;
-
+	roundtrips = 0;
 	time = 0;
 
 	attack_speed = 0;
