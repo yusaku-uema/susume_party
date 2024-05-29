@@ -56,10 +56,10 @@ Stage::~Stage()
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
 
-void Stage::Update(float delta_time)
+bool Stage::Update(float delta_time)
 {
 	//プレイヤー(勇者一行)の更新
-	player_manager->Update(delta_time);
+	if (player_manager->Update(delta_time))return true;
 
 	//敵の更新
 	enemy_manager->Update(delta_time);
@@ -70,6 +70,8 @@ void Stage::Update(float delta_time)
 	//敵の更新
 	
 	SetCameraWork();
+
+	return false;
 }
 
 bool Stage::HitBlock(BoxCollider* bc)const

@@ -30,7 +30,9 @@ void GameMainScene::Finalize()
 SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	ui->Update();
-	stage->Update(delta_time);
+
+	if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
+		
 	if (message != nullptr)
 	{
 		if (message->Update(delta_time))

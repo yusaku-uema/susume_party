@@ -27,7 +27,7 @@ public:
     Stage(class Ui* ui);
     ~Stage();
 
-    void Update(float delta_time);
+    bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
     void Draw() const;
 
     bool HitBlock(class BoxCollider* bc)const;
