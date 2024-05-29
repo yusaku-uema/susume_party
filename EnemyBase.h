@@ -21,5 +21,10 @@ public:
 	EnemyBase();
 	~EnemyBase();
 
+	virtual void Update() = 0;
+	virtual void Draw()const = 0;
+
+	bool HitDamege(int attack_power)override;
+
 };
 

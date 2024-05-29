@@ -24,4 +24,6 @@ public:
 
     void Update(float delta_time);
     void Draw() const;
+
+    void SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager);
 };

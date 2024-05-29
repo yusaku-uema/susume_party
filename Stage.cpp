@@ -9,6 +9,8 @@ Stage::Stage(Ui* ui) : camera_work(0.0f)
 	player_manager = new PlayerManager(this, attack_manager, ui);
 	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
 	
+	attack_manager->SetPointer(player_manager, enemy_manager);
+
 	//‹ó‰æ‘œ
 	if ((sky_image = LoadGraph("image/Stage/sky.png")) == -1)throw("image/Stage/sky.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 	//ƒuƒƒbƒN‰æ‘œ

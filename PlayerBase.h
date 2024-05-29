@@ -25,6 +25,7 @@ private:
     void UpdateFollower(PlayerBase* previous_player);
 
     bool jump_log[JUMP_LOG];//過去数回分のジャンプの記録
+
     void SetJumpLog(bool is_jump);//ジャンプログを更新
     bool GetJumpLog()const;//一番古いジャンプログを渡す
 
@@ -36,8 +37,11 @@ public:
     bool Update(float delta_time, PlayerBase* previous_player);
     void Draw() const;
 
-    virtual bool HitDamege(int attack_power)override;
+    bool HitDamege(int attack_power)override;
+
     bool GetIsDead()const;//プレイヤーが死んでいるか？
+
     PLAYER_JOB GetPlayerJob()const;
+
     bool GetIsLeader()const;//このキャラが先頭か？
 };

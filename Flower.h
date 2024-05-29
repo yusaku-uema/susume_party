@@ -29,8 +29,8 @@ public:
     Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Flower();
 
-    void Update(); //更新処理
-    void Draw() const; //描画関係
+    void Update()override; //更新処理
+    void Draw() const override; //描画関係
     void Attack(); //攻撃
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて

@@ -6,9 +6,7 @@ class Attack : public BoxCollider
 {
 private:
     class Stage* stage;
-    class PlayerManager* player_manager;
-    class EnemyManager* enemy_manager;
-
+    
     int attack_image;//攻撃画像
     int attack_power;//攻撃力
     DATA speed;//スピード
@@ -21,11 +19,10 @@ private:
     float change_image_time;
 
 public:
-    Attack(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, 
-        DATA location, DATA size,DATA speed, float duration_time,int attack_power, int attack_image);
+    Attack(class Stage* stage, DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image);
     ~Attack();
 
-    bool Update(float delta_time, bool is_player_attack);
+    bool Update(float delta_time, class PlayerManager* player_manager, EnemyManager* enemy_manager);
     void Draw()const;
 
     int GetAttackPower()const;
