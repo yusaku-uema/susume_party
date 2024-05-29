@@ -21,7 +21,7 @@ public:
     PlayerManager(class Stage* stage, class AttackManager* attack_manager, class Ui* ui);
     ~PlayerManager();
 
-    void CheckHitDamage(BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
+    bool CheckHitDamage(class BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
 
     bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
     void Draw() const;

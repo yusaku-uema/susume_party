@@ -23,7 +23,7 @@ void AttackManager::Update(float delta_time)
     //ƒvƒŒƒCƒ„[‚ÌUŒ‚‚ÌXV
     for (int i = 0; i < player_attack.size(); i++)
     {
-        if (player_attack[i].Update(delta_time, true))//UŒ‚‚ÌXV
+        if (player_attack[i].Update(delta_time, nullptr, enemy_manager))//UŒ‚‚ÌXV
         {
             player_attack.erase(player_attack.begin() + i);//UŒ‚‚ğÁ‚·
             i--;
@@ -33,7 +33,7 @@ void AttackManager::Update(float delta_time)
     //“G‚ÌUŒ‚‚ÌXV
     for (int i = 0; i < enemy_attack.size(); i++)
     {
-        if (enemy_attack[i].Update(delta_time, false))//UŒ‚‚ÌXV
+        if (enemy_attack[i].Update(delta_time, player_manager, nullptr))//UŒ‚‚ÌXV
         {
             enemy_attack.erase(enemy_attack.begin() + i);//UŒ‚‚ğÁ‚·
             i--;
@@ -45,15 +45,20 @@ void AttackManager::Update(float delta_time)
 ////////“G‚ÌUŒ‚‚Ì’Ç‰Á/////////////
 void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
 {
-    player_attack.emplace_back(stage, player_manager, enemy_manager, location, size, speed, duration_time, attack_power, attack_image);
+    enemy_attack.emplace_back(stage, location, size, speed, duration_time, attack_power, attack_image);
 }
 
 ////////ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Ì’Ç‰Á//////////////
 void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int attack_image)
 {
-    enemy_attack.emplace_back(stage, player_manager, enemy_manager, location, size, speed, duration_time, attack_power, attack_image);
+    player_attack.emplace_back(stage, location, size, speed, duration_time, attack_power, attack_image);
 }
 
+void AttackManager::SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager)
+{
+    this->player_manager = player_manager;
+    this->enemy_manager = enemy_manager;
+}
 
 void AttackManager::Draw() const
 {

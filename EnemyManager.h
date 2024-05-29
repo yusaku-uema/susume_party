@@ -1,13 +1,12 @@
 #pragma once
 
+#define ENEMY_NUM 5
+
+
 class EnemyManager
 {
 private:
-    class Slime* slime;
-    class Bird* bird;
-    class Flower* flower;
-    class Fairy* fairy;
-    class BlackMage* blackmage;
+    class EnemyBase* enemy[ENEMY_NUM];
 
 public:
 
@@ -16,4 +15,6 @@ public:
 
     void Update(float delta_time);
     void Draw() const;
+
+    bool CheckHitDamage(class BoxCollider* bc, int attack_power);//UŒ‚‚ª“–‚½‚Á‚½‚©Šm‚©‚ß‚é
 };
