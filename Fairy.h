@@ -41,8 +41,8 @@ public:
     Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
     ~Fairy(); //デストラクタ
 
-    void Update(); //更新処理
-    void Draw() const; //描画関係
+    void Update()override; //更新処理
+    void Draw() const override; //描画関係
     void Move(); //通常移動
     void Standby(); //攻撃準備時間
     void Attack(); //攻撃

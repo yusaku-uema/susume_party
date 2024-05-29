@@ -1,5 +1,4 @@
 #include"DxLib.h"
-
 #include"EnemyManager.h"
 
 //ザコ敵
@@ -11,46 +10,47 @@
 //ボス
 #include"BlackMage.h"
 
-
 //#include"Stage.h"
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
 EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager)
 {
-    slime = new Slime(stage, player_manager, attack_manager);
-    bird = new Bird(stage, player_manager, attack_manager);
-    flower = new Flower(stage, player_manager, attack_manager);
-    fairy = new Fairy(stage, player_manager, attack_manager);
-    blackmage = new BlackMage(stage, player_manager, attack_manager);
+    enemy[0] = new Slime(stage, player_manager, attack_manager);
+    enemy[1] = new Bird(stage, player_manager, attack_manager);
+    enemy[2] = new Flower(stage, player_manager, attack_manager);
+    enemy[3] = new Fairy(stage, player_manager, attack_manager);
+    enemy[4] = new BlackMage(stage, player_manager, attack_manager);
 
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
 }
 
 EnemyManager::~EnemyManager()
 {
-    delete slime;
-    delete bird;
-    delete flower;
-    delete blackmage;
+    for (int i = 0; i < ENEMY_NUM; i++)delete enemy[i];
 
     OutputDebugString("EnemyManagerデストラクタが呼ばれました。\n");
 }
 
 void EnemyManager::Update(float delta_time)
 {
-    slime->Update();
-    flower->Update();
-    bird->Update();
-    fairy->Update();
-    blackmage->Update();
+    for (int i = 0; i < ENEMY_NUM; i++)enemy[i]->Update();
+}
+
+bool EnemyManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
+{
+    for (int i = 0; i < ENEMY_NUM; i++)
+    {
+        if (enemy[i]->HitBox(bc))
+        {
+            enemy[i]->HitDamege(attack_power);
+            return true;
+        }
+    }
+    return false;
 }
 
 void EnemyManager::Draw() const
 {
-    slime->Draw();
-    bird->Draw();
-    flower->Draw();
-    fairy->Draw();
-    blackmage->Draw();
+    for (int i = 0; i < ENEMY_NUM; i++)enemy[i]->Draw();
 }

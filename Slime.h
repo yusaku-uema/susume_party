@@ -26,8 +26,8 @@ public:
     Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
     ~Slime();
 
-    void Update();
-    void Draw() const;
+    void Update()override;
+    void Draw() const override;
     void Move(); //’ÊíˆÚ“®
     void Attack(); //UŒ‚
 
