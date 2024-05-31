@@ -43,7 +43,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	state = BIRD_STATE::NORMAL;
 
 	//テスト 座標
-	this->location = { 900.0f, 100.0f };
+	this->location = { 900.0f, 250.0f };
 
 }
 

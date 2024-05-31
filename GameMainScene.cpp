@@ -31,7 +31,10 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	ui->Update();
 
-	if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
+	stage->Update(delta_time);
+
+	////デバック？
+	//if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
 		
 	if (message != nullptr)
 	{

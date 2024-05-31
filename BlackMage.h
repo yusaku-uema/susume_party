@@ -23,6 +23,8 @@ class BlackMage :
     bool lock_on; //プレイヤーに狙いを定める。
 
 
+    int old_hp;
+
     BLACKMAGE_STATE state; //バードの状態
     DATA old_location; //前の座標
     DATA player_location; //攻撃時のプレイヤーの位置
