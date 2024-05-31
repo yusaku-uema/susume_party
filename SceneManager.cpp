@@ -12,7 +12,7 @@ SceneManager::SceneManager() : current_scene(nullptr)
 }
 
 SceneManager::~SceneManager()
-{
+{	
 }
 
 //シーンマネジャー機能:初期化処理
