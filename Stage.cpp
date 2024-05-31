@@ -61,7 +61,7 @@ Stage::~Stage()
 bool Stage::Update(float delta_time)
 {
 	//プレイヤー(勇者一行)の更新
-	player_manager->Update(delta_time);
+	if (player_manager->Update(delta_time))return true;
 
 	//敵の更新
 	enemy_manager->Update(delta_time);

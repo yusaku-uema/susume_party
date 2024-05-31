@@ -74,20 +74,22 @@ SCENE_TYPE GameOverScene::Update(float delta_time)
             }
 
             // 選択決定の処理
-            if (pad_input & PAD_INPUT_1) // Aボタン（XboxコントローラーのAボタン）
+            if (pad_input & PAD_INPUT_B) // Aボタン（XboxコントローラーのAボタン）
             {
                 if (option_selected)
                 {
                     // 「はい」を選択した場合の処理
                     // 次のシーンへ遷移する処理をここに追加
-                    DrawString(500, 500, "はい", 0xffffff);
+                    //DrawString(500, 500, "はい", 0xffffff);
+                    return SCENE_TYPE::MAIN;
                    
                 }
                 else
                 {
                     // 「いいえ」を選択した場合の処理
                     // ゲームオーバーに戻る処理をここに追加
-                    DrawString(500, 500, "いいえ", 0xffffff);
+                    //DrawString(500, 500, "いいえ", 0xffffff);
+                    return SCENE_TYPE::TITLE;
                    
                 }
             }

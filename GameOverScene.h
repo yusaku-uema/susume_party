@@ -14,6 +14,7 @@ private:
     int option_no_image;//「いいえ」の画像
     bool option_selected;//洗濯されているオプション(true:はい、false:いいえ)
     bool message_displayed; // メッセージが表示されたかどうかを示すフラグ
+  
 
     Message* message; // メッセージ表示用のインスタンス
    

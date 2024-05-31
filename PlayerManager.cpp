@@ -31,13 +31,16 @@ PlayerManager::~PlayerManager()
     OutputDebugString("PlayerManagerデストラクタが呼ばれました。\n");
 }
 
-void PlayerManager::Update(float delta_time)
+bool PlayerManager::Update(float delta_time)
 {
     //先頭キャラ切り替え時の矢印の表示時間
     if ((draw_arrow_time += delta_time) > DRAW_ARROW_TIME)draw_arrow_time = DRAW_ARROW_TIME;
 
     //死亡キャラの要素数
-    int dead_player = -1;
+    int dead_player_index = -1;
+
+    //死亡キャラ数の数
+    int dead_player_num = 0;
 
 
     //更新キャラの前のキャラ情報
@@ -49,8 +52,12 @@ void PlayerManager::Update(float delta_time)
         if (player[i]->Update(delta_time, previous_player))
         {
             //キャラが死んだら要素数を入れる
-            dead_player = i;
+            dead_player_index = i;
         }
+
+        //キャラが死んだらカウントする
+        if (player[i]->GetIsDead())dead_player_num++;
+        if (dead_player_num == 4)return true;
 
         //現在のキャラの情報を入れる
         previous_player = player[i];
@@ -59,19 +66,21 @@ void PlayerManager::Update(float delta_time)
         
     }
 
-    DeadPlayerSorting(dead_player);
+    dead_player_count = dead_player_num;
+
+    DeadPlayerSorting(dead_player_index);
 
     if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
 }
 
-void PlayerManager::DeadPlayerSorting(int dead_player)//死亡プレイヤー並び替え
+void PlayerManager::DeadPlayerSorting(int dead_player_index)//死亡プレイヤー並び替え
 {
     //死亡キャラがいる場合、入れ替える
-    if (dead_player != -1)
+    if (dead_player_index != -1)
     {
-        PlayerBase* change_player = player[dead_player];
+        PlayerBase* change_player = player[dead_player_index];
 
-        for (int i = dead_player; i < PLAYER_NUM; i++)
+        for (int i = dead_player_index; i < PLAYER_NUM; i++)
         {
             if (i == PLAYER_NUM - 1)
             {
