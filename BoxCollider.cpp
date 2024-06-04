@@ -27,24 +27,6 @@ bool BoxCollider::HitBox(BoxCollider* bc)const
     return (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2);
 }
 
-bool BoxCollider::HitBox(DATA location, DATA radius)const
-{
-    float sx1 = this->location.x - this->radius.x;
-    float sx2 = this->location.x + this->radius.x;
-    float sy1 = this->location.y - this->radius.y;
-    float sy2 = this->location.y + this->radius.y;
-
-    float dx1 = location.x - radius.x;
-    float dx2 = location.x + radius.x;
-    float dy1 = location.y - radius.y;
-    float dy2 = location.y + radius.y;
-
-    //d‚È‚Á‚Ä‚¢‚ê‚Î“–‚½‚è
-    return (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2);
-}
-
-
-
 DATA BoxCollider::GetLocation()const
 {
     return location;

@@ -13,7 +13,6 @@ public:
 	~BoxCollider();
 
 	bool HitBox(BoxCollider* bc)const;
-	bool HitBox(DATA location, DATA radius)const;
 	DATA GetLocation(void)const;
 	DATA GetRadius(void)const;
 };

@@ -154,12 +154,12 @@ void Slime::Attack()
 	if (move_left)
 	{
 		//UŒ‚
-		attack_manager->AddEnemyAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, ATTACK_TYPE::EXPLOSION);
 	}
 	else
 	{
 		//UŒ‚
-		attack_manager->AddEnemyAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, 1);
+		attack_manager->AddEnemyAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, ATTACK_TYPE::EXPLOSION);
 	}
 
 

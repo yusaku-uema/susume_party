@@ -3,7 +3,7 @@
 
 #define DRAW_PLAYER_LOCATION_X 550.0f//操作キャラの表示位置
 
-Stage::Stage(Ui* ui) : camera_work(0.0f)
+Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 {
 	attack_manager = new AttackManager(this, player_manager, enemy_manager);
 	player_manager = new PlayerManager(this, attack_manager, ui);
@@ -60,18 +60,24 @@ Stage::~Stage()
 
 bool Stage::Update(float delta_time)
 {
-	//プレイヤー(勇者一行)の更新
-	if (player_manager->Update(delta_time))return true;
+	if ((time_count += delta_time) > stop_time)
+	{
+		time_count = 0.0f;
+		stop_time = 0.0f;
 
-	//敵の更新
-	enemy_manager->Update(delta_time);
+		//プレイヤー(勇者一行)の更新
+		if (player_manager->Update(delta_time))return true;
 
-	//攻撃の更新
-	attack_manager->Update(delta_time);
+		//敵の更新
+		enemy_manager->Update(delta_time);
 
-	//敵の更新
-	
-	SetCameraWork();
+		//攻撃の更新
+		attack_manager->Update(delta_time);
+
+		//敵の更新
+
+		SetCameraWork();
+	}
 
 	return false;
 }
@@ -110,6 +116,11 @@ void Stage::SetCameraWork()
 
 	//画面中心座標計算
 	center_location_x = -camera_work + SCREEN_CENTER_X;
+}
+
+void Stage::SetStopTime(float stop_time)
+{
+	this->stop_time = stop_time;
 }
 
 float Stage::GetCameraWork()const

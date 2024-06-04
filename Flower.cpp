@@ -123,12 +123,12 @@ void Flower::Attack()
 		if (direction)
 		{
 			//UŒ‚
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, 1);
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION);
 		}
 		else
 		{
 			//UŒ‚
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, 1);
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION);
 		}
 		image_type = 1;
 	}

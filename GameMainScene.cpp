@@ -45,6 +45,14 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 		}
 	}
 
+	if ((this->delta_time += delta_time) >= 1.0f)
+	{
+		this->delta_time = 0.0f;
+		fps = fps_count;
+		fps_count = 0;
+	}
+	else fps_count++;
+
 	return GetNowScene();
 }
 
@@ -56,6 +64,8 @@ void GameMainScene::Draw() const
 	ui->Draw();
 
 	//if(message != nullptr)message->Draw();
+
+	DrawFormatString(500, 0, 0xffffff, "%d", fps);
 }
 
 //Œ»İ‚ÌƒV[ƒ“î•ñ‚ğæ“¾

@@ -16,7 +16,7 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 100, 10, 5, 5),
+PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
 player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
 draw_image_num(0), is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
@@ -74,8 +74,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
         UpdateFollower(previous_player);
     }
 
-    //キャラが死んだ場合(穴に落ちるか、画面外に出る)
-
+    //キャラが死んだ場合
     if (location.y > SCREEN_HEIGHT)is_set_casket = true;
     else if ((location.x > stage->GetCenterLocationX() + 800.0f) || (location.x < stage->GetCenterLocationX() - 800.0f))is_set_casket = true;
 
@@ -83,7 +82,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     {
         //先頭キャラの真上に落とす
         location.x = player_manager->GetPlayerLocation().x;
-        location.y = -300.f;
+        location.y = -400.f;
 
         //落ちている状態にする
         is_casket_fall = true;
@@ -116,12 +115,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //左に攻撃
-            attack_manager->AddPlayerAttack({ location.x - 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION);
         }
         else
         {
             //右に攻撃
-            attack_manager->AddPlayerAttack({ location.x + 50, location.y }, { 40,40 }, { 0,0 }, 0.1, 3, 0);
+            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION);
         }
     }
 
@@ -132,12 +131,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //左に攻撃
-            attack_manager->AddPlayerAttack(location, { 10,10 }, { -8,0 }, 5.0, 3, 0);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::EXPLOSION);
         }
         else
         {
             //右に攻撃
-            attack_manager->AddPlayerAttack(location, { 10,10 }, { 8,0 }, 5.0, 3, 0);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::EXPLOSION);
         }
     }
 
@@ -323,15 +322,20 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
     SetJumpLog(previous_player->GetJumpLog());
 }
 
-bool PlayerBase::HitDamege(int attack_power)
+//ダメージが当たった時
+bool PlayerBase::HitDamege(BoxCollider* bc, int attack_power)
 {
     if (!is_dead)
     {
         if ((hp -= attack_power) <= 0)
         {
             hp = 0;
+            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION);
             is_set_casket = true;
+            
         }
+        else if (location.x > bc->GetLocation().x)speed.x = 5.0f;
+        else speed.x = -5.0f;
     }
     return is_dead;
 }

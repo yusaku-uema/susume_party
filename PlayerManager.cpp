@@ -129,7 +129,7 @@ bool PlayerManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
 	{
 		if (player[i]->HitBox(bc))
 		{
-			player[i]->HitDamege(attack_power);
+			player[i]->HitDamege(bc, attack_power);
 			return true;
 		}
 	}

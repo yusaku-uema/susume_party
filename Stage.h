@@ -20,6 +20,8 @@ private:
 
     float camera_work;
     float center_location_x;
+    float stop_time;//処理を止める時間
+    float time_count;//時間のカウント
 
     void SetStage();//ステージを生成
 
@@ -31,6 +33,8 @@ public:
     void Draw() const;
 
     bool HitBlock(class BoxCollider* bc)const;
+
+    void SetStopTime(float stop_time);
 
     void SetCameraWork();
     float GetCameraWork()const;

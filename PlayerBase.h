@@ -38,7 +38,7 @@ public:
     bool Update(float delta_time, PlayerBase* previous_player);
     void Draw() const;
 
-    bool HitDamege(int attack_power)override;//攻撃に当たった時の処理（HPを減らしたり...）
+    bool HitDamege(BoxCollider* bc, int attack_power)override;//攻撃に当たった時の処理（HPを減らしたり...）
 
     bool GetIsDead()const;//プレイヤーが死んでいるか？
 

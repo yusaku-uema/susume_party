@@ -48,26 +48,30 @@ void SceneManager::Initialize()
 //シーンマネージャー機能:更新処理
 void SceneManager::Update()
 {
-	int start_time = GetNowCount();//処理開始時の時間
+	int delta_second = 1000 / 60;
+	int delta_time = 0.0f;
 
 	while (ProcessMessage() != -1)//メインループ
 	{
-		int now_time = GetNowCount();//現在時間を取得
+		int start_time = GetNowCount();
 
-		if ((now_time - start_time) > DELTA_SECOND)
-		{
-			Key::Update();//入力機能:更新処理
+		// 入力更新
+		Key::Update();
 
-			SCENE_TYPE next_scene = current_scene->Update((float)(now_time - start_time) / 1000);//更新処理（戻り値は次のシーン情報）
+		//更新処理
+		SCENE_TYPE next_scene = current_scene->Update((float)delta_time / 1000);
 
-			start_time = now_time;//フレーム開始時間を更新
+		//エンドが選択されていたらゲームを終了する
+		if (next_scene == SCENE_TYPE::GAME_END)break;
 
-			if (next_scene == SCENE_TYPE::GAME_END)break;//エンドが選択されていたらゲームを終了する
+		//現在のシーンと次のシーンが違っていたらシーンを変える
+		if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);
 
-			if (next_scene != current_scene->GetNowScene())ChangeScene(next_scene);//現在のシーンと次のシーンが違っていたらシーンを変える
+		//描画処理
+		Draw();
 
-			Draw();//描画処理
-		}
+		if (delta_second > (GetNowCount() - start_time))WaitTimer(delta_second - (GetNowCount() - start_time));
+		delta_time = GetNowCount() - start_time;
 	}
 }
 

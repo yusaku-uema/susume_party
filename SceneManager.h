@@ -1,7 +1,7 @@
 #pragma once
 #include"SceneBase.h"
 
-#define FREAM_RATE (60)//フレームレート
+#define FREAM_RATE (30)//フレームレート
 #define DELTA_SECOND  (1000 / FREAM_RATE)//1フレーム当たりの時間
 
 class SceneManager//シーンマネージャークラス

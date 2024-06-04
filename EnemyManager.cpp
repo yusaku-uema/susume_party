@@ -43,7 +43,7 @@ bool EnemyManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
     {
         if (enemy[i]->HitBox(bc))
         {
-            enemy[i]->HitDamege(attack_power);
+            enemy[i]->HitDamege(bc, attack_power);
             return true;
         }
     }

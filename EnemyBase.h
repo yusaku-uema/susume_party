@@ -24,7 +24,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;
 
-	bool HitDamege(int attack_power)override;
+	bool HitDamege(BoxCollider* bc, int attack_power)override;
 
 };
 
