@@ -33,10 +33,11 @@ bool Attack::Update(float delta_time, class PlayerManager* player_manager, Enemy
 		change_image_time = 0.0f;
 	}*/
 
+	//ステージのブロックに当たったらtrueを返す
 	if (stage->HitBlock(this))return true;
 	else
 	{
-		//プレイヤーとの当たり判定
+		//キャラと当たった時
 		if (player_manager != nullptr)
 		{
 			if (player_manager->CheckHitDamage(this, attack_power))return true;

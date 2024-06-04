@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include"Slime.h"
 
-#define SLIME_SIZE 30.0f//サイズ
+#define SLIME_SIZE 20.0f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//歩く時の加速
 #define ATTACK_DISTANCE 38// 攻撃に移る距離
@@ -30,6 +30,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 
 	//テスト 座標
 	this->location = { 600.0f, 300.0f };
+	this->radius = { SLIME_SIZE ,SLIME_SIZE };
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }

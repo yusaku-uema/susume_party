@@ -122,6 +122,7 @@ void PlayerManager::PlayerSorting()//プレイヤー並び替え
 	}
 }
 
+//攻撃が当たったかのチェック（当たったらtureを返す）
 bool PlayerManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
 {
 	for (int i = 0; i < PLAYER_NUM; i++)

@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define FLOWER_SIZE 80.0f//サイズ
+#define FLOWER_SIZE 40.0f//サイズ
 #define TIMING_ATTACK 120 //攻撃タイミング
 #define SEARCH_RANGE 250 //交戦距離
 
@@ -31,6 +31,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 
 	//テスト 座標
 	this->location = { 1400.0f, 50.0f };
+	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
 
 }
 

@@ -29,7 +29,7 @@ void Ui::Update()
         int player_job = static_cast<int>(player[i]->GetPlayerJob());
 
         draw_player_state[player_job].hp = player[i]->GetHp();
-        draw_player_state[player_job].hp = player[i]->GetMp();
+        draw_player_state[player_job].mp = player[i]->GetMp();
 
         draw_player_state[player_job].image_type = 0;
         if (player[i]->GetIsLeader())draw_player_state[player_job].image_type = 1;
