@@ -16,9 +16,9 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 500, 10, 5, 5),
+PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 100, 10, 5, 5),
 player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
-draw_image_num(0), is_leader(false),is_casket_fall(false), is_party_member(true)
+draw_image_num(0), is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
     //ジャンプの記録をリセット
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
@@ -74,11 +74,12 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
         UpdateFollower(previous_player);
     }
 
-
     //キャラが死んだ場合(穴に落ちるか、画面外に出る)
 
-    if ((location.y > SCREEN_HEIGHT) ||
-       ((location.x > stage->GetCenterLocationX() + 800.0f) || (location.x < stage->GetCenterLocationX() - 800.0f)))
+    if (location.y > SCREEN_HEIGHT)is_set_casket = true;
+    else if ((location.x > stage->GetCenterLocationX() + 800.0f) || (location.x < stage->GetCenterLocationX() - 800.0f))is_set_casket = true;
+
+    if(is_set_casket)
     {
         //先頭キャラの真上に落とす
         location.x = player_manager->GetPlayerLocation().x;
@@ -89,6 +90,12 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 
         //死亡状態にする
         is_dead = true;
+        
+        //hpを0にする
+        hp = 0;
+
+        //棺桶にするかのフラグをfalseにする
+        is_set_casket = false;
 
         return true;
     }
@@ -318,12 +325,15 @@ void PlayerBase::UpdateFollower(PlayerBase* previous_player)
 
 bool PlayerBase::HitDamege(int attack_power)
 {
-    if ((hp -= attack_power) <= 0)
+    if (!is_dead)
     {
-        hp = 0;
-        return true;
+        if ((hp -= attack_power) <= 0)
+        {
+            hp = 0;
+            is_set_casket = true;
+        }
     }
-    return false;
+    return is_dead;
 }
 
 void PlayerBase::SetJumpLog(bool is_jump)
