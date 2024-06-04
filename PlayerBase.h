@@ -17,6 +17,7 @@ private:
     bool is_leader;//キャラが先頭か？
     bool is_casket_fall;//棺桶が空から降っている間
     bool is_party_member;//パーティーが切り離されているか？
+    bool is_set_casket;//棺桶状態にするか？（死亡直後に使用）
 
     float image_change_time;//画像切り替え時間
     int draw_image_num;//表示画像の番号
@@ -37,7 +38,7 @@ public:
     bool Update(float delta_time, PlayerBase* previous_player);
     void Draw() const;
 
-    bool HitDamege(int attack_power)override;
+    bool HitDamege(int attack_power)override;//攻撃に当たった時の処理（HPを減らしたり...）
 
     bool GetIsDead()const;//プレイヤーが死んでいるか？
 

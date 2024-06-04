@@ -57,13 +57,10 @@ bool PlayerManager::Update(float delta_time)
 
         //キャラが死んだらカウントする
         if (player[i]->GetIsDead())dead_player_num++;
-        if (dead_player_num == 4)return true;
+        //if (dead_player_num == 4)return true;
 
         //現在のキャラの情報を入れる
         previous_player = player[i];
-
-
-        
     }
 
     dead_player_count = dead_player_num;
@@ -71,6 +68,8 @@ bool PlayerManager::Update(float delta_time)
     DeadPlayerSorting(dead_player_index);
 
     if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
+
+    return false;
 }
 
 void PlayerManager::DeadPlayerSorting(int dead_player_index)//死亡プレイヤー並び替え
