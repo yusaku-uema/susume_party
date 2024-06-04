@@ -55,7 +55,7 @@ void GameMainScene::Draw() const
 
 	ui->Draw();
 
-	if(message != nullptr)message->Draw();
+	//if(message != nullptr)message->Draw();
 }
 
 //Œ»Ý‚ÌƒV[ƒ“î•ñ‚ðŽæ“¾
