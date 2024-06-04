@@ -266,15 +266,20 @@ void Bird::Attack()
 		}
 	}
 
-	if (direction)
+	//if (direction)
+	//{
+	//	//UŒ‚
+	//	attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+	//}
+	//else
+	//{
+	//	//UŒ‚
+	//	attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+	//}
+
+	if (player_manager->CheckHitDamage(this, 10))
 	{
-		//UŒ‚
-		attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
-	}
-	else
-	{
-		//UŒ‚
-		attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
+		state = BIRD_STATE::RETURN;
 	}
 
 
