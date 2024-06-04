@@ -24,8 +24,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 
 	if (LoadDivGraph("image/Enemy/blackmage.png", 14, 14, 1, 131, 132, blackmage_image) == -1)throw("–‚“±Žmiƒ{ƒXj‘œ“Çž‚ÝŽ¸”s\n");
 
-	hp = 150;
-	hp = 0;
+	this->hp = 150;
 	image_type = 0;
 	animation_time = 0;
 	roundtrips = 0;

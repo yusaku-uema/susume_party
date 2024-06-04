@@ -32,6 +32,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	//テスト 座標
 	this->location = { 1400.0f, 50.0f };
 	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
+	this->hp = 100;
 
 }
 
@@ -107,6 +108,7 @@ void Flower::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
+		DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
 	}
 }

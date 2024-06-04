@@ -6,6 +6,7 @@
 enum class SLIME_STATE
 {
     NORMAL,   //通常移動 
+    STANDBY, //待機。
     ATTACK //攻撃
 };
 
@@ -30,6 +31,7 @@ public:
     void Draw() const override;
     void Move(); //通常移動
     void Attack(); //攻撃
+    void Standby(); //待機
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 

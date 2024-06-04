@@ -6,7 +6,8 @@
 enum class FLOWER_STATE
 {
     ATTACK, //攻撃
-    STANDBY //待機
+    STANDBY, //待機
+    DEATH //エネミー死亡
 };
 
 class Flower :

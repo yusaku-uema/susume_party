@@ -45,8 +45,9 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 	state = FAIRY_STATE::NORMAL;
 
 	//テスト 座標
-	this->location = { 1400.0f, 50.0f };
+	this->location = { 1400.0f, 250.0f };
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
+	this->hp = 100;
 
 }
 
@@ -209,27 +210,31 @@ void Fairy::Attack()
 			image_type = 4;
 		}
 
-	//	float dx = player_location.x - location.x;
-	//	float dy = player_location.y - location.y;
-	//	float distance = sqrtf(dx * dx + dy * dy);
+		if (image_type == 6)
+		{
+			float dx = player_location.x - location.x;
+			float dy = player_location.y - location.y;
+			float distance = sqrtf(dx * dx + dy * dy);
 
 
-	//	if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
+			if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
 
-	//	if (distance >= 5)
-	//	{
-	//		location.x += (dx / distance) * attack_speed;
-	//		location.y += (dy / distance) * attack_speed;
-	//	}
-	//	else
-	//	{
-	//		attack_speed = 0;
-	//		state = FAIRY_STATE::NORMAL;
-	//	}
+			if (distance >= 5)
+			{
+				location.x += (dx / distance) * attack_speed;
+				location.y += (dy / distance) * attack_speed;
+			}
+			else
+			{
+				attack_speed = 0;
+				state = FAIRY_STATE::NORMAL;
+			}
 
-	//	攻撃
-	//	attack_manager->AddEnemyAttack(location, { 15,15 }, { location.x+(dx / distance) * attack_speed ,location.y + (dy / distance) * attack_speed }, 10, 3, 1);
+			//攻撃
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, 1);
 
+			state = FAIRY_STATE::NORMAL;
+		}
 	}
 
 	
