@@ -44,6 +44,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	//テスト 座標
 	this->location = { 900.0f, 250.0f };
+	this->radius = { SLIME_SIZE ,SLIME_SIZE };
 
 }
 
