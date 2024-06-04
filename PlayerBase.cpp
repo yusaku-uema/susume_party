@@ -16,7 +16,7 @@
 #define IMAGE_CHANGE_TIME 0.15f//‰æ‘œØ‚è‘Ö‚¦‚ÌŠÔ(•b”)
 #define PLAYER_IMAGE_NUM 4//ƒvƒŒƒCƒ„[‰æ‘œ‚Ìí—Ş
 
-PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 20, 10, 5, 5),
+PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 500, 10, 5, 5),
 player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
 draw_image_num(0), is_leader(false),is_casket_fall(false), is_party_member(true)
 {
