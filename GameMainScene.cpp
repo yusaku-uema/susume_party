@@ -2,7 +2,7 @@
 #include"Key.h"
 #include"DxLib.h"
 
-GameMainScene::GameMainScene() : stage(nullptr),is_pause(false)
+GameMainScene::GameMainScene() : stage(nullptr), is_pause(false)
 {
 }
 
@@ -31,11 +31,11 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 {
 	ui->Update();
 
-	stage->Update(delta_time);
+	// ステージの更新処理
+	if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
 
-	////デバック？
-	//if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
-		
+
+	// メッセージの更新処理
 	if (message != nullptr)
 	{
 		if (message->Update(delta_time))
@@ -55,7 +55,7 @@ void GameMainScene::Draw() const
 
 	ui->Draw();
 
-	if(message != nullptr)message->Draw();
+	if (message != nullptr)message->Draw();
 }
 
 //現在のシーン情報を取得
