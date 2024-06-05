@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define FLOWER_SIZE 40.0f//サイズ
+#define FLOWER_SIZE 20.0f//サイズ
 #define TIMING_ATTACK 120 //攻撃タイミング
 #define SEARCH_RANGE 250 //交戦距離
 
@@ -108,8 +108,9 @@ void Flower::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
+		//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
