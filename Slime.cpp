@@ -31,7 +31,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	//テスト 座標
 	this->location = { 600.0f, 300.0f };
 	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
-	this->hp = 100;
+	this->hp = 20;
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
@@ -70,7 +70,6 @@ void Slime::Update()
 		break;
 	}
 
-
 }
 
 
@@ -83,6 +82,7 @@ void Slime::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
+		DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	hp =%d", hp);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}

@@ -32,6 +32,7 @@ private:
     float attack_speed; //UŒ‚‘¬“x
     float distance; //‘Šè‚Æ‚Ì‹——£
     float dx, dy; //•Ï‰»—Ê
+    float angle;
 
     bool move_up; //ã‚ÉˆÚ“®
     bool move_left; //¶‚É“®‚­

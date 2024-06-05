@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define FLOWER_SIZE 40.0f//サイズ
+#define FLOWER_SIZE 20.0f//サイズ
 #define TIMING_ATTACK 120 //攻撃タイミング
 #define SEARCH_RANGE 250 //交戦距離
 
