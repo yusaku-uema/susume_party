@@ -108,7 +108,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 void PlayerBase::UpdateLeader()
 {
 
-    //UŒ‚1(Bƒ{ƒ^ƒ““ü—ÍŽž)
+    //•¨—UŒ‚(Bƒ{ƒ^ƒ““ü—ÍŽž)
 
     if (Key::KeyDown(KEY_TYPE::B))
     {
@@ -131,12 +131,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::EXPLOSION);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::EXPLOSION);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL);
         }
     }
 

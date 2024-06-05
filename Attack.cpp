@@ -61,8 +61,8 @@ void Attack::Draw(float camera_work)const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
 	{
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 		DrawRotaGraph(draw_location.x, draw_location.y, 5, 0, *(attack_image + draw_image_num), TRUE);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 	}
 }
 

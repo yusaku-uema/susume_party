@@ -13,6 +13,8 @@ AttackManager::AttackManager(class Stage* stage, class PlayerManager* player_man
     if (LoadDivGraph("image/Effect/explosion.png", 5, 5, 1, 24, 24, attack_image[ATTACK_TYPE::EXPLOSION]) == -1)throw("image/Effect/explosion.pngが読み込めません\n");
     if (LoadDivGraph("image/Effect/small_explosion.png", 4, 4, 1, 16, 16, attack_image[ATTACK_TYPE::SMALL_EXPLOSION]) == -1)throw("image/Effect/small_explosion.pngが読み込めません\n");
     if (LoadDivGraph("image/Effect/spin_slash.png", 2, 2, 1, 32, 24, attack_image[ATTACK_TYPE::SPIN_SLASH]) == -1)throw("image/Effect/spin_slash.pngが読み込めません\n");
+    if (LoadDivGraph("image/Effect/fireball.png", 4, 4, 1, 24, 24, attack_image[ATTACK_TYPE::FIRE_BALL]) == -1)throw("image/Effect/fireball.pngが読み込めません\n");
+
 
     OutputDebugString("AttackManagerコンストラクタ呼ばれました。\n");
 }
