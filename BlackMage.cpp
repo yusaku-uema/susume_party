@@ -173,7 +173,7 @@ void BlackMage::Standby()
 
 	if (time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y}, { 40,40 }, { 0,0 }, 3, 3, ATTACK_TYPE::EXPLOSION);
+		attack_manager->AddEnemyAttack({ location.x,location.y}, { 40,40 }, { 0,0 }, 3, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 
 }
@@ -206,11 +206,11 @@ void BlackMage::Attack()
 {
 	if (move_left)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { -10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { -10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 	else
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { +10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { +10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 
 	state = BLACKMAGE_STATE::WAIT;
@@ -220,7 +220,7 @@ void BlackMage::MoveAttack()
 {
 	if (++time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { 0,+10 }, 10, 3, ATTACK_TYPE::EXPLOSION);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { 0,+10 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 }
 

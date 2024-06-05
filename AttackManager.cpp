@@ -13,6 +13,8 @@ AttackManager::AttackManager(class Stage* stage, class PlayerManager* player_man
     if (LoadDivGraph("image/Effect/explosion.png", 5, 5, 1, 24, 24, attack_image[ATTACK_TYPE::EXPLOSION]) == -1)throw("image/Effect/explosion.pngが読み込めません\n");
     if (LoadDivGraph("image/Effect/small_explosion.png", 4, 4, 1, 16, 16, attack_image[ATTACK_TYPE::SMALL_EXPLOSION]) == -1)throw("image/Effect/small_explosion.pngが読み込めません\n");
     if (LoadDivGraph("image/Effect/spin_slash.png", 2, 2, 1, 32, 24, attack_image[ATTACK_TYPE::SPIN_SLASH]) == -1)throw("image/Effect/spin_slash.pngが読み込めません\n");
+    if (LoadDivGraph("image/Effect/fireball.png", 4, 4, 1, 24, 24, attack_image[ATTACK_TYPE::FIRE_BALL]) == -1)throw("image/Effect/fireball.pngが読み込めません\n");
+
 
     OutputDebugString("AttackManagerコンストラクタ呼ばれました。\n");
 }
@@ -58,15 +60,15 @@ void AttackManager::Update(float delta_time)
 
 
 ////////敵の攻撃の追加/////////////
-void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type)
+void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    enemy_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type]);
+    enemy_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 ////////プレイヤーの攻撃の追加//////////////
-void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type)
+void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    player_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type]);
+    player_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 void AttackManager::SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager)
