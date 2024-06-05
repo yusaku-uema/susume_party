@@ -7,7 +7,7 @@
 #define SLIME_SIZE 20.0f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//歩く時の加速
-#define ATTACK_DISTANCE 38// 攻撃に移る距離
+#define ATTACK_DISTANCE 35// 攻撃に移る距離
 
 
 //-----------------------------------
@@ -30,7 +30,8 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 
 	//テスト 座標
 	this->location = { 600.0f, 300.0f };
-	this->radius = { SLIME_SIZE ,SLIME_SIZE };
+	this->radius = { SLIME_SIZE+10 ,SLIME_SIZE };
+	this->hp = 100;
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
@@ -54,35 +55,18 @@ Slime::~Slime()
 //-----------------------------------
 void Slime::Update()
 {
-	++time; //アニメーション時間更新
+	++animation_time; //アニメーション時間更新
 
 	switch (state)
 	{
 	case SLIME_STATE::NORMAL:
 		Move();
-
-		//画像切替処理
-		if (time % 12 == 0)
-		{
-			if (++image_type > 3)
-			{
-				image_type = 0;
-			}
-		}
-
 		break;
 	case SLIME_STATE::ATTACK:
 		Attack();
-
-		//画像切替処理
-		if (time % 12 == 0)
-		{
-			if (++image_type > 8)
-			{
-				image_type = 4;
-			}
-		}
-
+		break;
+	case SLIME_STATE::STANDBY:
+		Standby();
 		break;
 	}
 
@@ -110,6 +94,16 @@ void Slime::Draw() const
 //-----------------------------------
 void Slime::Move()
 {
+
+	//画像切替処理
+	if (animation_time % 12 == 0)
+	{
+		if (++image_type > 3)
+		{
+			image_type = 0;
+		}
+	}
+
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
 	location.y += speed.y;
 
@@ -150,24 +144,40 @@ void Slime::Move()
 void Slime::Attack()
 {
 	//当たり判定の処理を書く
-
-	if (move_left)
+	//画像切替処理
+	if (animation_time % 12 == 0)
 	{
-		//攻撃
-		attack_manager->AddEnemyAttack({ location.x - 10,location.y }, { 40,40 }, { 0,0 }, 0.5, 3, ATTACK_TYPE::EXPLOSION);
+		if (++image_type > 8)
+		{
+			if (player_manager->CheckHitDamage(this, 10))
+			{
+				state = SLIME_STATE::STANDBY;
+			}
+			image_type = 4;
+		}
 	}
-	else
-	{
-		//攻撃
-		attack_manager->AddEnemyAttack({ location.x + 10,location.y }, { 40,40}, { 0,0 }, 0.5, 3, ATTACK_TYPE::EXPLOSION);
-	}
-
 
 	if (CalculateDistance() > ATTACK_DISTANCE || stage->HitBlock(this))
 	{
 		state = SLIME_STATE::NORMAL;
 	}
 
+}
+
+void Slime::Standby()
+{
+	if (animation_time % 12 == 0)
+	{
+		if (++image_type > 11)
+		{
+			image_type = 9;
+		}
+	}
+
+	if (++time % 120 == 0)
+	{
+		state = SLIME_STATE::NORMAL;
+	}
 }
 
 

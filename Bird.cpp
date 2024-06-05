@@ -3,10 +3,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define SLIME_SIZE 30.0f//サイズ
+#define BIRD_SIZE 15.0f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
-#define UP_SPEED 0.1f //上昇、下降の速度
+#define UP_SPEED 0.25f //上昇、下降の速度
 #define FALL_MAX 7.5  //上昇、下降の上限
 #define SEARCH_RANGE 300 //交戦距離
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
@@ -44,8 +44,8 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	//テスト 座標
 	this->location = { 900.0f, 250.0f };
-	this->radius = { SLIME_SIZE ,SLIME_SIZE };
-
+	this->radius = { BIRD_SIZE ,BIRD_SIZE };
+	this->hp = 100;
 }
 
 //-----------------------------------
@@ -120,6 +120,9 @@ void Bird::Update()
 
 		break;
 	}
+
+	
+
 }
 
 //-----------------------------------
@@ -132,15 +135,8 @@ void Bird::Draw() const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
 
-		if (state == BIRD_STATE::STANDBY || state == BIRD_STATE::ATTACK)
-		{
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
-		}
-		else
-		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
-		}
-
+			//DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
@@ -154,7 +150,7 @@ void Bird::Move()
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (move_left) //フラグがTRUEの間、左に動き続ける。
+	if (!direction) //フラグがTRUEの間、左に動き続ける。
 	{
 		location.x -= speed.x;
 	}
@@ -220,18 +216,10 @@ void Bird::Standby()
 void Bird::Attack()
 {
 
-	if (lock_on)
-	{
-		 dx = player_location.x - location.x;
-		 dy = player_location.y - location.y;
-		distance = sqrtf(dx * dx + dy * dy);
-	}
-	else
-	{
-		float dx = player_manager->GetPlayerLocation().x - location.x;
-		float dy = player_manager->GetPlayerLocation().y - location.y;
-		distance = sqrtf(dx * dx + dy * dy);
-	}
+	
+	float dx = player_manager->GetPlayerLocation().x - location.x;
+	float dy = player_manager->GetPlayerLocation().y - location.y;
+	distance = sqrtf(dx * dx + dy * dy);
 
 	
 	
@@ -247,39 +235,19 @@ void Bird::Attack()
 	}
 	else
 	{
-
-		if (distance > 20 && lock_on == false)
+		if (distance > 5)
 		{
-			lock_on = true;
-			player_location = player_manager->GetPlayerLocation(); //座標更新
-		}
-		else if (distance > 5)  //ここに、プレイヤーに当たったか、壁に当たったのかを書くこと
-		{
-			location.x += (dx / distance) * FALL_MAX;
-			location.y += (dy / distance) * FALL_MAX;
-		}
-		else
-		{
-			attack_speed = 0;
-			state = BIRD_STATE::RETURN;
-			lock_on = false;
+			location.x += (dx / distance) * attack_speed;
+			location.y += (dy / distance) * attack_speed;
 		}
 	}
 
-	//if (direction)
-	//{
-	//	//攻撃
-	//	attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
-	//}
-	//else
-	//{
-	//	//攻撃
-	//	attack_manager->AddEnemyAttack(location, { SLIME_SIZE,SLIME_SIZE }, { 0,0 }, 0.1, 3, 1);
-	//}
+	CalculateDistance();
 
 	if (player_manager->CheckHitDamage(this, 10))
 	{
 		state = BIRD_STATE::RETURN;
+		attack_speed = 0;
 	}
 
 
