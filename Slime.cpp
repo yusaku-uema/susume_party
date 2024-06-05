@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include"Slime.h"
 
-#define SLIME_SIZE 20.0f//サイズ
+#define SLIME_SIZE 10.0f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//歩く時の加速
 #define ATTACK_DISTANCE 35// 攻撃に移る距離
@@ -30,7 +30,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 
 	//テスト 座標
 	this->location = { 600.0f, 300.0f };
-	this->radius = { SLIME_SIZE+10 ,SLIME_SIZE };
+	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
 	this->hp = 100;
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
@@ -83,8 +83,8 @@ void Slime::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xFFFFFF, TRUE);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 

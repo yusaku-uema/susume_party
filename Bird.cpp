@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define BIRD_SIZE 15.0f//サイズ
+#define BIRD_SIZE 9.5f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.25f //上昇、下降の速度
@@ -136,7 +136,7 @@ void Bird::Draw() const
 	{
 
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
-			//DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, 0x00ffff, FALSE);
+			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 

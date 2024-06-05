@@ -4,7 +4,7 @@
 #include <math.h>
 
 
-#define FAIRY_SIZE 64
+#define FAIRY_SIZE 10
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
@@ -99,16 +99,8 @@ void Fairy::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-
-		if (state == FAIRY_STATE::STANDBY || state == FAIRY_STATE::ATTACK)
-		{
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
-		}
-		else
-		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, !move_left);
-		}
-
+			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
@@ -121,7 +113,7 @@ void Fairy::Move()
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (move_left) //フラグがTRUEの間、左に動き続ける。
+	if (!direction) //フラグがTRUEの間、左に動き続ける。
 	{
 		location.x -= speed.x;
 	}

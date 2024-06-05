@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define BLACKMAGE_SIZE 50
+#define BLACKMAGE_SIZE 20
 #define WALK_SPEED 2.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
@@ -92,7 +92,8 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, blackmage_image[image_type], TRUE, !move_left);
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, blackmage_image[image_type], TRUE, !move_left);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
