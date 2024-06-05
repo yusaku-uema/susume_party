@@ -231,7 +231,7 @@ void Fairy::Attack()
 			}
 
 			//UŒ‚
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, 1);
+			attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION);
 
 			state = FAIRY_STATE::NORMAL;
 		}
