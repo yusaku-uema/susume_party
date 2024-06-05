@@ -7,7 +7,7 @@
 #define SCREEN_CENTER_Y 360
 
 #define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
-#define STAGE_BLOCK_NUM_X 120 //ステージの横ブロックの数
+#define STAGE_BLOCK_NUM_X 220 //ステージの横ブロックの数
 
 #define BLOCK_TYPE_NUM 8//ブロックの種類
 
