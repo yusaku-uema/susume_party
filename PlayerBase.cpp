@@ -115,12 +115,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION);
+            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION);
+            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
         }
     }
 
@@ -131,12 +131,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 1.0f);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL);
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 1.0f);
         }
     }
 
@@ -330,7 +330,7 @@ bool PlayerBase::HitDamege(BoxCollider* bc, int attack_power)
         if ((hp -= attack_power) <= 0)
         {
             hp = 0;
-            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION);
+            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 1.0f);
             is_set_casket = true;
             
         }

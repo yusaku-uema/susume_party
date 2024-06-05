@@ -60,15 +60,15 @@ void AttackManager::Update(float delta_time)
 
 
 ////////ìGÇÃçUåÇÇÃí«â¡/////////////
-void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type)
+void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    enemy_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type]);
+    enemy_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 ////////ÉvÉåÉCÉÑÅ[ÇÃçUåÇÇÃí«â¡//////////////
-void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type)
+void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    player_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type]);
+    player_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 void AttackManager::SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager)
