@@ -43,6 +43,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 Slime::~Slime()
 {
 	OutputDebugString("Slimeデストラクタが呼ばれました。\n");
+
 	for (int i = 0; i < 12; i++)
 	{
 		DeleteGraph(slime_image[i]);

@@ -1,12 +1,16 @@
 #pragma once
+#include <vector>
 
 #define ENEMY_NUM 5
-
 
 class EnemyManager
 {
 private:
-    class EnemyBase* enemy[ENEMY_NUM];
+    class Stage* stage;
+    class PlayerManager* player_manager;
+    class AttackManager* attack_manager;
+
+    std::vector<class EnemyBase*>enemy;
 
 public:
 

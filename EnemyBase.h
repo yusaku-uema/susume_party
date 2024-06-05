@@ -14,12 +14,11 @@ protected:
 	float distance; //‘Šè‚Æ‚Ì‹——£
 	float dx, dy; //•Ï‰»—Ê
 
-	bool move_left; //¶‚É“®‚­
 	bool direction; //Œü‚¢‚Ä‚¢‚é•ûŒü
 
 public:
 	EnemyBase();
-	~EnemyBase();
+	virtual ~EnemyBase();
 
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;

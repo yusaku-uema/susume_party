@@ -17,11 +17,13 @@
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
 PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
-player_job(player_job), is_dead(false), is_facing_left(false), image_change_time(0.0f),
-draw_image_num(0), is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
+player_job(player_job),image_change_time(0.0f),draw_image_num(0), 
+is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
     //ジャンプの記録をリセット
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
+
+    is_facing_left = false;
 
     if (LoadDivGraph("image/Player/casket.png", 5, 5, 1, 50, 50, player_image[2]) == -1)throw("image/Player/casket.pngが読み込めません\n");
 
@@ -131,12 +133,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //左に攻撃
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 1.0f);
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
         }
         else
         {
             //右に攻撃
-            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 1.0f);
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
         }
     }
 
@@ -330,7 +332,7 @@ bool PlayerBase::HitDamege(BoxCollider* bc, int attack_power)
         if ((hp -= attack_power) <= 0)
         {
             hp = 0;
-            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 1.0f);
+            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 5.0f);
             is_set_casket = true;
             
         }
@@ -352,11 +354,6 @@ void PlayerBase::SetJumpLog(bool is_jump)
 bool PlayerBase::GetJumpLog()const
 {
     return jump_log[0];
-}
-
-bool PlayerBase::GetIsDead()const//プレイヤーが死んでいるか？
-{
-    return is_dead;
 }
 
 bool PlayerBase::GetIsLeader()const
