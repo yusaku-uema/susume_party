@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define BLACKMAGE_SIZE 50
+#define BLACKMAGE_SIZE 20
 #define WALK_SPEED 2.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
@@ -34,7 +34,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	distance_moved = 0;
 
 
-	move_left = true;
+	is_facing_left = true;
 	direction = true;
 	lock_on = false;
 
@@ -92,7 +92,8 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, blackmage_image[image_type], TRUE, !move_left);
+		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1, 0, blackmage_image[image_type], TRUE, !is_facing_left);
+		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
@@ -113,7 +114,7 @@ void BlackMage::Move()
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (move_left) //フラグがTRUEの間、左に動き続ける。
+	if (is_facing_left) //フラグがTRUEの間、左に動き続ける。
 	{
 		location.x -= speed.x;
 	}
@@ -126,7 +127,7 @@ void BlackMage::Move()
 	{
 		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
 		{
-			if (move_left)
+			if (is_facing_left)
 			{
 				location.x += speed.x;
 			}
@@ -136,7 +137,7 @@ void BlackMage::Move()
 			}
 		}
 		roundtrips++;
-		move_left = !move_left;
+		is_facing_left = !is_facing_left;
 
 		if (roundtrips > 2)
 		{
@@ -203,7 +204,7 @@ void BlackMage::Wait()
 
 void BlackMage::Attack()
 {
-	if (move_left)
+	if (is_facing_left)
 	{
 		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { -10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}

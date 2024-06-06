@@ -14,6 +14,9 @@ protected:
     int attack_power;//攻撃力
     int defense_power;//守備力
 
+    bool is_dead;//死んでいるか？
+    bool is_facing_left; //左を向いているか？
+
     DATA speed;//スピード
 public:
     CharacterBase(DATA location, DATA size, int hp, int mp, int attack_power, int defense_power);
@@ -23,4 +26,5 @@ public:
 
     int GetHp()const;
     int GetMp()const;
+    bool GetIsDead()const;
 };

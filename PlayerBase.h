@@ -12,8 +12,6 @@ private:
 
     PLAYER_JOB player_job;
     
-    bool is_dead;//死んでいるか？
-    bool is_facing_left;//左を向いているか？
     bool is_leader;//キャラが先頭か？
     bool is_casket_fall;//棺桶が空から降っている間
     bool is_party_member;//パーティーが切り離されているか？
@@ -39,8 +37,6 @@ public:
     void Draw() const;
 
     bool HitDamege(BoxCollider* bc, int attack_power)override;//攻撃に当たった時の処理（HPを減らしたり...）
-
-    bool GetIsDead()const;//プレイヤーが死んでいるか？
 
     PLAYER_JOB GetPlayerJob()const;
 

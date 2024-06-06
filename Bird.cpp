@@ -3,10 +3,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define BIRD_SIZE 15.0f//サイズ
+#define BIRD_SIZE 9.5f//サイズ
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//移動時の加速
-#define UP_SPEED 0.25f //上昇、下降の速度
+#define UP_SPEED 0.1f //上昇、下降の速度
 #define FALL_MAX 7.5  //上昇、下降の上限
 #define SEARCH_RANGE 300 //交戦距離
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
@@ -33,6 +33,8 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	attack_speed = 0;
     distance_moved = 0;
+
+	angle = 0;
 
 	move_up = false;
 	move_left = true;
@@ -134,9 +136,16 @@ void Bird::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-
+		if (state== BIRD_STATE::ATTACK)
+		{
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
-			//DrawBox(location.x - radius.x, location.y - radius.y, location.x + radius.x, location.y + radius.y, 0x00ffff, FALSE);
+		}
+		else
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
+		}
+		    DrawFormatString(draw_location.x ,draw_location.y-100,0xffffff, "	角度 =%f", angle);
+			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 	}
 }
 
@@ -198,6 +207,7 @@ void Bird::Standby()
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
 			state = BIRD_STATE::ATTACK;
+			player_location = player_manager->GetPlayerLocation();
 			old_location = location;
 			time = 0;
 		}
@@ -216,12 +226,11 @@ void Bird::Standby()
 void Bird::Attack()
 {
 
-	
-	float dx = player_manager->GetPlayerLocation().x - location.x;
-	float dy = player_manager->GetPlayerLocation().y - location.y;
+	dx = player_location.x - location.x;
+	dy = player_location.y - location.y;
 	distance = sqrtf(dx * dx + dy * dy);
 
-	
+	angle = atan2(dy, dx) * 180 / M_PI;
 	
 	if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
 
@@ -240,6 +249,12 @@ void Bird::Attack()
 			location.x += (dx / distance) * attack_speed;
 			location.y += (dy / distance) * attack_speed;
 		}
+		else
+		{
+			state = BIRD_STATE::RETURN;
+			attack_speed = 0;
+		}
+		
 	}
 
 	CalculateDistance();
@@ -288,7 +303,6 @@ float Bird::CalculateDistance(){
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;
-
 	if (angle >= -45 && angle <= 85)
 	{
 		direction = true;
