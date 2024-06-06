@@ -12,6 +12,8 @@ AttackManager::AttackManager(class Stage* stage, class PlayerManager* player_man
     if (LoadDivGraph("image/Effect/big_explosion.png", 8, 8, 1, 48, 48, attack_image[ATTACK_TYPE::BIG_EXPLOSION]) == -1)throw("image/Effect/big_explosion.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
     if (LoadDivGraph("image/Effect/explosion.png", 5, 5, 1, 24, 24, attack_image[ATTACK_TYPE::EXPLOSION]) == -1)throw("image/Effect/explosion.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
     if (LoadDivGraph("image/Effect/small_explosion.png", 4, 4, 1, 16, 16, attack_image[ATTACK_TYPE::SMALL_EXPLOSION]) == -1)throw("image/Effect/small_explosion.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+    if (LoadDivGraph("image/Effect/slashing.png", 5, 5, 1, 64, 64, attack_image[ATTACK_TYPE::SLASHING]) == -1)throw("image/Effect/slashing.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+
     if (LoadDivGraph("image/Effect/spin_slash.png", 2, 2, 1, 32, 24, attack_image[ATTACK_TYPE::SPIN_SLASH]) == -1)throw("image/Effect/spin_slash.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
     if (LoadDivGraph("image/Effect/fireball.png", 4, 4, 1, 24, 24, attack_image[ATTACK_TYPE::FIRE_BALL]) == -1)throw("image/Effect/fireball.png‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
 
