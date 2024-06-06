@@ -14,7 +14,7 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	//空画像
 	if ((sky_image = LoadGraph("image/Stage/backbround4.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
 	//ブロック画像
-	if (LoadDivGraph("image/Stage/block7.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/block8.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
 	SetStage();
 	OutputDebugString("Stageコンストラクタ呼ばれました。\n");
