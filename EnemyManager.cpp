@@ -11,8 +11,6 @@
 //ボス
 #include"BlackMage.h"
 
-//#include"Stage.h"
-
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
 EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager):

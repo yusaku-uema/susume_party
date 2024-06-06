@@ -117,12 +117,12 @@ void PlayerBase::UpdateLeader()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, 0.1f, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
         }
     }
 

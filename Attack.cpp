@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Attack.h"
 
-#define IMAGE_CHANGE_TIME 0.08f
+#define IMAGE_CHANGE_TIME 0.1f
 
 Attack::Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
 	BoxCollider(location, size),duration_time(duration_time),speed(speed),attack_power(attack_power), attack_image(attack_image),
@@ -62,7 +62,7 @@ void Attack::Draw(float camera_work)const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y, image_size, 0, *(attack_image + draw_image_num), TRUE);
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 	}
 }
 
