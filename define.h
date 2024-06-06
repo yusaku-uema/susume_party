@@ -9,7 +9,7 @@
 #define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
 #define STAGE_BLOCK_NUM_X 220 //ステージの横ブロックの数
 
-#define BLOCK_TYPE_NUM 8//ブロックの種類
+#define BLOCK_TYPE_NUM 10//ブロックの種類
 
 #define BLOCK_SIZE 36.0f //ブロックのサイズ
 
