@@ -47,7 +47,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	//テスト 座標
 	this->location = { 900.0f, 250.0f };
 	this->radius = { BIRD_SIZE ,BIRD_SIZE };
-	this->hp = 100;
+	this->hp = 10;
 }
 
 //-----------------------------------
@@ -123,7 +123,10 @@ void Bird::Update()
 		break;
 	}
 
-	
+	if (hp <= 0)
+	{
+		is_dead = true;
+	}
 
 }
 

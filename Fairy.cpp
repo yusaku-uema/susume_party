@@ -47,7 +47,7 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 	//テスト 座標
 	this->location = { 1400.0f, 250.0f };
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
-	this->hp = 100;
+	this->hp = 10;
 
 }
 
@@ -86,6 +86,11 @@ void Fairy::Update()
 		break;
 	default:
 		break;
+	}
+
+	if (hp <= 0)
+	{
+		is_dead = true;
 	}
 }
 

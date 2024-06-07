@@ -32,6 +32,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	this->location = { 600.0f, 300.0f };
 	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
 	this->hp = 20;
+	this->is_dead = false;
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 }
@@ -69,6 +70,11 @@ void Slime::Update()
 	case SLIME_STATE::STANDBY:
 		Standby();
 		break;
+	}
+
+	if (hp <= 0)
+	{
+		is_dead = true;
 	}
 
 }

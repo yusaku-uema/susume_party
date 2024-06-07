@@ -32,7 +32,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	//テスト 座標
 	this->location = { 1400.0f, 50.0f };
 	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
-	this->hp = 100;
+	this->hp = 20;
 
 }
 
@@ -95,6 +95,12 @@ void Flower::Update()
 	default:
 		break;
 	}
+
+	if (hp <= 0)
+	{
+		is_dead = true;
+	}
+
 
 }
 

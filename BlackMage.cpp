@@ -84,6 +84,12 @@ void BlackMage::Update()
 	default:
 		break;
 	}
+
+	if (hp <= 0)
+	{
+		is_dead = true;
+	}
+
 }
 
 void BlackMage::Draw() const
