@@ -16,7 +16,7 @@ private:
     std::vector<class Block>block;
 
     int block_image[BLOCK_TYPE_NUM];//ƒuƒƒbƒN‰æ‘œ
-    int sky_image;//‹ó‰æ‘œ
+    int back_ground_image[4];//”wŒi‰æ‘œ
 
     float camera_work;
     float center_location_x;

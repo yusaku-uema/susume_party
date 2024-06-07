@@ -11,8 +11,9 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
-	//空画像
-	if ((sky_image = LoadGraph("image/Stage/backbround4.png")) == -1)throw("image/Stage/sky.pngが読み込めません\n");
+	//背景画像
+	if (LoadDivGraph("image/Stage/background.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
+
 	//ブロック画像
 	if (LoadDivGraph("image/Stage/block8.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
@@ -45,7 +46,7 @@ void Stage::SetStage()
 
 Stage::~Stage()
 {
-	DeleteGraph(sky_image);
+	for (int i = 0; i < 4; i++)DeleteGraph(back_ground_image[i]);
 	for (int i = 0; i < 2; i++)DeleteGraph(block_image[i]);
 
 	block.clear();
@@ -135,8 +136,13 @@ float Stage::GetCenterLocationX()const
 
 void Stage::Draw() const
 {
-	//空の画像表示
-	DrawGraph(0, 0, sky_image, FALSE);
+	//背景画像表示
+
+	for (int i = 0; i < 4; i++)//背景画像の表示
+	{
+		float back_ground_x = camera_work * (0.02 * (i + 1));
+		DrawGraph(back_ground_x, 0, back_ground_image[i], TRUE);
+	}
 
 	//ステージ（ブロックなど）表示
 	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
