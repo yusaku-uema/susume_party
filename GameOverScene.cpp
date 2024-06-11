@@ -101,7 +101,7 @@ SCENE_TYPE GameOverScene::Update(float delta_time)
 void GameOverScene::Draw() const
 {
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha); // アルファブレンドモードに設定して描画
-    DrawGraph(300, 50, gameover_image, TRUE); // ゲームオーバー文字の表示
+    DrawGraph(325, 50, gameover_image, TRUE); // ゲームオーバー文字の表示
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // ブレンドモードを元に戻す
 
     // メッセージ表示

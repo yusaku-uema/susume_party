@@ -12,10 +12,10 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//背景画像
-	if (LoadDivGraph("image/Stage/background.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/background2.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
 
 	//ブロック画像
-	if (LoadDivGraph("image/Stage/block8.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/block.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
 	SetStage();
 	OutputDebugString("Stageコンストラクタ呼ばれました。\n");
@@ -70,7 +70,7 @@ bool Stage::Update(float delta_time)
 		if (player_manager->Update(delta_time))return true;
 
 		//敵の更新
-		enemy_manager->Update(delta_time);
+		//enemy_manager->Update(delta_time);
 
 		//攻撃の更新
 		attack_manager->Update(delta_time);
@@ -151,7 +151,7 @@ void Stage::Draw() const
 	player_manager->Draw();
 
 	//敵の表示
-	enemy_manager->Draw();
+	//enemy_manager->Draw();
 
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();
