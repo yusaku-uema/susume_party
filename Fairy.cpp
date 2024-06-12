@@ -85,13 +85,26 @@ void Fairy::Update()
 	case FAIRY_STATE::STANDBY:
 		Standby();
 		break;
+	case FAIRY_STATE::DEATH:
+		if (animation_time % 12 == 0)
+		{
+			if (++image_type > 3)
+			{
+				is_dead = true;
+			}
+		}
 	default:
 		break;
 	}
 
-	if (hp <= 0)
+	if (death_animation == false)
 	{
-		is_dead = true;
+		if (hp <= 0)
+		{
+			state = FAIRY_STATE::DEATH;
+			death_animation = true;
+			image_type = 0;
+		}
 	}
 }
 
@@ -105,8 +118,17 @@ void Fairy::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
+
+		if (state == FAIRY_STATE::DEATH)
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+		}
+		else
+		{
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+
+		}
 	}
 }
 

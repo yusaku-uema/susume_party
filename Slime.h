@@ -7,7 +7,8 @@ enum class SLIME_STATE
 {
     NORMAL,   //’ÊíˆÚ“® 
     STANDBY, //‘Ò‹@B
-    ATTACK //UŒ‚
+    ATTACK, //UŒ‚
+    DEATH //€–S
 };
 
 class Slime : public EnemyBase
