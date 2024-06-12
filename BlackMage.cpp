@@ -13,7 +13,7 @@
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
 
 
-BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
+BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
 {
 	OutputDebugString("魔導士コンストラクタ呼ばれました。\n");
 
@@ -41,8 +41,9 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 
 	state = BLACKMAGE_STATE::WAIT;
 
-	//テスト 座標
-	this->location = { 2300,330 };
+	////テスト 座標
+	//this->location = { 2300,330 };
+	this->location = location;
 	this->radius = { BLACKMAGE_SIZE, BLACKMAGE_SIZE };
 
 
@@ -179,7 +180,7 @@ void BlackMage::Standby()
 
 	if (time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y}, { 40,40 }, { 0,0 }, 3, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y}, { 40,40 }, { 0,0 }, -1, 20, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 
 }

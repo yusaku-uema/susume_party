@@ -15,7 +15,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
+Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -25,6 +25,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	if (LoadDivGraph("image/Enemy/Bird.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
 	
+	//test_image = LoadGraph("image/Enemy/yaji.png");
 
 	image_type = 0;
 	animation_time = 0;
@@ -44,8 +45,11 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	state = BIRD_STATE::NORMAL;
 
-	//テスト 座標
-	this->location = { 900.0f, 250.0f };
+
+	this->location = location;
+
+	////テスト 座標
+	//this->location = { 900.0f, 250.0f };
 	this->radius = { BIRD_SIZE ,BIRD_SIZE };
 	this->hp = 10;
 }
@@ -141,11 +145,11 @@ void Bird::Draw() const
 	{
 		if (state== BIRD_STATE::ATTACK)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1,  ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
 		}
 		else
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
 		}
 		    DrawFormatString(draw_location.x ,draw_location.y-100,0xffffff, "	角度 =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
@@ -316,4 +320,6 @@ float Bird::CalculateDistance(){
 	}
 
 	return distance;
+
+
 }

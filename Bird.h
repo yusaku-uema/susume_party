@@ -26,7 +26,9 @@ private:
     int image_type; //使う画像の要素指定
     long int animation_time; //画像切替に使う変数
   
-   
+    int test_image;
+
+
 
     float distance_moved; //動いた距離
     float attack_speed; //攻撃速度
@@ -47,7 +49,7 @@ private:
 
 public:
 
-    Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
+    Bird(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location); //コンストラクタ
     ~Bird(); //デストラクタ
 
     void Update()override; //更新処理

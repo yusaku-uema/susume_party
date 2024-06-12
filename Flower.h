@@ -27,7 +27,7 @@ class Flower :
 
 public:
 
-    Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
+    Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location);
     ~Flower();
 
     void Update()override; //XVˆ—

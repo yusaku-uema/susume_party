@@ -11,7 +11,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
+Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -29,8 +29,9 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	state = FLOWER_STATE::STANDBY;
 
 
-	//テスト 座標
-	this->location = { 1400.0f, 50.0f };
+	////テスト 座標
+	//this->location = { 1400.0f, 50.0f };
+	this->location = location;
 	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
 	this->hp = 20;
 

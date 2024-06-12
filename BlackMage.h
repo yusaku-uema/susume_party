@@ -32,7 +32,7 @@ class BlackMage :
 
 public:
 
-    BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
+    BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location); //コンストラクタ
     ~BlackMage(); //デストラクタ
 
     void Update()override; //更新処理

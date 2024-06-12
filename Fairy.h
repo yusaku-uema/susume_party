@@ -38,7 +38,7 @@ private:
 
 public:
 
-    Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //コンストラクタ
+    Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location); //コンストラクタ
     ~Fairy(); //デストラクタ
 
     void Update()override; //更新処理

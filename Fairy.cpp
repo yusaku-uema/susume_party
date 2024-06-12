@@ -17,7 +17,7 @@
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase()
+Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
@@ -44,8 +44,9 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 
 	state = FAIRY_STATE::NORMAL;
 
-	//テスト 座標
-	this->location = { 1400.0f, 250.0f };
+	////テスト 座標
+	//this->location = { 1400.0f, 250.0f };
+	this->location = location;
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
 	this->hp = 10;
 
