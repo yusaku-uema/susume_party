@@ -11,7 +11,8 @@ enum class BIRD_STATE
     NORMAL,   //通常移動 
     ATTACK, //攻撃
     STANDBY, //待機。
-    RETURN //攻撃後、攻撃する前の座標に戻る
+    RETURN, //攻撃後、攻撃する前の座標に戻る
+    DEATH //死亡
 };
 
 

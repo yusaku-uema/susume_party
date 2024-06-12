@@ -24,7 +24,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	OutputDebugString("Birdコンストラクタ呼ばれました。\n");
 
 	if (LoadDivGraph("image/Enemy/Bird.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
-	
+
 	//test_image = LoadGraph("image/Enemy/yaji.png");
 
 	image_type = 0;
@@ -33,7 +33,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	time = 0;
 
 	attack_speed = 0;
-    distance_moved = 0;
+	distance_moved = 0;
 
 	angle = 0;
 
@@ -125,11 +125,26 @@ void Bird::Update()
 		}
 
 		break;
-	}
 
-	if (hp <= 0)
+	case BIRD_STATE::DEATH:
+		if (animation_time % 12 == 0)
+		{
+			if (++image_type > 3)
+			{
+				is_dead = true;
+			}
+		}
+
+		break;
+	}
+	if (death_animation == false)
 	{
-		is_dead = true;
+		if (hp <= 0)
+		{
+			state = BIRD_STATE::DEATH;
+			death_animation = true;
+			image_type = 0;
+		}
 	}
 
 }
@@ -139,20 +154,29 @@ void Bird::Update()
 //-----------------------------------
 void Bird::Draw() const
 {
-	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
+	DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		if (state== BIRD_STATE::ATTACK)
+
+		if (state == BIRD_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1,  ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
-		}
-		    DrawFormatString(draw_location.x ,draw_location.y-100,0xffffff, "	角度 =%f", angle);
+
+			if (state == BIRD_STATE::ATTACK)
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
+			}
+			else
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
+			}
+			DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+		}
 	}
 }
 
@@ -238,7 +262,7 @@ void Bird::Attack()
 	distance = sqrtf(dx * dx + dy * dy);
 
 	angle = atan2(dy, dx) * 180 / M_PI;
-	
+
 	if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
 
 
@@ -261,7 +285,7 @@ void Bird::Attack()
 			state = BIRD_STATE::RETURN;
 			attack_speed = 0;
 		}
-		
+
 	}
 
 	CalculateDistance();
@@ -304,7 +328,7 @@ void Bird::Retur()
 //-----------------------------------
 // 先頭にいるプレイヤーとの当たり判定
 //-----------------------------------
-float Bird::CalculateDistance(){
+float Bird::CalculateDistance() {
 	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
 	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
