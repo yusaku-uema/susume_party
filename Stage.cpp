@@ -70,7 +70,7 @@ bool Stage::Update(float delta_time)
 		if (player_manager->Update(delta_time))return true;
 
 		//“G‚ÌXV
-		//enemy_manager->Update(delta_time);
+		enemy_manager->Update(delta_time);
 
 		//UŒ‚‚ÌXV
 		attack_manager->Update(delta_time);
@@ -151,7 +151,7 @@ void Stage::Draw() const
 	player_manager->Draw();
 
 	//“G‚Ì•\Ž¦
-	//enemy_manager->Draw();
+	enemy_manager->Draw();
 
 	//UŒ‚i–‚–@‚Ì’eAŽaŒ‚AAj•\Ž¦
 	attack_manager->Draw();
