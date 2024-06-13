@@ -162,7 +162,7 @@ void Stage::Draw() const
 	//当たり判定のないブロックの表示
 	for (int i = 0; i < back_ground_block.size(); i++)
 	{
-		DrawRotaGraph(back_ground_block[i].location.x, back_ground_block[i].location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
+		DrawRotaGraph(back_ground_block[i].location.x + camera_work, back_ground_block[i].location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
 	}
 
 	//プレイヤー表示
