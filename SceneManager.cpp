@@ -18,6 +18,9 @@ SceneManager::~SceneManager()
 //シーンマネジャー機能:初期化処理
 void SceneManager::Initialize()
 {
+
+	SetWindowIconID(01);
+
 	//ウィンドウのタイトルを設定
 	SetMainWindowText("進め!!パーティ");
 

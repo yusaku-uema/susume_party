@@ -161,7 +161,7 @@ void Bird::Draw() const
 
 		if (state == BIRD_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, 5, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
