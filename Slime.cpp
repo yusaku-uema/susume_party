@@ -71,11 +71,25 @@ void Slime::Update()
 	case SLIME_STATE::STANDBY:
 		Standby();
 		break;
+	case SLIME_STATE::DEATH:
+		//‰æ‘œØ‘Öˆ—
+		if (time % 12 == 0)
+		{
+			if (++image_type > 3)
+			{
+				is_dead = true;
+			}
+		}
 	}
 
-	if (hp <= 0)
+	if (death_animation == false)
 	{
-		is_dead = true;
+		if (hp <= 0)
+		{
+			state = SLIME_STATE::DEATH;
+			death_animation = true;
+			image_type = 0;
+		}
 	}
 
 }
@@ -90,9 +104,18 @@ void Slime::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
-		DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	hp =%d", hp);
-		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+		if (state == SLIME_STATE::DEATH)
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+		}
+		else
+		{
+			DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	hp =%d", hp);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
+			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+		}
+
+		
 	}
 }
 

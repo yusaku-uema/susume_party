@@ -7,7 +7,8 @@ enum class FAIRY_STATE
 {
     NORMAL,   //通常移動 
     ATTACK, //攻撃
-    STANDBY //待機。
+    STANDBY, //待機。
+    DEATH //死亡
 };
 
 
