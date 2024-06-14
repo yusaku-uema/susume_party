@@ -48,6 +48,9 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
+	move_se = LoadSoundMem("bgm/MoveCursor.mp3");
+	decision_se = LoadSoundMem("bgm/click.mp3");
+
 	// キャラクター画像の分割読み込み
 	LoadDivGraph("image/Player/Monk/walk.png", 5, 5, 1, 50, 50, characterImages[0]);
 	LoadDivGraph("image/Player/Wizard/walk.png", 5, 5, 1, 50, 50, characterImages[1]);
@@ -88,18 +91,34 @@ void TitleScene::Finalize()
 		}
 	}
 
-	for (int i = 0; i < MENU_NUM; i++)
+	// 背景画像の削除
+	for (int i = 0; i < 2; ++i)
 	{
-		for (int j = 0; j < 2; j++)DeleteGraph(menu_image[i][j]);
+		DeleteGraph(background_images[i]);
 	}
 
-	for (int i = 0; i < 8; i++)DeleteGraph(set_menu_image[i]);
+	// メニュー画像の削除
+	for (int i = 0; i < MENU_NUM; i++)
+	{
+		for (int j = 0; j < 2; j++) DeleteGraph(menu_image[i][j]);
+	}
 
+	// その他の画像の削除
+	for (int i = 0; i < 8; i++) DeleteGraph(set_menu_image[i]);
+	DeleteGraph(logo_image);
+
+	DeleteSoundMem(move_se);
+	DeleteSoundMem(decision_se);
 }
 
 SCENE_TYPE TitleScene::Update(float delta_time)
 {
 	Key* key;
+
+	if (CheckSoundMem(bgm) != 1)
+	{   //SEが流れていなかったら再生
+		PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
+	}
 
 	// アニメーションのフレームを更新
 	for (int i = 0; i < CHARACTER_COUNT; ++i)
@@ -111,6 +130,7 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 			currentFrames[i] = (currentFrames[i] + 1) % 4; // フレーム数に合わせてループ
 		}
 	}
+
 
 	// スクロール
 	scrollX -= SCROLL_SPEED;
@@ -135,36 +155,52 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 		isMenuScrolling = false; // メニューのスクロールが終了したことをフラグで管理
 	}
 
-
+	// Aボタンが押されたら
+	if (key->KeyDown(KEY_TYPE::A))
+	{
+		// ロゴとメニューのスクロールをスキップ
+		logoX = 0;
+		menuX = 640;
+	}
 
 	//ボタンが押されたら
 	if (!isMenuScrolling)
 	{
 		if (credit == false && help == false)
 		{
-			
-			if (key->KeyDown(KEY_TYPE::B) && select_menu == 0)
+
+			if (key->KeyDown(KEY_TYPE::A) && select_menu == 0)
 			{
+				PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
+
+				// SE の再生が終了するまで待機
+				while (CheckSoundMem(decision_se) == 1) {}
+
 				return SCENE_TYPE::MAIN;
 			}
-			else if (key->KeyDown(KEY_TYPE::B) && select_menu == 1)
+
+			else if (key->KeyDown(KEY_TYPE::A) && select_menu == 1)
 			{
+				PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 				help = true;
 			}
 
-			else if (key->KeyDown(KEY_TYPE::B) && select_menu == 2)
+			else if (key->KeyDown(KEY_TYPE::A) && select_menu == 2)
 			{
+				PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 				credit = true;
 			}
 
-			else if (key->KeyDown(KEY_TYPE::B) && select_menu == 3)
+			else if (key->KeyDown(KEY_TYPE::A) && select_menu == 3)
 			{
+				PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 				//DXライブラリの使用を終了する
 				DxLib_End();
 			}
 
-			else if (key->KeyDown(KEY_TYPE::A))
+			else if (key->KeyDown(KEY_TYPE::B))
 			{
+				PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 				can_scene_change = TRUE;
 			}
 
@@ -176,11 +212,13 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 			{
 				if (key->GetStickAngle(KEY_TYPE::L).x > 0)
 				{
+					PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 					if (++help_menu == 3)help_menu = 0;
 					input_time = 1;
 				}
 				else if (key->GetStickAngle(KEY_TYPE::L).x < 0)
 				{
+					PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 					if (--help_menu < 0)help_menu = 2;
 					input_time = 1;
 				}
@@ -210,11 +248,13 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 			{
 				if ((key->GetStickAngle(KEY_TYPE::L).y > 0) || (key->KeyDown(KEY_TYPE::DOWN)))
 				{
+					PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 					if (++select_menu == MENU_NUM)select_menu = 0;
 					input_time = 1;
 				}
 				else if ((key->GetStickAngle(KEY_TYPE::L).y < 0) || (key->KeyDown(KEY_TYPE::UP)))
 				{
+					PlaySoundMem(move_se, DX_PLAYTYPE_BACK, TRUE); //SE再生
 					if (--select_menu < 0)select_menu = MENU_NUM - 1;
 					input_time = 1;
 				}
@@ -222,6 +262,7 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 
 		}
 	}
+
 
 	return GetNowScene(); // 現在のシーンタイプを返す
 }
