@@ -7,7 +7,7 @@ class PlayerBase : public CharacterBase
 {
 protected:
     int player_image[3][5];
-
+    int weapon_image;
 private:
 
     PLAYER_JOB player_job;

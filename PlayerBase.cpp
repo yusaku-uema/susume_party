@@ -37,6 +37,8 @@ PlayerBase::~PlayerBase()
         for (int j = 0; j < 5; j++)DeleteGraph(player_image[i][j]);
     }
 
+    DeleteGraph(weapon_image);
+
     OutputDebugString("PlayerBaseデストラクタが呼ばれました。\n");
 }
 
@@ -370,10 +372,16 @@ void PlayerBase::Draw() const
 {
     DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
-    int draw_image_type = (speed.x == 0.0f);
+    int draw_image_type = (speed.x == 0.0f); //歩いているときの画像
     if (is_dead)draw_image_type = 2;
+    DATA weapon_location = { 25.0f, 10.0f };//武器の座標
+    
+    weapon_location.y -= draw_image_num;
+    if (is_facing_left)weapon_location.x = -weapon_location.x;
 
     DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
+    DrawRotaGraph(draw_location.x - weapon_location.x, draw_location.y - weapon_location.y, 2.0, 0, weapon_image, TRUE, is_facing_left);
+
     //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 
     //DrawRotaGraph(stage->GetCameraWork() + (), 500, 1, 0, player_image[0][0], TRUE);
