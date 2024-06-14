@@ -393,8 +393,8 @@ void PlayerBase::Draw() const
     DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
 
     //ïêäÌï\é¶
-    DrawRotaGraph2(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, weapon_center.x, weapon_center.y, 2.0, (PI / 180) * 0, weapon_image, TRUE, is_facing_left);
-    DrawCircle(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, 3, 0xf00ff0, TRUE);
+    if(!is_dead)DrawRotaGraph2(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, weapon_center.x, weapon_center.y, 2.0, (PI / 180) * 0, weapon_image, TRUE, is_facing_left);
+    //DrawCircle(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, 3, 0xf00ff0, TRUE);
 
     //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 

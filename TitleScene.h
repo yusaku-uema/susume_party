@@ -17,6 +17,8 @@ private:
     static int scrollX; // 背景のスクロール量を静的メンバーとして定義
     static int logoX; // ロゴのX座標を静的メンバーとして定義
     static int background_images[2]; // 背景画像のハンドルを静的メンバーとして定義
+    static int menuX; // 
+
     int logo_image;//タイトルロゴ
 
     int menu_image[MENU_NUM][2];//メニュー画像
@@ -33,8 +35,12 @@ private:
     bool help;//ヘルプ画面に行くか
     bool credit;//クレジット
     bool isMenuScrolling;
+    
+  
+    int bgm; //BGM
+    int move_se; //動くときのSE
 
-    static int menuX; // 
+    int decision_se;//決定
 
 
  
