@@ -25,7 +25,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	if (LoadDivGraph("image/Enemy/Bird.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
 
-	//test_image = LoadGraph("image/Enemy/yaji.png");
+	test_image = LoadGraph("image/Enemy/yaji.png");
 
 	image_type = 0;
 	animation_time = 0;
@@ -161,18 +161,18 @@ void Bird::Draw() const
 
 		if (state == BIRD_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, 5, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
 
 			if (state == BIRD_STATE::ATTACK)
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle , test_image, TRUE, FALSE);
 			}
 			else
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, ((M_PI / 180) * 0) + 90, bird_image[image_type], TRUE, false);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle , test_image, TRUE, FALSE);
 			}
 			DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);

@@ -6,6 +6,12 @@
 #include"EnemyManager.h"
 #include"AttackManager.h"
 
+struct BACK_GROUND_BLOCK
+{
+    DATA location;
+    int type;
+};
+
 class Stage
 {
 private:
@@ -14,6 +20,7 @@ private:
     class AttackManager* attack_manager;
     
     std::vector<class Block>block;
+    std::vector<BACK_GROUND_BLOCK>back_ground_block;
 
     int block_image[BLOCK_TYPE_NUM];//ƒuƒƒbƒN‰æ‘œ
     int back_ground_image[4];//”wŒi‰æ‘œ

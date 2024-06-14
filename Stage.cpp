@@ -8,11 +8,12 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	attack_manager = new AttackManager(this, player_manager, enemy_manager);
 	player_manager = new PlayerManager(this, attack_manager, ui);
 	//enemy_manager = new EnemyManager(this, player_manager, attack_manager);
-	enemy_manager = new EnemyManager(this, player_manager, attack_manager, 0, {500, 300});
+	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
+	enemy_manager->SpawnEnemy(0, { 500,400 }); //敵呼び出し、（呼び出す敵、スポーンさせたい座標）
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//背景画像
-	if (LoadDivGraph("image/Stage/background2.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
+	if (LoadDivGraph("image/Stage/background.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
 
 	//ブロック画像
 	if (LoadDivGraph("image/Stage/block.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
@@ -26,7 +27,7 @@ void Stage::SetStage()
 	FILE* stage_data = nullptr;//ステージ読み込み
 
 	errno_t error_stage_data = fopen_s(&stage_data, "data/stage.txt", "r");
-	if (error_stage_data != 0)throw("treasure_dataが読み込めません\n");//エラーチェック
+	if (error_stage_data != 0)throw("data/stage.txtが読み込めません\n");//エラーチェック
 	
 	block.reserve(3000);//ブロックのメモリの確保
 
@@ -35,9 +36,18 @@ void Stage::SetStage()
 	{
 		for (int j = 0; j < STAGE_BLOCK_NUM_X; j++)//横の繰り返し
 		{
+			//ブロックの種類
 			int block_type;
-			fscanf_s(stage_data, "%d", &block_type);//ブロックの種類を取得
-			if(block_type !=-1)block.emplace_back(DATA{ j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) }, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);//ブロックの生成
+			fscanf_s(stage_data, "%d", &block_type);
+
+			//ブロックの生成
+			if (block_type != -1)
+			{
+				DATA location = { j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
+
+				if (block_type <= 4) block.emplace_back(location, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);
+				else back_ground_block.emplace_back(BACK_GROUND_BLOCK{ location, block_type });
+			}
 		}
 	}
 	block.shrink_to_fit();//必要ないブロックのメモリの解放
@@ -51,6 +61,9 @@ Stage::~Stage()
 
 	block.clear();
 	block.shrink_to_fit();
+
+	back_ground_block.clear();
+	back_ground_block.shrink_to_fit();
 
 	delete player_manager;
 	delete enemy_manager;
@@ -138,14 +151,20 @@ void Stage::Draw() const
 {
 	//背景画像表示
 
-	for (int i = 0; i < 4; i++)//背景画像の表示
+	for (int i = 0; i < 4; i++)
 	{
 		float back_ground_x = camera_work * (0.02 * (i + 1));
 		DrawGraph(back_ground_x, 0, back_ground_image[i], TRUE);
 	}
 
-	//ステージ（ブロックなど）表示
+	//ブロック表示
 	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
+
+	//当たり判定のないブロックの表示
+	for (int i = 0; i < back_ground_block.size(); i++)
+	{
+		DrawRotaGraph(back_ground_block[i].location.x + camera_work, back_ground_block[i].location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
+	}
 
 	//プレイヤー表示
 	player_manager->Draw();
@@ -156,6 +175,7 @@ void Stage::Draw() const
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();
 
-	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
-	DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
+	//DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
+	//DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
+	DrawFormatString(0, 0, 0xffffff, "%d = block_num", block.size());
 }
