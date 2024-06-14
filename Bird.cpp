@@ -171,13 +171,13 @@ void Bird::Draw() const
 		else
 		{
 
-			if (state == BIRD_STATE::ATTACK)
+			if (state == BIRD_STATE::ATTACK|| state == BIRD_STATE::STANDBY)
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle, test_image, TRUE, FALSE);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
 			}
 			else
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle, test_image, TRUE, FALSE);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
 			}
 			DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	Šp“x =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
@@ -263,6 +263,8 @@ void Bird::Standby()
 void Bird::Attack()
 {
 
+	CalculateDistance();
+
 	dx = player_location.x - location.x;
 	dy = player_location.y - location.y;
 	distance = sqrtf(dx * dx + dy * dy);
@@ -294,7 +296,6 @@ void Bird::Attack()
 
 	}
 
-	CalculateDistance();
 
 	if (player_manager->CheckHitDamage(this, 10))
 	{
