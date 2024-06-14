@@ -60,6 +60,12 @@ void Slime::Update()
 {
 	++animation_time; //アニメーション時間更新
 
+
+	if (ScopeoOfActivity(stage->GetCameraWork()))
+	{
+		move_left = !move_left;
+	}
+
 	switch (state)
 	{
 	case SLIME_STATE::NORMAL:

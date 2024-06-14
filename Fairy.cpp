@@ -74,6 +74,12 @@ void Fairy::Update()
 	//アニメーション時間更新
 	++animation_time;
 
+	if (ScopeoOfActivity(stage->GetCameraWork()))
+	{
+		move_left = !move_left;
+	}
+
+
 	switch (state)
 	{
 	case FAIRY_STATE::NORMAL:
@@ -141,7 +147,7 @@ void Fairy::Move()
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (!direction) //フラグがTRUEの間、左に動き続ける。
+	if (move_left) //フラグがTRUEの間、左に動き続ける。
 	{
 		location.x -= speed.x;
 	}

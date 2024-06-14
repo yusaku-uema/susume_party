@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include "EnemyBase.h"
 
-#define SCOPE_OF_ACTIVITY 500
+#define SCOPE_OF_ACTIVITY 1000
 
 EnemyBase::EnemyBase():CharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 5)
 {
