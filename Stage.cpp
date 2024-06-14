@@ -9,7 +9,7 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	player_manager = new PlayerManager(this, attack_manager, ui);
 	//enemy_manager = new EnemyManager(this, player_manager, attack_manager);
 	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
-	enemy_manager->SpawnEnemy(0, { 500,400 }); //敵呼び出し、（呼び出す敵、スポーンさせたい座標）
+	enemy_manager->SpawnEnemy(0, { 500,300 }); //敵呼び出し、（呼び出す敵、スポーンさせたい座標）
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//背景画像

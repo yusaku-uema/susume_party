@@ -18,12 +18,16 @@ protected:
 	bool direction; //向いている方向
 	bool death_animation; //死亡アニメーション開始
 
+	DATA spawn_location; //スポーンした座標を覚える
+
 public:
 	EnemyBase();
 	virtual ~EnemyBase();
 
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;
+
+	bool ScopeoOfActivity(float camera_work); //活動範囲外に出ていないのか
 
 	bool HitDamege(BoxCollider* bc, int attack_power)override;
 
