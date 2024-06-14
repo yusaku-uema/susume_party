@@ -2,6 +2,8 @@
 #include"Stage.h"
 #include"Key.h"
 
+#define PI       3.14159265358979323846   // pi
+
 #define PLAYER_SIZE_X 30.0f//サイズ
 #define PLAYER_SIZE_Y 50.0f//サイズ
 
@@ -374,13 +376,25 @@ void PlayerBase::Draw() const
 
     int draw_image_type = (speed.x == 0.0f); //歩いているときの画像
     if (is_dead)draw_image_type = 2;
-    DATA weapon_location = { 25.0f, 10.0f };//武器の座標
+
+    DATA weapon_location = { -8.0f, 8.0f };//武器の座標
+    DATA weapon_center = { 25.0f, 25.0f };//武器の中心点
     
     weapon_location.y -= draw_image_num;
-    if (is_facing_left)weapon_location.x = -weapon_location.x;
+    if (is_facing_left)
+    {
+        weapon_location.x = -weapon_location.x;
+        weapon_center.x = 7.0f;
+    }
 
+    int angle = draw_image_num * 90;
+
+    //プレイヤー表示
     DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
-    DrawRotaGraph(draw_location.x - weapon_location.x, draw_location.y - weapon_location.y, 2.0, 0, weapon_image, TRUE, is_facing_left);
+
+    //武器表示
+    DrawRotaGraph2(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, weapon_center.x, weapon_center.y, 2.0, (PI / 180) * angle, weapon_image, TRUE, is_facing_left);
+    DrawCircle(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, 3, 0xf00ff0, TRUE);
 
     //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 
