@@ -26,7 +26,7 @@ private:
 
 public:
 
-    EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager,int enemy_type, DATA location); //呼び出したい敵と座標を
+    EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //呼び出したい敵と座標を
     ~EnemyManager();
 
     void Update(float delta_time);

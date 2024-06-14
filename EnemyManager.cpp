@@ -13,10 +13,9 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, int enemy_type, DATA location):
+EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager):
     stage(stage), player_manager(player_manager), attack_manager(attack_manager)
 {
-    SpawnEnemy(enemy_type,location);
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
 }
 
