@@ -14,6 +14,7 @@ private:
     int attack_power;//UŒ‚—Í
     DATA speed;//ƒXƒs[ƒh
     float duration_time;//UŒ‚Œp‘±ŠÔ
+    int angle;
 
 public:
     Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int* attack_image, int image_num, float image_size);
@@ -21,6 +22,8 @@ public:
 
     bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
+
+    void TrackingCharacter(BoxCollider* bc);
 
     int GetAttackPower()const;
 };
