@@ -1,10 +1,13 @@
 #include"DxLib.h"
 #include"Attack.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
+#define ATTACK_SPEED 3
 #define IMAGE_CHANGE_TIME 0.1f
 
 Attack::Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
-	BoxCollider(location, size),duration_time(duration_time),speed(speed),attack_power(attack_power), attack_image(attack_image),
+	BoxCollider(location, size), duration_time(duration_time), speed(speed), attack_power(attack_power), attack_image(attack_image),
 	image_num(image_num), image_size(image_size), draw_image_num(0), image_change_time(0.0f)
 {
 	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
@@ -15,7 +18,7 @@ Attack::~Attack()
 	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
 }
 
-bool Attack::Update(float delta_time,class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager)
+bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager)
 {
 	location.x += speed.x;
 	location.y += speed.y;
@@ -57,13 +60,34 @@ bool Attack::Update(float delta_time,class Stage* stage, class PlayerManager* pl
 
 void Attack::Draw(float camera_work)const
 {
-	DATA draw_location = { location.x + camera_work, location.y};
+	DATA draw_location = { location.x + camera_work, location.y };
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y, image_size, 0, *(attack_image + draw_image_num), TRUE);
 		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 	}
+}
+
+DATA Attack::TrackingCharacter(BoxCollider* target_location, BoxCollider* my_location)
+{
+	//追跡者の座標取得
+	float x = my_location->GetLocation().x; 
+	float y = my_location->GetLocation().y;
+
+	float dx = target_location->GetLocation().x - my_location->GetLocation().x;
+	float dy = target_location->GetLocation().y - my_location->GetLocation().y;
+	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+	float angle = atan2(dy, dx) * 180 / M_PI;
+
+	x += (dx / distance) * ATTACK_SPEED;
+	y += (dy / distance) * ATTACK_SPEED;
+	
+	DATA location = { x,y };
+
+	return location;
+
 }
 
 int Attack::GetAttackPower()const

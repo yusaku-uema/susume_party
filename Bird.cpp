@@ -38,7 +38,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	angle = 0;
 
 	move_up = false;
-	move_left = true;
+	move_left = false;
 	direction = true;
 	lock_on = false;
 
@@ -47,6 +47,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 
 	this->location = location;
+	spawn_location = location;
 
 	////テスト 座標
 	//this->location = { 900.0f, 250.0f };
@@ -75,6 +76,10 @@ void Bird::Update()
 	//アニメーション時間更新
 	++animation_time;
 
+	if (ScopeoOfActivity(stage->GetCameraWork()))
+	{
+		move_left=!move_left;
+	}
 	switch (state)
 	{
 	case BIRD_STATE::NORMAL: //通常移動
@@ -166,13 +171,13 @@ void Bird::Draw() const
 		else
 		{
 
-			if (state == BIRD_STATE::ATTACK)
+			if (state == BIRD_STATE::ATTACK|| state == BIRD_STATE::STANDBY)
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle , test_image, TRUE, FALSE);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
 			}
 			else
 			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, (M_PI / 180) * angle , test_image, TRUE, FALSE);
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
 			}
 			DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
@@ -190,7 +195,7 @@ void Bird::Move()
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
 
-	if (!direction) //フラグがTRUEの間、左に動き続ける。
+	if (move_left)
 	{
 		location.x -= speed.x;
 	}
@@ -203,6 +208,7 @@ void Bird::Move()
 	{
 		while (stage->HitBlock(this)) //進行方向とは逆に進み当たり判定から脱出
 		{
+
 			if (move_left)
 			{
 				location.x += speed.x;
@@ -257,6 +263,8 @@ void Bird::Standby()
 void Bird::Attack()
 {
 
+	CalculateDistance();
+
 	dx = player_location.x - location.x;
 	dy = player_location.y - location.y;
 	distance = sqrtf(dx * dx + dy * dy);
@@ -288,7 +296,6 @@ void Bird::Attack()
 
 	}
 
-	CalculateDistance();
 
 	if (player_manager->CheckHitDamage(this, 10))
 	{

@@ -9,7 +9,13 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	player_manager = new PlayerManager(this, attack_manager, ui);
 	//enemy_manager = new EnemyManager(this, player_manager, attack_manager);
 	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
-	enemy_manager->SpawnEnemy(0, { 500,400 }); //敵呼び出し、（呼び出す敵、スポーンさせたい座標）
+	enemy_manager->SpawnEnemy(0, { 500,300 }); //敵呼び出し、（呼び出す敵、スポーンさせたい座標）
+
+	for (float i = 0; i < 10; i++)
+	{
+		enemy_manager->SpawnEnemy(0, { 100 + (i*250),300 });
+	}
+	
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//背景画像
@@ -175,7 +181,7 @@ void Stage::Draw() const
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();
 
-	//DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
-	//DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
-	DrawFormatString(0, 0, 0xffffff, "%d = block_num", block.size());
+	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
+	DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
+	//DrawFormatString(0, 0, 0xffffff, "%d = block_num", block.size());
 }
