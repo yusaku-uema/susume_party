@@ -69,14 +69,14 @@ void Attack::Draw(float camera_work)const
 	}
 }
 
-DATA Attack::TrackingCharacter(BoxCollider* target_location, BoxCollider* my_location)
+DATA Attack::TrackingCharacter(BoxCollider* target_location)
 {
 	//追跡者の座標取得
-	float x = my_location->GetLocation().x; 
-	float y = my_location->GetLocation().y;
+	float x = location.x; 
+	float y = location.y;
 
-	float dx = target_location->GetLocation().x - my_location->GetLocation().x;
-	float dy = target_location->GetLocation().y - my_location->GetLocation().y;
+	float dx = target_location->GetLocation().x - location.x;
+	float dy = target_location->GetLocation().y - location.y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

@@ -31,6 +31,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	////テスト 座標
 	//this->location = { 600.0f, 300.0f };
 	this->location = location;
+	this->spawn_location = location;
 	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
 	this->hp = 20;
 	this->is_dead = false;
