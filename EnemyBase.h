@@ -1,5 +1,6 @@
 #pragma once
 #include"PlayerManager.h"
+#include"Stage.h"
 
 class EnemyBase : public CharacterBase
 {
@@ -26,6 +27,8 @@ public:
 
 	virtual void Update() = 0;
 	virtual void Draw()const = 0;
+
+	virtual void DrawHPBar(const int) const;
 
 	bool ScopeoOfActivity(float camera_work); //Šˆ“®”ÍˆÍŠO‚Éo‚Ä‚¢‚È‚¢‚Ì‚©
 

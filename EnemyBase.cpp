@@ -1,7 +1,11 @@
 #include"DxLib.h"
 #include "EnemyBase.h"
 
+
 #define SCOPE_OF_ACTIVITY 1000
+#define HP_BAR 60
+#define HP_BAR_Y1 20
+#define HP_BAR_Y2 10
 
 EnemyBase::EnemyBase():CharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 5)
 {
@@ -10,6 +14,15 @@ EnemyBase::EnemyBase():CharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 
     if (LoadDivGraph("image/Effect/smokesand.png", 4, 4, 1, 16, 16, death_effects) == -1)throw("死亡エフェクト\n");
 }
 
+EnemyBase::~EnemyBase()
+{
+    OutputDebugString("EnemyBaseデストラクタ呼ばれました。\n");
+    for (int i = 0; i < 4; i++)
+    {
+        DeleteGraph(death_effects[i]);
+    }
+  
+}
 bool EnemyBase::ScopeoOfActivity(float camera_work)
 {
 
@@ -33,12 +46,25 @@ bool EnemyBase::HitDamege(BoxCollider* bc, int attack_power)
     return false;
 }
 
-EnemyBase::~EnemyBase()
+void EnemyBase::DrawHPBar(const int max_hp) const
 {
-    OutputDebugString("EnemyBaseデストラクタ呼ばれました。\n");
-    for (int i = 0; i < 4; i++)
+    DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
+
+    int color = GetColor(7, 255, 0);
+
+    if (hp <= (max_hp / 2))
     {
-        DeleteGraph(death_effects[i]);
+        color = GetColor(255, 255 * static_cast<float>(hp) / max_hp, 0);
     }
-  
+    else
+    {
+        color = GetColor(7 + 2 * (248 * (1 - static_cast<float>(hp) / max_hp)), 255, 0);
+    }
+
+    DrawBox(draw_location.x - HP_BAR / 2, location.y - (radius.y / 2 + HP_BAR_Y1),
+        draw_location.x + HP_BAR / 2, location.y - (radius.y / 2 + HP_BAR_Y2), 0x000000, TRUE);
+    DrawBox(draw_location.x - HP_BAR / 2, location.y - (radius.y / 2 + HP_BAR_Y1),
+        draw_location.x - HP_BAR / 2 + (HP_BAR * (static_cast<float>(hp) / max_hp)), location.y - (radius.y / 2 + HP_BAR_Y2), color, TRUE);
+    DrawBox(draw_location.x - HP_BAR / 2, location.y - (radius.y / 2 + HP_BAR_Y1),
+        draw_location.x + HP_BAR / 2, location.y - (radius.y / 2 + HP_BAR_Y2), 0x8f917f, FALSE);
 }

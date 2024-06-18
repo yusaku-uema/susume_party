@@ -6,6 +6,7 @@
 #define FLOWER_SIZE 20.0f//サイズ
 #define TIMING_ATTACK 120 //攻撃タイミング
 #define SEARCH_RANGE 250 //交戦距離
+#define MAX_HP 15
 
 
 //-----------------------------------
@@ -33,7 +34,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	//this->location = { 1400.0f, 50.0f };
 	this->location = location;
 	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
-	this->hp = 20;
+	this->hp = MAX_HP;
 
 }
 
@@ -143,6 +144,7 @@ void Flower::Draw() const
 
 		}
 
+		DrawHPBar(MAX_HP);
 		
 	}
 }
