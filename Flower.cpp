@@ -23,6 +23,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	time = 0;
 	animation_time = 0;
 	image_type = 4;
+	standby_time = 0;
 	start_attack = false;
 
 	direction = true;
@@ -94,6 +95,24 @@ void Flower::Update()
 		}
 		break;
 
+	case FLOWER_STATE::BREAKTIME:
+		//‰æ‘œØ‘Öˆ—
+		if (time % 12 == 0)
+		{
+			if (++image_type > 6)
+			{
+				image_type = 4;
+			}
+		}
+
+		if (++standby_time % 120 == 0)
+		{
+			standby_time = 0;
+			state = FLOWER_STATE::STANDBY;
+		}
+
+		break;
+
 	case FLOWER_STATE::DEATH:
 		//‰æ‘œØ‘Öˆ—
 		if (time % 12 == 0)
@@ -158,37 +177,31 @@ void Flower::Attack()
 
 	if (++animation_time % TIMING_ATTACK == 0)
 	{
-		if (direction)
-		{
-			//UŒ‚
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
-		}
-		else
-		{
-			//UŒ‚
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
-		}
-		image_type = 1;
+		start_attack = true;
 	}
-
-
-	if (image_type > 0)
+	
+	if (start_attack)
 	{
+
 		//‰æ‘œØ‘Öˆ—
 		if (time % 12 == 0)
 		{
-			if (++image_type > 4)
+			if (++image_type > 1)
 			{
-				image_type = 0;
+				if (direction)
+				{
+					//UŒ‚
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+				}
+				else
+				{
+					//UŒ‚
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+				}
+				state = FLOWER_STATE::BREAKTIME;
+				start_attack = false;
 			}
 		}
-	}
-
-	//Œðí‹——£‚©‚ç—£‚ê‚½‚çUŒ‚’âŽ~
-	if (CalculateDistance() > SEARCH_RANGE)
-	{
-		state = FLOWER_STATE::STANDBY;
-		image_type = 4;
 	}
 
 
