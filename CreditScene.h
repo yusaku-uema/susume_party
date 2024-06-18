@@ -1,12 +1,12 @@
 #pragma once
 #include "SceneBase.h"
-#include"Message.h"
 
-class TalkUi : public SceneBase
+
+class CreditScene : public SceneBase
 {
 public:
-    TalkUi();
-    ~TalkUi();
+    CreditScene();
+    ~CreditScene();
 
     void Initialize() override;
     void Finalize() override;
@@ -14,13 +14,12 @@ public:
     void Draw() const override;
     SCENE_TYPE GetNowScene() const override;
 
-    Message* message; // メッセージ表示用のインスタンス
+
 
 private:
-    int king_image;
+
 
 
 };
 
 
-    

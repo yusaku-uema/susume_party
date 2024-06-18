@@ -2,6 +2,8 @@
 #include"SceneManager.h"
 #include"TitleScene.h"
 #include"TalkUi.h"
+#include"HelpScene.h"
+#include"CreditScene.h"
 #include"GameMainScene.h"
 #include"GameOverScene.h"
 #include"Key.h"
@@ -45,7 +47,7 @@ void SceneManager::Initialize()
 	}
 
 	//タイトルシーンから始める
-	ChangeScene(SCENE_TYPE::TITLE);
+	ChangeScene(SCENE_TYPE::MAIN);
 }
 
 //シーンマネージャー機能:更新処理
@@ -131,6 +133,10 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 		return new TitleScene;
 	case SCENE_TYPE::TALKUI:
 		return new TalkUi;
+	case SCENE_TYPE::HELPSCENE:
+		return new HelpScene;
+	case SCENE_TYPE::CREDITSCENE:
+		return new CreditScene;
 	case SCENE_TYPE::MAIN:
 		return new GameMainScene;
 	case SCENE_TYPE::GAME_OVER:

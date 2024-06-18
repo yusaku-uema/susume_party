@@ -144,6 +144,12 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>ヘッダー ファイル\Character\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="HelpScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp">
@@ -229,6 +235,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>ソース ファイル\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

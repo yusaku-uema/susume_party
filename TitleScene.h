@@ -1,11 +1,15 @@
 #pragma once
 #include "SceneBase.h"
+#include"TalkUi.h"
 
 #define MENU_NUM 4
 
 class TitleScene : public SceneBase
 {
 private:
+
+    TalkUi talkUi; // TalkUIのインスタンスをメンバ変数として保持
+
     static const int CHARACTER_COUNT = 4; // キャラクターの数を4に変更
     int characterImages[CHARACTER_COUNT][5];
     int currentFrames[CHARACTER_COUNT];
@@ -18,6 +22,8 @@ private:
     static int logoX; // ロゴのX座標を静的メンバーとして定義
     static int background_images[2]; // 背景画像のハンドルを静的メンバーとして定義
     static int menuX; // 
+
+
 
     int logo_image;//タイトルロゴ
 
@@ -35,6 +41,7 @@ private:
     bool help;//ヘルプ画面に行くか
     bool credit;//クレジット
     bool isMenuScrolling;
+    int lastAPressTime;
     
   
     int bgm; //BGM
