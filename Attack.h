@@ -23,7 +23,7 @@ public:
     bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
 
-    DATA TrackingCharacter(BoxCollider* target_location,BoxCollider* my_location); //追尾（追いかけたいオブジェクト、追いかけるオブジェクト）返値は、追いかけるオブジェクトの更新された座標
+    DATA TrackingCharacter(BoxCollider* target); //追尾（追いかけたいオブジェクト、追いかけるオブジェクト）返値は、追いかけるオブジェクトの更新された座標
 
     int GetAttackPower()const;
 };

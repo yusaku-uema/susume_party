@@ -6,10 +6,10 @@
 
 typedef enum ENEMY_TYPE
 {
-    BIRD=0,
-    FAIRY,
+    SLIME=0,
     FLOWER,
-    SLIME,
+    BIRD,
+    FAIRY,
 
     BLACKMAGE //É{ÉX
 };
@@ -32,6 +32,7 @@ public:
     void Update(float delta_time);
     void Draw() const;
     void SpawnEnemy(int enemy_type,DATA location);
+    void SetEnemy();
 
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//çUåÇÇ™ìñÇΩÇ¡ÇΩÇ©ämÇ©ÇﬂÇÈ
 };

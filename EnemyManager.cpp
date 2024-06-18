@@ -17,6 +17,7 @@ EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manag
     stage(stage), player_manager(player_manager), attack_manager(attack_manager)
 {
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
+    SetEnemy();
 }
 
 
@@ -87,4 +88,34 @@ void EnemyManager::SpawnEnemy(int enemy_type, DATA location)
     default:
         break;
     }
+}
+
+void EnemyManager::SetEnemy()
+{
+    FILE* enemy_data = nullptr;//ステージ読み込み
+
+    errno_t error_enemy_data = fopen_s(&enemy_data, "data/enemyplacement.txt", "r");
+    if (error_enemy_data != 0)throw("data/enemyplacement.txtが読み込めません\n");//エラーチェック
+
+
+    //エネミーを配置する
+    for (int i = 0; i < STAGE_BLOCK_NUM_Y; i++)//縦の繰り返し
+    {
+        for (int j = 0; j < STAGE_BLOCK_NUM_X; j++)//横の繰り返し
+        {
+            //エネミーの種類
+            int enemy_type;
+            fscanf_s(enemy_data, "%d", &enemy_type);
+
+            //エネミーの生成
+            if (enemy_type != -1)
+            {
+                DATA location = { j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
+                
+                SpawnEnemy(enemy_type, location);
+                
+            }
+        }
+    }
+    fclose(enemy_data);
 }
