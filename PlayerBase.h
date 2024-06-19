@@ -8,6 +8,9 @@ class PlayerBase : public CharacterBase
 protected:
     int player_image[3][5];
     int weapon_image;
+
+    virtual void SpecialSkill() {};
+
 private:
 
     PLAYER_JOB player_job;
@@ -19,6 +22,8 @@ private:
 
     float image_change_time;//‰æ‘œØ‚è‘Ö‚¦ŠÔ
     int draw_image_num;//•\¦‰æ‘œ‚Ì”Ô†
+
+    int weapon_angle;//•Ší‚Ì‚Ó‚è•
 
     void UpdateLeader();
     void UpdateFollower(PlayerBase* previous_player);
