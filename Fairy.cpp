@@ -48,6 +48,7 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 	////テスト 座標
 	//this->location = { 1400.0f, 250.0f };
 	this->location = location;
+	spawn_location = location;
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
 	this->hp = MAX_HP;
 
