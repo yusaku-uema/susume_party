@@ -133,7 +133,15 @@ void Fairy::Draw() const
 		}
 		else
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
+			if (state == FAIRY_STATE::ATTACK)
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
+			}
+			else
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, !	move_left);
+			}
+			
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		}
@@ -240,31 +248,33 @@ void Fairy::Attack()
 			image_type = 4;
 		}
 
-		if (image_type == 6)
+		
+	}
+
+	if (image_type == 6)
+	{
+		float dx = player_location.x - location.x;
+		float dy = player_location.y - location.y;
+		float distance = sqrtf(dx * dx + dy * dy);
+
+
+		if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
+
+		if (distance >= 5)
 		{
-			float dx = player_location.x - location.x;
-			float dy = player_location.y - location.y;
-			float distance = sqrtf(dx * dx + dy * dy);
-
-
-			if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
-
-			if (distance >= 5)
-			{
-				location.x += (dx / distance) * attack_speed;
-				location.y += (dy / distance) * attack_speed;
-			}
-			else
-			{
-				attack_speed = 0;
-				state = FAIRY_STATE::NORMAL;
-			}
-
-			//攻撃
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
-
+			location.x += (dx / distance) * attack_speed;
+			location.y += (dy / distance) * attack_speed;
+		}
+		else
+		{
+			attack_speed = 0;
 			state = FAIRY_STATE::NORMAL;
 		}
+
+		//攻撃
+		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
+
+		state = FAIRY_STATE::NORMAL;
 	}
 
 	
