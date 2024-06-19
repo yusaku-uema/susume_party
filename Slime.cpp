@@ -152,6 +152,13 @@ void Slime::Move()
 	{
 		location.y -= speed.y;
 	}
+	else
+	{
+		if (++time % 600 == 0)
+		{
+			is_dead = true;
+		}
+	}
 
 	//x座標の更新
 	if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;//スピードに加速度を足していって、最大値に達したら固定
