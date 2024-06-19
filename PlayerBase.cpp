@@ -87,7 +87,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     if(is_set_casket)
     {
         //æ“ªƒLƒƒƒ‰‚Ì^ã‚É—Ž‚Æ‚·
-        location.x = player_manager->GetPlayerLocation().x;
+        location.x = player_manager->GetPlayerData()->GetLocation().x;
         location.y = -400.f;
 
         //—Ž‚¿‚Ä‚¢‚éó‘Ô‚É‚·‚é

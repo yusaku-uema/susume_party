@@ -136,9 +136,9 @@ bool PlayerManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
 	return false;
 }
 
-DATA PlayerManager::GetPlayerLocation()const
+PlayerBase* PlayerManager::GetPlayerData()const
 {
-	return player[0]->GetLocation();
+	return player[0];
 }
 
 void PlayerManager::Draw() const

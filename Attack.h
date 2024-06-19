@@ -5,6 +5,8 @@
 class Attack : public BoxCollider
 {
 private:
+    BoxCollider* target;
+
     int* attack_image;//攻撃画像
     int image_num;//画像の数
     float image_change_time;//画像切り替え時間
@@ -23,7 +25,7 @@ public:
     bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
 
-    DATA TrackingCharacter(BoxCollider* target); //追尾（追いかけたいオブジェクト、追いかけるオブジェクト）返値は、追いかけるオブジェクトの更新された座標
+    void TrackingCharacter(); //追尾
 
     int GetAttackPower()const;
 };

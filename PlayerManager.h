@@ -26,6 +26,6 @@ public:
     bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
     void Draw() const;
 
-    DATA GetPlayerLocation()const;
+    PlayerBase* GetPlayerData()const;//
     
 };
