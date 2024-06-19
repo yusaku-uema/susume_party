@@ -18,8 +18,10 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
+#define MAX_WEAPON_ANGLE 360
+
 PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
-player_job(player_job),image_change_time(0.0f),draw_image_num(0), 
+player_job(player_job),image_change_time(0.0f),draw_image_num(0), weapon_angle(0),
 is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
     //ジャンプの記録をリセット
@@ -113,40 +115,49 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 
 void PlayerBase::UpdateLeader()
 {
-
-    //物理攻撃(Bボタン入力時)
-
-    if (Key::KeyDown(KEY_TYPE::B))
+    if (weapon_angle != 0)
     {
-        if (is_facing_left)
+        if ((weapon_angle += 15) > MAX_WEAPON_ANGLE)weapon_angle = 0;
+    }
+    else
+    {
+        //物理攻撃(Bボタン入力時)
+
+        if (Key::KeyDown(KEY_TYPE::B))
         {
-            //左に攻撃
-            attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+            if (is_facing_left)
+            {
+                //左に攻撃
+                attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+            }
+            else
+            {
+                //右に攻撃
+                attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+            }
+
+            weapon_angle += 15;
         }
-        else
+
+        //攻撃2(Yボタン入力時)
+
+        else if (Key::KeyDown(KEY_TYPE::Y))
         {
-            //右に攻撃
-            attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+            if (is_facing_left)
+            {
+                //左に攻撃
+                attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+            }
+            else
+            {
+                //右に攻撃
+                attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+            }
+
+            weapon_angle += 15;
         }
     }
 
-    //攻撃2(Yボタン入力時)
-
-    else if (Key::KeyDown(KEY_TYPE::Y))
-    {
-        if (is_facing_left)
-        {
-            //左に攻撃
-            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-        }
-        else
-        {
-            //右に攻撃
-            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-        }
-    }
-
-   
     //////X座標の更新////////
 
 
@@ -377,24 +388,28 @@ void PlayerBase::Draw() const
     int draw_image_type = (speed.x == 0.0f); //歩いているときの画像
     if (is_dead)draw_image_type = 2;
 
-    DATA weapon_location = { -8.0f, 8.0f };//武器の座標
-    DATA weapon_center = { 25.0f, 25.0f };//武器の中心点
-    
-    weapon_location.y -= draw_image_num;
-    if (is_facing_left)
-    {
-        weapon_location.x = -weapon_location.x;
-        weapon_center.x = 7.0f;
-    }
-
-    int angle = draw_image_num * 90;
-
     //プレイヤー表示
     DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, player_image[draw_image_type][draw_image_num], TRUE, is_facing_left);
 
-    //武器表示
-    if(!is_dead)DrawRotaGraph2(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, weapon_center.x, weapon_center.y, 2.0, (PI / 180) * 0, weapon_image, TRUE, is_facing_left);
-    //DrawCircle(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, 3, 0xf00ff0, TRUE);
+    if (!is_dead)
+    {
+        DATA weapon_location = { -10.0f, 5.0f };//武器の座標
+        DATA weapon_center = { 25.0f, 25.0f };//武器の中心点
+
+        weapon_location.y += draw_image_num;
+        int weapon_angle = this->weapon_angle;
+
+        if (is_facing_left)
+        {
+            weapon_location.x = -weapon_location.x;
+            weapon_center.x = 7.0f;
+            weapon_angle = -weapon_angle;
+        }
+
+        //武器表示
+        DrawRotaGraph2(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, weapon_center.x, weapon_center.y, 2.0, (PI / 180) * weapon_angle, weapon_image, TRUE, is_facing_left);
+        //DrawCircle(draw_location.x + weapon_location.x, draw_location.y + weapon_location.y, 2, 0xf00ff0, TRUE);
+    }
 
     //DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
 

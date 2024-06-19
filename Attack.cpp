@@ -6,8 +6,8 @@
 #define ATTACK_SPEED 3
 #define IMAGE_CHANGE_TIME 0.1f
 
-Attack::Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
-	BoxCollider(location, size), duration_time(duration_time), speed(speed), attack_power(attack_power), attack_image(attack_image),
+Attack::Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
+	BoxCollider(location, size), speed(speed), target(target), duration_time(duration_time), attack_power(attack_power), attack_image(attack_image),
 	image_num(image_num), image_size(image_size), draw_image_num(0), image_change_time(0.0f)
 {
 	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
@@ -15,13 +15,25 @@ Attack::Attack(DATA location, DATA size, DATA speed, float duration_time, int at
 
 Attack::~Attack()
 {
-	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
+	OutputDebugString("Attackデストラクタ呼ばれました。\n");
 }
 
 bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager)
 {
+	if (player_manager != nullptr)
+	{
+		target = player_manager->GetPlayerData();
+	}
+
+	//追尾する場合
+
+	if (target != nullptr)TrackingCharacter();
+
 	location.x += speed.x;
 	location.y += speed.y;
+	
+
+	//画像切り替え
 
 	if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
 	{
@@ -33,32 +45,35 @@ bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* p
 		image_change_time = 0.0f;
 	}
 
-	if ((radius.x != 0.0f) && (radius.y != 0.0f))
-	{
-		if (stage->HitBlock(this))return true;
-		else
-		{
-			//キャラと当たった時
-			if (player_manager != nullptr)
-			{
-				if (player_manager->CheckHitDamage(this, attack_power))return true;
-			}
-			else if (enemy_manager != nullptr)
-			{
-
-
-
-
-
-
-				if (enemy_manager->CheckHitDamage(this, attack_power))return true;
-			}
-		}
-	}
+	//攻撃持続時間
 
 	if (duration_time != -1.0f)
 	{
 		if ((duration_time -= delta_time) < 0.0f)return true;
+	}
+
+	//当たり判定
+
+	if ((radius.x != 0.0f) && (radius.y != 0.0f))
+	{
+
+		if (stage->HitBlock(this))
+		{
+			return true;
+		}
+		else
+		{
+			//プレイヤーと当たった時
+			if (player_manager != nullptr)
+			{
+				if (player_manager->CheckHitDamage(this, attack_power))return true;
+			}
+			//敵キャラと当たった場合
+			else if (enemy_manager != nullptr)
+			{
+				if (enemy_manager->CheckHitDamage(this, attack_power))return true;
+			}
+		}
 	}
 
 	return false;
@@ -85,11 +100,11 @@ void Attack::TrackingCharacter()
 
 	angle = atan2(dy, dx) * 180 / M_PI;
 
-	location.x += (dx / distance) * ATTACK_SPEED;
-	location.y += (dy / distance) * ATTACK_SPEED;
+	speed.x = (dx / distance) * 3;
+	speed.y = (dy / distance) * 3;
 }
 
-int Attack::GetAttackPower()const
+void Attack::DeleteTargetPointer(BoxCollider* target)
 {
-	return attack_power;
+	if (this->target == target)this->target = nullptr;
 }
