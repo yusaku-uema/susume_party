@@ -48,6 +48,7 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 	////テスト 座標
 	//this->location = { 1400.0f, 250.0f };
 	this->location = location;
+	spawn_location = location;
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
 	this->hp = MAX_HP;
 
@@ -132,7 +133,15 @@ void Fairy::Draw() const
 		}
 		else
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
+			if (state == FAIRY_STATE::ATTACK)
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
+			}
+			else
+			{
+				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, !	move_left);
+			}
+			
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		}
@@ -214,7 +223,7 @@ void Fairy::Standby()
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
 			state = FAIRY_STATE::ATTACK;
-			player_location = player_manager->GetPlayerLocation();
+			player_location = player_manager->GetPlayerData()->GetLocation();
 			time = 0;
 		}
 	}
@@ -239,31 +248,33 @@ void Fairy::Attack()
 			image_type = 4;
 		}
 
-		if (image_type == 6)
+		
+	}
+
+	if (image_type == 6)
+	{
+		float dx = player_location.x - location.x;
+		float dy = player_location.y - location.y;
+		float distance = sqrtf(dx * dx + dy * dy);
+
+
+		if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
+
+		if (distance >= 5)
 		{
-			float dx = player_location.x - location.x;
-			float dy = player_location.y - location.y;
-			float distance = sqrtf(dx * dx + dy * dy);
-
-
-			if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
-
-			if (distance >= 5)
-			{
-				location.x += (dx / distance) * attack_speed;
-				location.y += (dy / distance) * attack_speed;
-			}
-			else
-			{
-				attack_speed = 0;
-				state = FAIRY_STATE::NORMAL;
-			}
-
-			//攻撃
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
-
+			location.x += (dx / distance) * attack_speed;
+			location.y += (dy / distance) * attack_speed;
+		}
+		else
+		{
+			attack_speed = 0;
 			state = FAIRY_STATE::NORMAL;
 		}
+
+		//攻撃
+		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
+
+		state = FAIRY_STATE::NORMAL;
 	}
 
 	
@@ -275,8 +286,8 @@ void Fairy::Attack()
 //-----------------------------------
 float Fairy::CalculateDistance()
 {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

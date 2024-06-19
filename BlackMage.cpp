@@ -100,7 +100,7 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1, 0, blackmage_image[image_type], TRUE, !is_facing_left);
+		DrawRotaGraph(draw_location.x, draw_location.y - 20, 2, 0, blackmage_image[image_type], TRUE, !is_facing_left);
 		
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		DrawHPBar(MAX_HP);
@@ -236,8 +236,8 @@ void BlackMage::MoveAttack()
 
 float BlackMage::CalculateDistance()
 {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;
