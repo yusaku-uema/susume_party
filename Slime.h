@@ -17,6 +17,7 @@ private:
     
     int slime_image[12]; //スライムの画像
     int image_type; //使う画像の指定
+    int distance;
 
     long int time;//時間測定
 
