@@ -76,7 +76,7 @@ void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float d
 ////////ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Ì’Ç‰Á//////////////
 void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    class BoxCollider* enemy = enemy_manager->GetEnemyData(0);
+    BoxCollider* enemy = enemy_manager->GetEnemyData(0);
 
     player_attack.emplace_back(location, size, speed, enemy, 999, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
