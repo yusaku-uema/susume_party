@@ -18,14 +18,14 @@ private:
     float duration_time;//攻撃継続時間
     int angle;
 
+    void TrackingCharacter(); //追尾
+
 public:
-    Attack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, int* attack_image, int image_num, float image_size);
+    Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size);
     ~Attack();
 
     bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
 
-    void TrackingCharacter(); //追尾
-
-    int GetAttackPower()const;
+    void DeleteTargetPointer(BoxCollider* target);//追跡中のキャラのポインターの消去
 };
