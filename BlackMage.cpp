@@ -8,7 +8,7 @@
 #define ACCELERATION 0.1f//移動時の加速
 #define UP_SPEED 0.1f //上昇、下降の速度
 #define FALL_MAX 7.5  //上昇、下降の上限
-#define SEARCH_RANGE 300 //索敵範囲
+#define SEARCH_RANGE 600 //索敵範囲
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
 #define MAX_HP 150
@@ -42,10 +42,9 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 
 	state = BLACKMAGE_STATE::WAIT;
 
-	////テスト 座標
 	//this->location = { 2300,330 };
 	this->location = location;
-	this->radius = { BLACKMAGE_SIZE, BLACKMAGE_SIZE };
+	this->radius = { BLACKMAGE_SIZE, 40 };
 
 
 }
@@ -100,7 +99,7 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y - 20, 2, 0, blackmage_image[image_type], TRUE, !is_facing_left);
+		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1.5, 0, blackmage_image[image_type], TRUE, !is_facing_left);
 		
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		DrawHPBar(MAX_HP);
@@ -149,7 +148,7 @@ void BlackMage::Move()
 		roundtrips++;
 		is_facing_left = !is_facing_left;
 
-		if (roundtrips > 2)
+		if (roundtrips > 1)
 		{
 			state = BLACKMAGE_STATE::ATTACK_STANDBY;
 			roundtrips = 0;
@@ -230,8 +229,13 @@ void BlackMage::MoveAttack()
 {
 	if (++time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { 0,+10 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 60,60 }, { 0,+10 }, 10, 5, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
+}
+
+void BlackMage::TeleportAttack()
+{
+
 }
 
 float BlackMage::CalculateDistance()

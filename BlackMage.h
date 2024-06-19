@@ -10,6 +10,7 @@ enum class BLACKMAGE_STATE
     NORMAL,   //通常移動 
     ATTACK, //攻撃
     ATTACK_STANDBY, //攻撃待機
+    TELEPORT, //テレポート
     STANDBY //待機
 };
 
@@ -42,6 +43,7 @@ public:
     void Wait(); //攻撃準備時間
     void Attack(); //攻撃
     void MoveAttack(); //移動時の攻撃
+    void TeleportAttack(); //テレポートして攻撃する
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
