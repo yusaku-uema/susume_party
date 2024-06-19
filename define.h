@@ -7,7 +7,7 @@
 #define SCREEN_CENTER_Y 360
 
 #define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
-#define STAGE_BLOCK_NUM_X 260 //ステージの横ブロックの数
+#define STAGE_BLOCK_NUM_X 275 //ステージの横ブロックの数
 
 #define BLOCK_TYPE_NUM 15//ブロックの種類
 
@@ -15,6 +15,8 @@
 
 #define GRAVITY 0.2f //重力の大きさ
 #define FALL_SPEED 5.0f//落下速度の最大値
+
+#define ENEMY_EXPLOSION_SIZE 5
 
 struct DATA //座標,大きさ,スピードなどに使う
 {

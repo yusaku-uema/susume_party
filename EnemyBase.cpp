@@ -4,8 +4,8 @@
 
 #define SCOPE_OF_ACTIVITY 1000
 #define HP_BAR 60
-#define HP_BAR_Y1 20
-#define HP_BAR_Y2 10
+#define HP_BAR_Y1 30
+#define HP_BAR_Y2 20
 
 EnemyBase::EnemyBase():CharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 5)
 {

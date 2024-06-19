@@ -14,13 +14,18 @@ HelpScene::~HelpScene()
 
 void HelpScene::Initialize()
 {
+	help_image = LoadGraph("image/Help/Help.png");
+	if (help_image == -1)
+	{
+		throw("image/Help/help.pngÇ™ì«Ç›çûÇﬂÇ‹ÇπÇÒ\n");
+	}
 
 }
 
 void HelpScene::Finalize()
 {
 
-
+	DeleteGraph(help_image);
 
 }
 
@@ -40,9 +45,10 @@ void HelpScene::Draw() const
 {
 	
 
-	
 
-	DrawString(0, 0, "help", 0xffffff);
+	DrawGraph(0, 0, help_image, TRUE);
+
+	//DrawString(0, 0, "help", 0xffffff);
 }
 
 SCENE_TYPE HelpScene::GetNowScene() const
