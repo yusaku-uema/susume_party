@@ -17,7 +17,8 @@ public:
     Message* message; // メッセージ表示用のインスタンス
 
 private:
-    int king_image;
+    int king_image;//王様
+    int background_image;//背景
 
 
 };

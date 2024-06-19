@@ -18,7 +18,7 @@ public:
 
 private:
    
-
+    int help_image;//ƒwƒ‹ƒv‰æ‘œ
 
 };
 
