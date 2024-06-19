@@ -167,7 +167,7 @@ void Bird::Draw() const
 
 		if (state == BIRD_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
@@ -300,7 +300,7 @@ void Bird::Attack()
 	}
 
 
-	if (player_manager->CheckHitDamage(this, 10))
+	if (player_manager->CheckHitDamage(this, 5))
 	{
 		state = BIRD_STATE::RETURN;
 		attack_speed = 0;

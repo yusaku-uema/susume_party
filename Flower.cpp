@@ -153,7 +153,7 @@ void Flower::Draw() const
 	{
 		if (state == FLOWER_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{

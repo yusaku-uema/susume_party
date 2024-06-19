@@ -129,7 +129,7 @@ void Fairy::Draw() const
 
 		if (state == FAIRY_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
@@ -264,7 +264,7 @@ void Fairy::Attack()
 
 
 		//UŒ‚
-		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 5, 3, BIG_EXPLOSION, 1.0f);
 
 		state = FAIRY_STATE::STANDBY;
 	}

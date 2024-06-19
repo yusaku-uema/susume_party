@@ -81,14 +81,16 @@ void Slime::Update()
 		break;
 	case SLIME_STATE::DEATH:
 		//‰æ‘œØ‘Öˆ—
-		if (time % 12 == 0)
+		if (animation_time % 12 == 0)
 		{
 			if (++image_type > 3)
 			{
 				is_dead = true;
 			}
 		}
+		break;
 	}
+	
 
 	if (death_animation == false)
 	{
@@ -114,7 +116,7 @@ void Slime::Draw() const
 	{
 		if (state == SLIME_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
