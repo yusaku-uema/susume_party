@@ -11,6 +11,7 @@
 #define SEARCH_RANGE 300 //交戦距離
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
+#define MAX_HP 10
 
 //-----------------------------------
 //コンストラクタ
@@ -52,7 +53,7 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	////テスト 座標
 	//this->location = { 900.0f, 250.0f };
 	this->radius = { BIRD_SIZE ,BIRD_SIZE };
-	this->hp = 10;
+	this->hp = MAX_HP;
 }
 
 //-----------------------------------
@@ -182,6 +183,8 @@ void Bird::Draw() const
 			//DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		}
+
+		DrawHPBar(MAX_HP);
 	}
 }
 
@@ -244,7 +247,7 @@ void Bird::Standby()
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
 			state = BIRD_STATE::ATTACK;
-			player_location = player_manager->GetPlayerLocation();
+			player_location = player_manager->GetPlayerData()->GetLocation();
 			old_location = location;
 			time = 0;
 		}
@@ -336,8 +339,8 @@ void Bird::Retur()
 // 先頭にいるプレイヤーとの当たり判定
 //-----------------------------------
 float Bird::CalculateDistance() {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

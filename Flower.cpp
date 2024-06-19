@@ -6,6 +6,7 @@
 #define FLOWER_SIZE 20.0f//サイズ
 #define TIMING_ATTACK 120 //攻撃タイミング
 #define SEARCH_RANGE 250 //交戦距離
+#define MAX_HP 15
 
 
 //-----------------------------------
@@ -22,6 +23,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	time = 0;
 	animation_time = 0;
 	image_type = 4;
+	standby_time = 0;
 	start_attack = false;
 
 	direction = true;
@@ -33,7 +35,7 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	//this->location = { 1400.0f, 50.0f };
 	this->location = location;
 	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
-	this->hp = 20;
+	this->hp = MAX_HP;
 
 }
 
@@ -93,6 +95,24 @@ void Flower::Update()
 		}
 		break;
 
+	case FLOWER_STATE::BREAKTIME:
+		//画像切替処理
+		if (time % 12 == 0)
+		{
+			if (++image_type > 6)
+			{
+				image_type = 4;
+			}
+		}
+
+		if (++standby_time % 120 == 0)
+		{
+			standby_time = 0;
+			state = FLOWER_STATE::STANDBY;
+		}
+
+		break;
+
 	case FLOWER_STATE::DEATH:
 		//画像切替処理
 		if (time % 12 == 0)
@@ -143,6 +163,7 @@ void Flower::Draw() const
 
 		}
 
+		DrawHPBar(MAX_HP);
 		
 	}
 }
@@ -156,37 +177,31 @@ void Flower::Attack()
 
 	if (++animation_time % TIMING_ATTACK == 0)
 	{
-		if (direction)
-		{
-			//攻撃
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
-		}
-		else
-		{
-			//攻撃
-			attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
-		}
-		image_type = 1;
+		start_attack = true;
 	}
-
-
-	if (image_type > 0)
+	
+	if (start_attack)
 	{
+
 		//画像切替処理
 		if (time % 12 == 0)
 		{
-			if (++image_type > 4)
+			if (++image_type > 1)
 			{
-				image_type = 0;
+				if (direction)
+				{
+					//攻撃
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+				}
+				else
+				{
+					//攻撃
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+				}
+				state = FLOWER_STATE::BREAKTIME;
+				start_attack = false;
 			}
 		}
-	}
-
-	//交戦距離から離れたら攻撃停止
-	if (CalculateDistance() > SEARCH_RANGE)
-	{
-		state = FLOWER_STATE::STANDBY;
-		image_type = 4;
 	}
 
 
@@ -198,8 +213,8 @@ void Flower::Attack()
 //-----------------------------------
 float Flower::CalculateDistance()
 {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

@@ -45,6 +45,12 @@ bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* p
 			}
 			else if (enemy_manager != nullptr)
 			{
+
+
+
+
+
+
 				if (enemy_manager->CheckHitDamage(this, attack_power))return true;
 			}
 		}
@@ -69,25 +75,18 @@ void Attack::Draw(float camera_work)const
 	}
 }
 
-DATA Attack::TrackingCharacter(BoxCollider* target_location)
+void Attack::TrackingCharacter()
 {
 	//追跡者の座標取得
-	float x = location.x; 
-	float y = location.y;
 
-	float dx = target_location->GetLocation().x - location.x;
-	float dy = target_location->GetLocation().y - location.y;
+	float dx = target->GetLocation().x - location.x;
+	float dy = target->GetLocation().y - location.y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
-	float angle = atan2(dy, dx) * 180 / M_PI;
+	angle = atan2(dy, dx) * 180 / M_PI;
 
-	x += (dx / distance) * ATTACK_SPEED;
-	y += (dy / distance) * ATTACK_SPEED;
-	
-	DATA location = { x,y };
-
-	return location;
-
+	location.x += (dx / distance) * ATTACK_SPEED;
+	location.y += (dy / distance) * ATTACK_SPEED;
 }
 
 int Attack::GetAttackPower()const

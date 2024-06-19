@@ -8,6 +8,7 @@
 #define WALK_SPEED 1.5f//1フレームの最大速
 #define ACCELERATION 0.1f//歩く時の加速
 #define ATTACK_DISTANCE 35// 攻撃に移る距離
+#define MAX_HP 20
 
 
 //-----------------------------------
@@ -33,7 +34,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	this->location = location;
 	this->spawn_location = location;
 	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
-	this->hp = 20;
+	this->hp = MAX_HP;
 	this->is_dead = false;
 
 	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
@@ -122,7 +123,8 @@ void Slime::Draw() const
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		}
 
-		
+		DrawHPBar(MAX_HP);
+
 	}
 }
 
@@ -225,8 +227,8 @@ void Slime::Standby()
 float Slime::CalculateDistance()
 {
 
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

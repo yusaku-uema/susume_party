@@ -11,6 +11,7 @@
 #define SEARCH_RANGE 300 //索敵範囲
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
+#define MAX_HP 150
 
 
 BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
@@ -24,7 +25,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 
 	if (LoadDivGraph("image/Enemy/blackmage.png", 14, 14, 1, 131, 132, blackmage_image) == -1)throw("魔導士（ボス）像読込み失敗\n");
 
-	this->hp = 150;
+	this->hp = MAX_HP;
 	image_type = 0;
 	animation_time = 0;
 	roundtrips = 0;
@@ -99,8 +100,10 @@ void BlackMage::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1, 0, blackmage_image[image_type], TRUE, !is_facing_left);
+		DrawRotaGraph(draw_location.x, draw_location.y - 20, 2, 0, blackmage_image[image_type], TRUE, !is_facing_left);
+		
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+		DrawHPBar(MAX_HP);
 	}
 }
 
@@ -233,8 +236,8 @@ void BlackMage::MoveAttack()
 
 float BlackMage::CalculateDistance()
 {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

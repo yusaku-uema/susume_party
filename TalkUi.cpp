@@ -1,59 +1,60 @@
-#include"TalkUi.h"
-#include"DxLib.h"
-#include"Key.h"
+#include "TalkUi.h"
+#include "DxLib.h"
+#include "Key.h"
 
 TalkUi::TalkUi()
 {
-	if ((window_image = LoadGraph("image/CharTalk/messagewindow7.png")) == -1)throw("image/CharTalk/messagewindow.pngが読み込めません\n");
+
+	// メッセージ作成
+	message = new Message("txt/gameover.txt");
 }
 
 TalkUi::~TalkUi()
 {
 }
 
-//初期化処理
 void TalkUi::Initialize()
 {
-
-	message = new Message("txt/comment.txt");
+	king_image = LoadGraph("image/CharTalk/king.png");
+	if (king_image == -1)
+	{
+		throw("image/CharTalk/king.pngが読み込めませんでした。\n");
+	}
 }
 
 void TalkUi::Finalize()
 {
-	delete message;
+
+	DeleteGraph(king_image);
+
+	delete message; // メッセージの削除
+
 }
 
-//更新処理
 SCENE_TYPE TalkUi::Update(float delta_time)
 {
-	if (Key::KeyDown(KEY_TYPE::B))return SCENE_TYPE::MAIN;
-
-
-	if (message != nullptr)
+	if (Key::KeyDown(KEY_TYPE::B))
 	{
-		if (message->Update(delta_time))
-		{
-			delete message;
-			message = nullptr;
-		}
+		return SCENE_TYPE::MAIN;
 	}
 
-	return GetNowScene();//現在のシーンタイプを返す
+	message->Update(delta_time);
+
+	return GetNowScene();
 }
 
-//描画処理
 void TalkUi::Draw() const
 {
-	
+	message->Draw();
 
-	if (message != nullptr)message->Draw();
+	int width, height;
+	GetGraphSize(king_image, &width, &height);
+	DrawExtendGraph(200, 400, 200 + width * 3, 400 + height * 3, king_image, TRUE); // スケールファクターは3
 
 	DrawString(0, 0, "talk", 0xffffff);
 }
 
-//現在のシーン情報を取得
 SCENE_TYPE TalkUi::GetNowScene() const
 {
 	return SCENE_TYPE::TALKUI;
 }
-

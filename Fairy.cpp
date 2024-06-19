@@ -12,6 +12,7 @@
 #define SEARCH_RANGE 300 //交戦距離
 #define IMAGE_SWITCHING_TIMING 12 //画像切替タイミング
 #define WAITING_TIME_FOR_ATTACK 60 //攻撃待機時間（攻撃タイミング）
+#define MAX_HP 10
 
 
 //-----------------------------------
@@ -48,7 +49,7 @@ Fairy::Fairy(class Stage* stage, class PlayerManager* player_manager, class Atta
 	//this->location = { 1400.0f, 250.0f };
 	this->location = location;
 	this->radius = { FAIRY_SIZE ,FAIRY_SIZE };
-	this->hp = 10;
+	this->hp = MAX_HP;
 
 }
 
@@ -135,6 +136,8 @@ void Fairy::Draw() const
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		}
+
+		DrawHPBar(MAX_HP);
 	}
 }
 
@@ -211,7 +214,7 @@ void Fairy::Standby()
 		if (++time % WAITING_TIME_FOR_ATTACK == 0)
 		{
 			state = FAIRY_STATE::ATTACK;
-			player_location = player_manager->GetPlayerLocation();
+			player_location = player_manager->GetPlayerData()->GetLocation();
 			time = 0;
 		}
 	}
@@ -272,8 +275,8 @@ void Fairy::Attack()
 //-----------------------------------
 float Fairy::CalculateDistance()
 {
-	float dx = player_manager->GetPlayerLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerLocation().y - this->GetLocation().y;
+	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
+	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;

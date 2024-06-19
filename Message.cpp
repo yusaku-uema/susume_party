@@ -79,19 +79,19 @@ void Message::UpdateTextLine()
 	if (draw_start_text_line < 0)draw_start_text_line = 0;
 }
 
-int Message::GetLineTextNum(int draw_text_line)const
+int Message::GetLineTextNum(int draw_text_line) const
 {
 	int text_count = 0;
 
-	if (draw_text_line < text_line.size())
+	if (draw_text_line >= 0 && draw_text_line < text_line.size()) // 境界チェックを追加
 	{
 		for (int i = 0; i < text_line[draw_text_line].length(); i++)
 		{
-			//文字のサイズを調べる
+			// 文字のサイズを調べる
 			int text_size = GetCharBytes(DX_CHARCODEFORMAT_SHIFTJIS, text_line[draw_text_line].c_str() + i);
 
-			if (*(text_line[draw_text_line].c_str() + i) == '\n')break;
-			else if (text_size == 1)text_count++;
+			if (*(text_line[draw_text_line].c_str() + i) == '\n') break;
+			else if (text_size == 1) text_count++;
 			else if (text_size == 2)
 			{
 				text_count++;
@@ -106,49 +106,52 @@ int Message::GetLineTextNum(int draw_text_line)const
 void Message::Draw() const
 {
 	DrawBox(0, 540, 1280, 720, 0x000000, TRUE);
-	//DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
+	DrawBox(0, 540, 1280, 720, 0xffffff, FALSE);
 
-	//現在表示できる文字数
+	// 現在表示できる文字数
 	int draw_line_text_num = this->draw_line_text_num;
 
-	//文字の表示位置
+	// 文字の表示位置
 	DATA text_location = { DRAW_TEXT_LOCATION_X, DRAW_TEXT_LOCATION_Y };
 
 	for (int i = draw_start_text_line; i < text_line.size(); i++)
 	{
-		if (i > update_text_line)break;
+		if (i > update_text_line) break;
 
 		for (int j = 0; j < text_line[i].length(); j++)
 		{
-			//文字のサイズを調べる
+			// 文字のサイズを調べる
 			int text_size = GetCharBytes(DX_CHARCODEFORMAT_SHIFTJIS, text_line[i].c_str() + j);
 
-			if ((i == update_text_line) && (draw_line_text_num <= 0))break;
+			if ((i == update_text_line) && (draw_line_text_num <= 0)) break;
 			else if (*(text_line[i].c_str() + j) == '\n')
 			{
-				//改行文字の場合
+				// 改行文字の場合
 				text_location.y += FONT_SIZE + 5; // y座標を更新して改行
 				text_location.x = DRAW_TEXT_LOCATION_X; // x座標をリセット
 			}
 			else if (text_size == 1)
 			{
-				//半角文字の場合
+				// 半角文字の場合
 				DrawFormatString(text_location.x, text_location.y, 0xffffff, "%c", *(text_line[i].c_str() + j));
 				text_location.x += (FONT_SIZE / 2); // X座標を更新
-				if (i == update_text_line)draw_line_text_num--;
+				if (i == update_text_line) draw_line_text_num--;
 			}
-			else  if (text_size == 2)
+			else if (text_size == 2)
 			{
 				// 全角文字の場合
 				DrawFormatString(text_location.x, text_location.y, 0xffffff, "%c%c", *(text_line[i].c_str() + j), *(text_line[i].c_str() + j + 1));
 				text_location.x += FONT_SIZE; //X座標を更新
-				if (i == update_text_line)draw_line_text_num--;
+				if (i == update_text_line) draw_line_text_num--;
 				j++;
 			}
 		}
 	}
 
-	if (draw_arrow){}
+	if (draw_arrow)
+	{
+		// 矢印描画処理
+	}
 
 	DrawFormatString(SCREEN_CENTER_X, 680, 0xffffff, "%f", draw_text_time);
 }
