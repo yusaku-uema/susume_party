@@ -24,6 +24,10 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	this->attack_manager = attack_manager;
 
 	if (LoadDivGraph("image/Enemy/blackmage.png", 14, 14, 1, 131, 132, blackmage_image) == -1)throw("–‚“±Žmiƒ{ƒXj‘œ“Çž‚ÝŽ¸”s\n");
+	if (LoadDivGraph("image/Enemy/Attackeffect/tentacle attack.png", 10, 5, 2, 120, 120, tentacle_image) == -1)throw("GŽèUŒ‚“Çž‚ÝŽ¸”s\n");
+	if (LoadDivGraph("image/Enemy/Attackeffect/warning.png", 10, 10, 1, 120, 120, lock_image) == -1)throw("ƒƒbƒN‰æ‘œ“Çž‚ÝŽ¸”s\n");
+	if (LoadDivGraph("image/Enemy/Attackeffect/charge.png", 10, 5, 2, 192, 192, charge_image) == -1)throw("ƒ`ƒƒ[ƒW‰æ‘œ“Çž‚ÝŽ¸”s\n");
+
 
 	this->hp = MAX_HP;
 	image_type = 0;
@@ -40,6 +44,8 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	direction = true;
 	lock_on = false;
 	attack = false;
+	start_animation = false;
+	animation_type = 0;
 
 
 	state = BLACKMAGE_STATE::STANDBY;
@@ -48,7 +54,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	attack_location = { 0,0 };
 	this->location = location;
 	this->radius = { BLACKMAGE_SIZE, 40 };
-
+	location.y = 300;
 
 }
 
@@ -105,18 +111,31 @@ void BlackMage::Update()
 void BlackMage::Draw() const
 {
 	DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
+	
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1.5, 0, blackmage_image[image_type], TRUE, !is_facing_left);
-
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		DrawHPBar(MAX_HP);
 
-		DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "x%f  y%f", location.x, location.y);
-
-		DrawBox(attack_location.x - 30, 300 - 250, attack_location.x + 30, 300 + 250, 0x00ffff, FALSE);
-
+		
+		if (state == BLACKMAGE_STATE::ATTACK_STANDBY)
+		{
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, charge_image[animation_type], TRUE);
+		}
+		
+		if (state == BLACKMAGE_STATE::TELEPORT)
+		{
+			DATA draw_location = { attack_location.x + stage->GetCameraWork(), location.y };
+			
+			DrawRotaGraph(draw_location.x, 430, 1, 0, lock_image[animation_type], TRUE);
+			
+			if (start_animation)
+			{
+				
+				DrawRotaGraph(draw_location.x, 350, 2, 0, tentacle_image[animation_type], TRUE);
+			}
+		}
 	}
 }
 
@@ -177,6 +196,14 @@ void BlackMage::Move()
 void BlackMage::Standby()
 {
 
+	if (animation_time % 12 == 0)
+	{
+		if (++animation_type > 9)
+		{
+			animation_type = 0;
+		}
+	}
+
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
 	location.y += speed.y;
 
@@ -185,20 +212,17 @@ void BlackMage::Standby()
 		location.y -= speed.y;
 	}
 
-	if (old_hp - 20 < hp)
+	if (old_hp - 35 < hp)
 	{
-
+		state = BLACKMAGE_STATE::TELEPORT;
 	}
 
 	if (++time % 600 == 0)
 	{
 		state = BLACKMAGE_STATE::ATTACK;
+		animation_type = 0;
 	}
 
-	if (time % 60 == 0)
-	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { 0,0 }, -1, 20, ATTACK_TYPE::EXPLOSION, 1.0f);
-	}
 
 }
 
@@ -209,6 +233,7 @@ void BlackMage::Wait()
 
 	if (++time % 200 == 0)
 	{
+		image_type = 6;
 		state = BLACKMAGE_STATE::TELEPORT;
 	}
 
@@ -220,11 +245,11 @@ void BlackMage::Attack()
 {
 	if (is_facing_left)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { -10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { -10,0 }, 10, 3, ATTACK_TYPE::BIG_EXPLOSION, 3.0f);
 	}
 	else
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { +10,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { +10,0 }, 10, 3, ATTACK_TYPE::BIG_EXPLOSION, 3.0f);
 	}
 
 	state = BLACKMAGE_STATE::WAIT;
@@ -234,7 +259,7 @@ void BlackMage::MoveAttack()
 {
 	if (++time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 60,60 }, { 0,+10 }, 10, 5, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 60,60 }, { 0,+10 }, 10, 5, ATTACK_TYPE::EXPLOSION, 2.0f);
 	}
 }
 
@@ -242,14 +267,45 @@ void BlackMage::TeleportAttack()
 {
 	location = { 8900,300 };
 
+	if (animation_time % 12 == 0)
+	{
+		++animation_type;
+		++image_type;
+
+
+		if (image_type > 9)
+		{
+			image_type = 6;
+		}
+
+
+		if (start_animation)
+		{
+			if (animation_type > 2)
+			{
+				animation_type = 2;
+			}
+		}
+		else
+		{
+
+			if (animation_type > 9)
+			{
+				animation_type = 0;
+			}
+		}
+
+	}
+
 	if (lock_on)
 	{
 		if (attack)
 		{
-			if (++time % 600 == 0)
+			if (++time % 120 == 0)
 			{
-				attack_manager->AddEnemyAttack({ attack_location.x,300 }, { 30,250 }, { 0,0 }, 3, 10, ATTACK_TYPE::EXPLOSION, 4.0f);
+				attack_manager->AddEnemyAttack({ attack_location.x,300 }, { 30,250 }, { 0,0 }, 3, 10, ATTACK_TYPE::EXPLOSION, 0);
 				attack = false;
+				start_animation = true;
 				time = 0;
 			}
 		}
@@ -260,15 +316,21 @@ void BlackMage::TeleportAttack()
 				time = 0;
 				lock_on = false;
 				state = BLACKMAGE_STATE::NORMAL;
+				start_animation = false;
+				animation_type = 0;
 			}
 		}
 	}
 	else
 	{
+		if (++time % 600 == 0)
+		{
+			lock_on = true;
+			attack = true;
+			animation_type = 0;
+		}
+
 		attack_location = player_manager->GetPlayerData()->GetLocation();
-		lock_on = true;
-		attack = true;
-		attack_manager->AddEnemyAttack({ attack_location.x,500 }, { 0,0 }, { 0,0 }, 5, 0, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 
 }

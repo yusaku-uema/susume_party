@@ -18,12 +18,17 @@ class BlackMage :
     public EnemyBase
 {
     int blackmage_image[14]; //ボス（黒魔導士）の画像
+    int tentacle_image[10]; 
+    int lock_image[10];
+    int charge_image[10];
     int roundtrips; //画面を往復した回数
+    int animation_type;
     int num; //
     
     bool move_up; //上に移動
     bool lock_on; //プレイヤーに狙いを定める。
     bool attack; //攻撃開始
+    bool start_animation;
 
 
     int old_hp;

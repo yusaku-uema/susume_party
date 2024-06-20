@@ -165,12 +165,14 @@ void Stage::Draw() const
 	{
 		DrawRotaGraph(back_ground_block[i].location.x + camera_work, back_ground_block[i].location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
 	}
+	
+	//敵の表示
+	enemy_manager->Draw();
 
 	//プレイヤー表示
 	player_manager->Draw();
 
-	//敵の表示
-	enemy_manager->Draw();
+	
 
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();
