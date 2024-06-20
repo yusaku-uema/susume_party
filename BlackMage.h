@@ -19,16 +19,18 @@ class BlackMage :
 {
     int blackmage_image[14]; //ボス（黒魔導士）の画像
     int roundtrips; //画面を往復した回数
+    int num; //
     
     bool move_up; //上に移動
     bool lock_on; //プレイヤーに狙いを定める。
+    bool attack; //攻撃開始
 
 
     int old_hp;
 
     BLACKMAGE_STATE state; //バードの状態
     DATA old_location; //前の座標
-    DATA player_location; //攻撃時のプレイヤーの位置
+    DATA attack_location; //攻撃時のプレイヤーの位置
 
 
 public:

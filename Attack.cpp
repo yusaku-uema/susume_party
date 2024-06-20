@@ -20,10 +20,10 @@ Attack::~Attack()
 
 bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager)
 {
-	if (player_manager != nullptr)
-	{
-		target = player_manager->GetPlayerData();
-	}
+	//if (player_manager != nullptr)
+	//{
+	//	//target = player_manager->GetPlayerData();
+	//}
 
 	//’Ç”ö‚·‚éê‡
 

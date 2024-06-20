@@ -30,6 +30,7 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	animation_time = 0;
 	roundtrips = 0;
 	time = 0;
+	num = 2;
 
 	attack_speed = 0;
 	distance_moved = 0;
@@ -38,11 +39,13 @@ BlackMage::BlackMage(class Stage* stage, class PlayerManager* player_manager, cl
 	is_facing_left = true;
 	direction = true;
 	lock_on = false;
+	attack = false;
 
 
-	state = BLACKMAGE_STATE::WAIT;
+	state = BLACKMAGE_STATE::STANDBY;
 
 	//this->location = { 2300,330 };
+	attack_location = { 0,0 };
 	this->location = location;
 	this->radius = { BLACKMAGE_SIZE, 40 };
 
@@ -80,7 +83,13 @@ void BlackMage::Update()
 		Standby();
 		break;
 	case BLACKMAGE_STATE::STANDBY:
-
+		if (CalculateDistance() < SEARCH_RANGE)
+		{
+			state = BLACKMAGE_STATE::NORMAL;
+		}
+		break;
+	case BLACKMAGE_STATE::TELEPORT:
+		TeleportAttack();
 		break;
 	default:
 		break;
@@ -100,9 +109,14 @@ void BlackMage::Draw() const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1.5, 0, blackmage_image[image_type], TRUE, !is_facing_left);
-		
+
 		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		DrawHPBar(MAX_HP);
+
+		DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "x%f  y%f", location.x, location.y);
+
+		DrawBox(attack_location.x - 30, 300 - 250, attack_location.x + 30, 300 + 250, 0x00ffff, FALSE);
+
 	}
 }
 
@@ -148,8 +162,9 @@ void BlackMage::Move()
 		roundtrips++;
 		is_facing_left = !is_facing_left;
 
-		if (roundtrips > 1)
+		if (roundtrips > num)
 		{
+			num = GetRand(3);
 			state = BLACKMAGE_STATE::ATTACK_STANDBY;
 			roundtrips = 0;
 			time = 0;
@@ -172,7 +187,7 @@ void BlackMage::Standby()
 
 	if (old_hp - 20 < hp)
 	{
-		
+
 	}
 
 	if (++time % 600 == 0)
@@ -182,33 +197,23 @@ void BlackMage::Standby()
 
 	if (time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y}, { 40,40 }, { 0,0 }, -1, 20, ATTACK_TYPE::EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,40 }, { 0,0 }, -1, 20, ATTACK_TYPE::EXPLOSION, 1.0f);
 	}
 
 }
 
 void BlackMage::Wait()
 {
-	if (lock_on)
-	{
 
-		location.y--;
+	//location.y--;
 
-		if (++time % 200 == 0)
-		{
-			state = BLACKMAGE_STATE::NORMAL;
-		}
-	}
-	else
+	if (++time % 200 == 0)
 	{
-		//先頭プレイヤーとの距離がSEARCH_RANGE以下なら動き出す
-		if (CalculateDistance() < SEARCH_RANGE)
-		{
-			state = BLACKMAGE_STATE::NORMAL;
-			lock_on = true;
-		}
+		state = BLACKMAGE_STATE::TELEPORT;
 	}
-	
+
+
+
 }
 
 void BlackMage::Attack()
@@ -235,6 +240,36 @@ void BlackMage::MoveAttack()
 
 void BlackMage::TeleportAttack()
 {
+	location = { 8900,300 };
+
+	if (lock_on)
+	{
+		if (attack)
+		{
+			if (++time % 600 == 0)
+			{
+				attack_manager->AddEnemyAttack({ attack_location.x,300 }, { 30,250 }, { 0,0 }, 3, 10, ATTACK_TYPE::EXPLOSION, 4.0f);
+				attack = false;
+				time = 0;
+			}
+		}
+		else
+		{
+			if (++time % 300 == 0)
+			{
+				time = 0;
+				lock_on = false;
+				state = BLACKMAGE_STATE::NORMAL;
+			}
+		}
+	}
+	else
+	{
+		attack_location = player_manager->GetPlayerData()->GetLocation();
+		lock_on = true;
+		attack = true;
+		attack_manager->AddEnemyAttack({ attack_location.x,500 }, { 0,0 }, { 0,0 }, 5, 0, ATTACK_TYPE::EXPLOSION, 1.0f);
+	}
 
 }
 
