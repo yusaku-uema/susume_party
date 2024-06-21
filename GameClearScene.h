@@ -16,6 +16,7 @@ private:
     int hero_x; // —EÒ‚ÌXÀ•W
     int hero_y; // —EÒ‚ÌYÀ•W
     int hero_direction; // —EÒ‚ÌŒü‚« (1: ‰EŒü‚«, -1: ¶Œü‚«)
+    int bgm;
 
     bool is_moving; // —EÒ‚ªˆÚ“®‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
   

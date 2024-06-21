@@ -43,6 +43,11 @@ void CreditScene::Draw() const
 
 
 	DrawString(0, 0, "Credit", 0xffffff);
+	
+
+	DrawString(500, 200, "MusMus \n DOVA-SYNDROME", 0xfffff);
+
+
 }
 
 SCENE_TYPE CreditScene::GetNowScene() const

@@ -65,6 +65,23 @@ BlackMage::~BlackMage()
 	{
 		DeleteGraph(blackmage_image[i]);
 	}
+
+
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(tentacle_image[i]);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(lock_image[i]);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(charge_image[i]);
+	}
+
+
 }
 
 void BlackMage::Update()
@@ -104,6 +121,7 @@ void BlackMage::Update()
 	if (hp <= 0)
 	{
 		is_dead = true;
+		dead_boss = true;
 	}
 
 }
@@ -212,10 +230,6 @@ void BlackMage::Standby()
 		location.y -= speed.y;
 	}
 
-	if (old_hp - 35 < hp)
-	{
-		state = BLACKMAGE_STATE::TELEPORT;
-	}
 
 	if (++time % 600 == 0)
 	{
