@@ -123,7 +123,7 @@ SCENE_TYPE TitleScene::Update(float delta_time)
 
     if (CheckSoundMem(bgm) != 1)
     {   //SEが流れていなかったら再生
-        PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
+        PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, TRUE); //SE再生
     }
 
     // アニメーションのフレーム更新
