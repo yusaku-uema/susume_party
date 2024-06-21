@@ -34,7 +34,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	//this->location = { 600.0f, 300.0f };
 	this->location = location;
 	this->spawn_location = location;
-	this->radius = { SLIME_SIZE ,SLIME_SIZE+1 };
+	this->radius = { SLIME_SIZE+20 ,SLIME_SIZE };
 	this->hp = MAX_HP;
 	this->is_dead = false;
 
@@ -127,9 +127,7 @@ void Slime::Draw() const
 		}
 		else
 		{
-			/*DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "‹——£%d", distance);*/
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
-			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		}
 
 		DrawHPBar(MAX_HP);

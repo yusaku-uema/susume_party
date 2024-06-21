@@ -10,6 +10,8 @@ GameOverScene::GameOverScene() : alpha(0), alpha_speed(2), message(nullptr), opt
     // メッセージ作成
     message = new Message("txt/gameover.txt");
 
+    bgm= LoadSoundMem("bgm/gameover.mp3");
+
     // 選択肢画像の読み込み
     option_yes_image = LoadGraph("image/GameOver/yes.png");
     option_no_image = LoadGraph("image/GameOver/no.png");
@@ -25,6 +27,10 @@ GameOverScene::~GameOverScene()
     DeleteGraph(option_yes_image);
     DeleteGraph(option_no_image);
     delete message; // メッセージの削除
+
+    StopSoundMem(bgm);
+    DeleteSoundMem(bgm);
+
 }
 
 void GameOverScene::Initialize()
@@ -39,6 +45,14 @@ void GameOverScene::Finalize()
 
 SCENE_TYPE GameOverScene::Update(float delta_time)
 {
+
+
+    if (CheckSoundMem(bgm) != 1)
+    {   //SEが流れていなかったら再生
+        PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
+    }
+
+
     // 透明度の増加
     if (alpha < 255)
     {

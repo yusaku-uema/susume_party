@@ -9,6 +9,7 @@ private:
 
     int alpha;//透明度の管理
     int alpha_speed;//透明度の速度
+    int bgm;
 
     int option_yes_image;//「はい」の画像
     int option_no_image;//「いいえ」の画像
