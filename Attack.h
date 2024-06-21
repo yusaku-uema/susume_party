@@ -24,7 +24,7 @@ public:
     Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size);
     ~Attack();
 
-    bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager);
+    bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
 
     void DeleteTargetPointer(BoxCollider* target);//追跡中のキャラのポインターの消去

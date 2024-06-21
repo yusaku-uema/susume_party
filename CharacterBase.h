@@ -1,6 +1,7 @@
 #pragma once
 #include"BoxCollider.h"
 
+
 class CharacterBase : public BoxCollider
 {
 protected:
@@ -21,6 +22,8 @@ protected:
 public:
     CharacterBase(DATA location, DATA size, int hp, int mp, int attack_power, int defense_power);
     ~CharacterBase();
+
+    void SetPointer(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager);
 
     virtual bool HitDamege(BoxCollider* bc, int attack_power) { return false; }//UŒ‚‚ğH‚ç‚Á‚½‚Ìˆ—
 

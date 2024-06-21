@@ -4,8 +4,8 @@
 class Hero : public PlayerBase
 {
 private:
-
+    void SpecialSkill()override;
 public:
-    Hero(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
+    Hero();
     ~Hero();
 };

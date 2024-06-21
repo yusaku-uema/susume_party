@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#define ATTACK_SPEED 3
+#define ATTACK_SPEED 7
 #define IMAGE_CHANGE_TIME 0.1f
 
 Attack::Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
@@ -18,7 +18,7 @@ Attack::~Attack()
 	OutputDebugString("Attackデストラクタ呼ばれました。\n");
 }
 
-bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, EnemyManager* enemy_manager)
+bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager)
 {
 	//if (player_manager != nullptr)
 	//{
@@ -100,8 +100,8 @@ void Attack::TrackingCharacter()
 
 	angle = atan2(dy, dx) * 180 / M_PI;
 
-	speed.x = (dx / distance) * 3;
-	speed.y = (dy / distance) * 3;
+	speed.x = (dx / distance) * ATTACK_SPEED;
+	speed.y = (dy / distance) * ATTACK_SPEED;
 }
 
 void Attack::DeleteTargetPointer(BoxCollider* target)

@@ -10,18 +10,27 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-PlayerManager::PlayerManager(class Stage* stage, class AttackManager* attack_manager, class Ui* ui) : stage(stage), draw_arrow_time(0.0f)
+PlayerManager::PlayerManager(class Ui* ui) : stage(stage), draw_arrow_time(0.0f)
 {
-	player[0] = new Hero(stage, this, attack_manager);//勇者
-	player[1] = new Warrior(stage, this, attack_manager);//戦士
-	player[2] = new Wizard(stage, this, attack_manager);//魔法使い
-	player[3] = new Monk(stage, this, attack_manager); //僧侶
+	player[0] = new Hero();//勇者
+	player[1] = new Warrior();//戦士
+	player[2] = new Wizard();//魔法使い
+	player[3] = new Monk(); //僧侶
 
 	ui->SetPlayerPointer(player);
 
 	if ((arrow_image = LoadGraph("image/Player/arrow.png")) == -1)throw("image/Player/arrow.pngが読み込めません\n");
 
 	OutputDebugString("PlayerManagerコンストラクタ呼ばれました。\n");
+}
+
+void PlayerManager::SetPointer(class Stage* stage, class EnemyManager* enemy_manager, class AttackManager* attack_manager)
+{
+	this->stage = stage;
+	this->enemy_manager = enemy_manager;
+	this->attack_manager = attack_manager;
+
+	for (int i = 0; i < PLAYER_NUM; i++)player[i]->SetPointer(stage, this, enemy_manager, attack_manager);
 }
 
 PlayerManager::~PlayerManager()

@@ -61,7 +61,11 @@ bool EnemyManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
 
 class BoxCollider* EnemyManager::GetEnemyData(int enemy_num)const
 {
-    return enemy[enemy_num];
+    if ((enemy.size() != 0) && (enemy_num < enemy.size()) && (enemy_num >= 0))
+    {
+        return enemy[enemy_num];
+    }
+    return nullptr;
 }
 
 int EnemyManager::GetEnemyNum()const
@@ -76,6 +80,9 @@ void EnemyManager::Draw() const
         DrawFormatString(enemy[i]->GetLocation().x + stage->GetCameraWork(), enemy[i]->GetLocation().y - 50, 0xffffff, "%d", i);
         enemy[i]->Draw();
     }
+
+    DrawFormatString(0, 100, 0xffffff, "enemy_num = %d", enemy.size());
+
 }
 
 void EnemyManager::SpawnEnemy(int enemy_type, DATA location)

@@ -6,6 +6,6 @@ class Warrior : public PlayerBase
 private:
 
 public:
-    Warrior(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
+    Warrior();
     ~Warrior();
 };

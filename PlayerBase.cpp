@@ -1,5 +1,5 @@
 #include"DxLib.h"
-#include"Stage.h"
+#include"PlayerBase.h"
 #include"Key.h"
 
 #define PI       3.14159265358979323846   // pi
@@ -70,6 +70,11 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
         image_change_time = 0.0f;
     }
 
+    if (weapon_angle != 0)
+    {
+        if ((weapon_angle += 15) > MAX_WEAPON_ANGLE)weapon_angle = 0;
+    }
+
     //キャラクターの座標更新
     if (is_leader)
     {
@@ -115,11 +120,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 
 void PlayerBase::UpdateLeader()
 {
-    if (weapon_angle != 0)
-    {
-        if ((weapon_angle += 15) > MAX_WEAPON_ANGLE)weapon_angle = 0;
-    }
-    else
+    if(weapon_angle == 0)
     {
         //物理攻撃(Bボタン入力時)
 
@@ -128,12 +129,12 @@ void PlayerBase::UpdateLeader()
             if (is_facing_left)
             {
                 //左に攻撃
-                attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+                attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
             }
             else
             {
                 //右に攻撃
-                attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
+                attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 1.0f);
             }
 
             weapon_angle += 15;
@@ -143,17 +144,7 @@ void PlayerBase::UpdateLeader()
 
         else if (Key::KeyDown(KEY_TYPE::Y))
         {
-            if (is_facing_left)
-            {
-                //左に攻撃
-                attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-            }
-            else
-            {
-                //右に攻撃
-                attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-            }
-
+            SpecialSkill();
             weapon_angle += 15;
         }
     }
@@ -347,7 +338,7 @@ bool PlayerBase::HitDamege(BoxCollider* bc, int attack_power)
         if ((hp -= attack_power) <= 0)
         {
             hp = 0;
-            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 5.0f);
+            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 5.0f);
             is_set_casket = true;
             
         }

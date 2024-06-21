@@ -1,5 +1,6 @@
 #pragma once
 #include"CharacterBase.h"
+#include"Stage.h"
 
 #define JUMP_LOG 40//過去数回分のジャンプの記録
 
@@ -8,8 +9,6 @@ class PlayerBase : public CharacterBase
 protected:
     int player_image[3][5];
     int weapon_image;
-
-    virtual void SpecialSkill() {};
 
 private:
 
@@ -33,8 +32,9 @@ private:
     void SetJumpLog(bool is_jump);//ジャンプログを更新
     bool GetJumpLog()const;//一番古いジャンプログを渡す
 
-public:
+    virtual void SpecialSkill() {};
 
+public:
     PlayerBase(PLAYER_JOB player_job);
     ~PlayerBase();
 
