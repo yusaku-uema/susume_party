@@ -34,6 +34,7 @@ SCENE_TYPE GameMainScene::Update(float delta_time)
 	// ステージの更新処理
 	if (stage->Update(delta_time))return SCENE_TYPE::GAME_OVER;
 
+	if (stage->NextTransition()) return SCENE_TYPE::GAME_CLEAR;
 
 	// メッセージの更新処理
 	if (message != nullptr)

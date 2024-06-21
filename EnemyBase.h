@@ -17,6 +17,7 @@ protected:
 	float dx, dy; //変化量
 
 	bool direction; //向いている方向
+	bool dead_boss;
 	bool death_animation; //死亡アニメーション開始
 
 	DATA spawn_location; //スポーンした座標を覚える
@@ -33,6 +34,7 @@ public:
 	bool ScopeoOfActivity(float camera_work); //活動範囲外に出ていないのか
 
 	bool HitDamege(BoxCollider* bc, int attack_power)override;
+	bool GetDeadBoss();
 
 };
 

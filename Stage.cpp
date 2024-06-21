@@ -9,6 +9,7 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	player_manager = new PlayerManager(this, attack_manager, ui);
 	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
 
+	next_transition = false;
 	
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
@@ -84,6 +85,11 @@ bool Stage::Update(float delta_time)
 
 		//敵の更新
 		enemy_manager->Update(delta_time);
+		
+		if (enemy_manager->NextTransition())
+		{
+			next_transition = true;
+		}
 
 		//攻撃の更新
 		attack_manager->Update(delta_time);
@@ -103,6 +109,11 @@ bool Stage::HitBlock(BoxCollider* bc)const
 
 	//ブロックに当たらなかった
 	return false;
+}
+
+bool Stage::NextTransition()
+{
+	return next_transition;
 }
 
 void Stage::SetCameraWork()

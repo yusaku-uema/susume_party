@@ -18,6 +18,7 @@ EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manag
 {
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
     SetEnemy();
+    dead_boss = false;
 }
 
 EnemyManager::~EnemyManager()
@@ -38,6 +39,10 @@ void EnemyManager::Update(float delta_time)
         //死んだ場合
         if (enemy[i]->GetIsDead())
         {
+            if (enemy[i]->GetDeadBoss())
+            {
+                dead_boss = true;
+            }
             attack_manager->DeleteTargetPointer(enemy[i]);
             delete enemy[i];
             enemy.erase(enemy.begin() + i);//敵を消す
@@ -57,6 +62,11 @@ bool EnemyManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
         }
     }
     return false;
+}
+
+bool EnemyManager::NextTransition()
+{
+    return dead_boss;
 }
 
 class BoxCollider* EnemyManager::GetEnemyData(int enemy_num)const

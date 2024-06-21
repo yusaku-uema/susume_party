@@ -24,6 +24,8 @@ private:
 
     std::vector<class EnemyBase*>enemy;
 
+    bool dead_boss;
+
 public:
 
     EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //ŒÄ‚Ño‚µ‚½‚¢“G‚ÆÀ•W‚ğ
@@ -35,7 +37,8 @@ public:
     void SetEnemy();
 
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//UŒ‚‚ª“–‚½‚Á‚½‚©Šm‚©‚ß‚é
-    
+    bool NextTransition();
+
     class BoxCollider* GetEnemyData(int enemy_num)const;
     int GetEnemyNum()const;
 };

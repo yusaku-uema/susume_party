@@ -104,6 +104,7 @@ void BlackMage::Update()
 	if (hp <= 0)
 	{
 		is_dead = true;
+		dead_boss = true;
 	}
 
 }
@@ -212,10 +213,6 @@ void BlackMage::Standby()
 		location.y -= speed.y;
 	}
 
-	if (old_hp - 35 < hp)
-	{
-		state = BLACKMAGE_STATE::TELEPORT;
-	}
 
 	if (++time % 600 == 0)
 	{
