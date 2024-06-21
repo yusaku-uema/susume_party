@@ -161,7 +161,7 @@ void Flower::Draw() const
 		{
 			//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
-			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+			//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		}
 
