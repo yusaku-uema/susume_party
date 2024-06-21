@@ -47,7 +47,7 @@ void SceneManager::Initialize()
 	}
 
 	//タイトルシーンから始める
-	ChangeScene(SCENE_TYPE::TITLE);
+	ChangeScene(SCENE_TYPE::TALKUI);
 }
 
 //シーンマネージャー機能:更新処理
