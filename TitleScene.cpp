@@ -51,6 +51,7 @@ void TitleScene::Initialize()
     // 効果音の読み込み
     move_se = LoadSoundMem("bgm/MoveCursor.mp3");
     decision_se = LoadSoundMem("bgm/click.mp3");
+    bgm = LoadSoundMem("bgm/stageselect.mp3");
 
     // キャラクター画像の分割読み込み
     LoadDivGraph("image/Player/Monk/walk.png", 5, 5, 1, 50, 50, characterImages[0]);
@@ -105,6 +106,10 @@ void TitleScene::Finalize()
     DeleteSoundMem(move_se);
     DeleteSoundMem(decision_se);
 
+    StopSoundMem(bgm);
+    DeleteSoundMem(bgm);
+
+
     // TalkUIの終了処理
     talkUi.Finalize();
 }
@@ -116,10 +121,9 @@ SCENE_TYPE TitleScene::Update(float delta_time)
     // 現在の時間を取得
     int currentTime = GetNowCount(); // DXライブラリの関数を使用して現在の時間をミリ秒単位で取得
 
-    // BGMが再生されていなかったら再生
     if (CheckSoundMem(bgm) != 1)
-    {
-        PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE);
+    {   //SEが流れていなかったら再生
+        PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
     }
 
     // アニメーションのフレーム更新
@@ -198,11 +202,7 @@ SCENE_TYPE TitleScene::Update(float delta_time)
                 PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
                 DxLib_End();
             }
-            else if (key->KeyDown(KEY_TYPE::B))
-            {
-                PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
-                can_scene_change = TRUE;
-            }
+          
         }
 
         // ヘルプメニュー処理
