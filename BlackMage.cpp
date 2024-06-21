@@ -65,6 +65,23 @@ BlackMage::~BlackMage()
 	{
 		DeleteGraph(blackmage_image[i]);
 	}
+
+
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(tentacle_image[i]);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(lock_image[i]);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		DeleteGraph(charge_image[i]);
+	}
+
+
 }
 
 void BlackMage::Update()

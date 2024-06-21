@@ -7,6 +7,7 @@ GameClearScene::GameClearScene()
 {
 	// メッセージ作成
 	message = new Message("txt/gameclear.txt");
+	bgm =LoadSoundMem("bgm/gameclear.mp3");
 }
 
 GameClearScene::~GameClearScene()
@@ -54,10 +55,20 @@ void GameClearScene::Finalize()
 		DeleteGraph(hero_images[i]); // 勇者の歩行画像の削除
 		DeleteGraph(hero_standby[i]); // 勇者の待機画像の削除
 	}
+
+
+	StopSoundMem(bgm);
+	DeleteSoundMem(bgm);
 }
 
 SCENE_TYPE GameClearScene::Update(float delta_time)
 {
+
+	if (CheckSoundMem(bgm) != 1)
+	{   //SEが流れていなかったら再生
+		PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
+	}
+
 
 	// メッセージの更新処理を呼び出し、true が返されたらシーン遷移
 	if (message->Update(delta_time))

@@ -11,6 +11,7 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 
 	next_transition = false;
 	
+	
 	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//”wŒi‰æ‘œ

@@ -14,6 +14,7 @@ private:
 	float delta_time = 0.0f;
 	int fps = 0;
 	int fps_count = 0;
+	int bgm;
 
 	bool is_pause;//ポーズ画面表示するか？
 public:

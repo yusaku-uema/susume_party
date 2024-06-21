@@ -16,6 +16,7 @@ void GameMainScene::Initialize()
 	ui = new Ui();
 	stage = new Stage(ui);
 	message = new Message("txt/comment.txt");
+	bgm= LoadSoundMem("bgm/stage.mp3");
 }
 
 //終了時処理
@@ -24,11 +25,21 @@ void GameMainScene::Finalize()
 	delete ui;
 	delete stage;
 	delete message;
+
+	StopSoundMem(bgm);
+	DeleteSoundMem(bgm);
 }
 
 //更新処理
 SCENE_TYPE GameMainScene::Update(float delta_time)
 {
+
+	if (CheckSoundMem(bgm) != 1)
+	{   //SEが流れていなかったら再生
+		PlaySoundMem(bgm, DX_PLAYTYPE_BACK, TRUE); //SE再生
+	}
+
+
 	ui->Update();
 
 	// ステージの更新処理
