@@ -6,6 +6,7 @@
 #include"CreditScene.h"
 #include"GameMainScene.h"
 #include"GameOverScene.h"
+#include"GameClearScene.h"
 #include"Key.h"
 
 
@@ -47,7 +48,7 @@ void SceneManager::Initialize()
 	}
 
 	//タイトルシーンから始める
-	ChangeScene(SCENE_TYPE::TALKUI);
+	ChangeScene(SCENE_TYPE::TITLE);
 }
 
 //シーンマネージャー機能:更新処理
@@ -141,6 +142,8 @@ SceneBase* SceneManager::CreateScene(SCENE_TYPE scene_type)
 		return new GameMainScene;
 	case SCENE_TYPE::GAME_OVER:
 		return new GameOverScene;
+	case SCENE_TYPE::GAME_CLEAR:
+		return new GameClearScene;
 	case SCENE_TYPE::ENDING:
 	default:
 		return nullptr;
