@@ -20,8 +20,6 @@ EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manag
     SetEnemy();
 }
 
-
-
 EnemyManager::~EnemyManager()
 {
     for (int i = 0; i < enemy.size(); i++)delete enemy[i];
@@ -40,8 +38,9 @@ void EnemyManager::Update(float delta_time)
         //€‚ñ‚¾ê‡
         if (enemy[i]->GetIsDead())
         {
+            attack_manager->DeleteTargetPointer(enemy[i]);
             delete enemy[i];
-            enemy.erase(enemy.begin() + i);//UŒ‚‚ğÁ‚·
+            enemy.erase(enemy.begin() + i);//“G‚ğÁ‚·
             i--;
         }
     }
@@ -60,9 +59,23 @@ bool EnemyManager::CheckHitDamage(class BoxCollider* bc, int attack_power)
     return false;
 }
 
+class BoxCollider* EnemyManager::GetEnemyData(int enemy_num)const
+{
+    return enemy[enemy_num];
+}
+
+int EnemyManager::GetEnemyNum()const
+{
+    return enemy.size();
+}
+
 void EnemyManager::Draw() const
 {
-    for (int i = 0; i < enemy.size(); i++)enemy[i]->Draw();
+    for (int i = 0; i < enemy.size(); i++)
+    {
+        DrawFormatString(enemy[i]->GetLocation().x + stage->GetCameraWork(), enemy[i]->GetLocation().y - 50, 0xffffff, "%d", i);
+        enemy[i]->Draw();
+    }
 }
 
 void EnemyManager::SpawnEnemy(int enemy_type, DATA location)

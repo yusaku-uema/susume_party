@@ -38,6 +38,9 @@ public:
     //プレイヤーの攻撃を追加(攻撃座標、攻撃サイズ、攻撃スピード、攻撃の継続時間、攻撃力、攻撃の画像)
     void AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size);
 
+    //追跡キャラが消えた時の処理
+    void DeleteTargetPointer(BoxCollider* target);
+
     void Update(float delta_time);
     void Draw() const;
 

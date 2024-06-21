@@ -129,7 +129,7 @@ void Fairy::Draw() const
 
 		if (state == FAIRY_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
@@ -189,6 +189,7 @@ void Fairy::Move()
 	if (CalculateDistance() < SEARCH_RANGE)
 	{
 		state = FAIRY_STATE::STANDBY;
+		image_type = 8;
 	}
 
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
@@ -208,14 +209,14 @@ void Fairy::Move()
 //-----------------------------------
 void Fairy::Standby()
 {
+	
 	if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 	{
-		if (++image_type > 12)
+		if (++image_type > 11)
 		{
 			image_type = 8;
 		}
 	}
-
 
 	//先頭プレイヤーとの距離がSEARCH_RANGE以下なら攻撃開始
 	if (CalculateDistance() < SEARCH_RANGE)
@@ -232,6 +233,9 @@ void Fairy::Standby()
 		state = FAIRY_STATE::NORMAL;
 		time = 0;
 	}
+
+
+
 
 }
 
@@ -258,23 +262,11 @@ void Fairy::Attack()
 		float distance = sqrtf(dx * dx + dy * dy);
 
 
-		if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
-
-		if (distance >= 5)
-		{
-			location.x += (dx / distance) * attack_speed;
-			location.y += (dy / distance) * attack_speed;
-		}
-		else
-		{
-			attack_speed = 0;
-			state = FAIRY_STATE::NORMAL;
-		}
 
 		//攻撃
-		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 10, 3, BIG_EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 5, 3, BIG_EXPLOSION, 1.0f);
 
-		state = FAIRY_STATE::NORMAL;
+		state = FAIRY_STATE::STANDBY;
 	}
 
 	

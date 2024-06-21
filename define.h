@@ -16,6 +16,8 @@
 #define GRAVITY 0.2f //重力の大きさ
 #define FALL_SPEED 5.0f//落下速度の最大値
 
+#define ENEMY_EXPLOSION_SIZE 5
+
 struct DATA //座標,大きさ,スピードなどに使う
 {
     float x, y;

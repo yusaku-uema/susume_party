@@ -60,17 +60,25 @@ void AttackManager::Update(float delta_time)
     }
 }
 
+//’ÇÕƒLƒƒƒ‰‚ªÁ‚¦‚½‚Ìˆ—
+void AttackManager::DeleteTargetPointer(BoxCollider* target)
+{
+    for (int i = 0; i < player_attack.size(); i++)player_attack[i].DeleteTargetPointer(target);
+}
+
 
 ////////“G‚ÌUŒ‚‚Ì’Ç‰Á/////////////
 void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    enemy_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
+    enemy_attack.emplace_back(location, size, speed, nullptr, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 ////////ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Ì’Ç‰Á//////////////
 void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    player_attack.emplace_back(location, size, speed, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
+    BoxCollider* enemy = enemy_manager->GetEnemyData(0);
+
+    player_attack.emplace_back(location, size, speed, enemy, 999, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 void AttackManager::SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager)

@@ -24,6 +24,8 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 	animation_time = 0;
 	image_type = 4;
 	standby_time = 0;
+	angle = 0;
+
 	start_attack = false;
 
 	direction = true;
@@ -153,7 +155,7 @@ void Flower::Draw() const
 	{
 		if (state == FLOWER_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
@@ -164,6 +166,8 @@ void Flower::Draw() const
 		}
 
 		DrawHPBar(MAX_HP);
+
+		/*DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "向く方向%f", angle);*/
 		
 	}
 }
@@ -175,7 +179,7 @@ void Flower::Draw() const
 void Flower::Attack()
 {
 
-	if (++animation_time % TIMING_ATTACK == 0)
+	if (++animation_time % 60 == 0)
 	{
 		start_attack = true;
 	}
@@ -184,7 +188,7 @@ void Flower::Attack()
 	{
 
 		//画像切替処理
-		if (time % 12 == 0)
+		if (time % 10 == 0)
 		{
 			if (++image_type > 1)
 			{
@@ -217,7 +221,7 @@ float Flower::CalculateDistance()
 	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
-	float angle = atan2(dy, dx) * 180 / M_PI;
+	angle = atan2(dy, dx) * 180 / M_PI;
 
 	if (angle >= -45 && angle <= 85)
 	{

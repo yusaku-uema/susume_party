@@ -24,6 +24,7 @@ Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class Atta
 	image_type = 0;
 	move_left = true;
 	direction = true;
+	distance = 0;
 
 	time = 0;
 
@@ -81,14 +82,16 @@ void Slime::Update()
 		break;
 	case SLIME_STATE::DEATH:
 		//画像切替処理
-		if (time % 12 == 0)
+		if (animation_time % 12 == 0)
 		{
 			if (++image_type > 3)
 			{
 				is_dead = true;
 			}
 		}
+		break;
 	}
+	
 
 	if (death_animation == false)
 	{
@@ -99,6 +102,12 @@ void Slime::Update()
 			image_type = 0;
 		}
 	}
+
+	if (location.y > 720)
+	{
+		is_dead = true;
+	}
+
 
 }
 
@@ -114,10 +123,11 @@ void Slime::Draw() const
 	{
 		if (state == SLIME_STATE::DEATH)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1.5, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
 		}
 		else
 		{
+			/*DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "距離%d", distance);*/
 			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
 			DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 		}
@@ -228,7 +238,7 @@ float Slime::CalculateDistance()
 
 	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
 	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
-	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+	 distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
 	float angle = atan2(dy, dx) * 180 / M_PI;
 

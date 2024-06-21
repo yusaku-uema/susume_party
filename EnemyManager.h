@@ -35,4 +35,7 @@ public:
     void SetEnemy();
 
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//UŒ‚‚ª“–‚½‚Á‚½‚©Šm‚©‚ß‚é
+    
+    class BoxCollider* GetEnemyData(int enemy_num)const;
+    int GetEnemyNum()const;
 };

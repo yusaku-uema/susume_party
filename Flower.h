@@ -20,6 +20,8 @@ class Flower :
     int standby_time; //攻撃後の待機時間測定
     long int animation_time; //画像切替に使う変数
 
+    float angle;
+
 
     bool start_attack; //攻撃開始
     bool direction; //向いている方向
