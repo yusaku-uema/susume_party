@@ -87,11 +87,11 @@ void EnemyManager::Draw() const
 {
     for (int i = 0; i < enemy.size(); i++)
     {
-        DrawFormatString(enemy[i]->GetLocation().x + stage->GetCameraWork(), enemy[i]->GetLocation().y - 50, 0xffffff, "%d", i);
+        //DrawFormatString(enemy[i]->GetLocation().x + stage->GetCameraWork(), enemy[i]->GetLocation().y - 50, 0xffffff, "%d", i);
         enemy[i]->Draw();
     }
 
-    DrawFormatString(0, 100, 0xffffff, "enemy_num = %d", enemy.size());
+    //DrawFormatString(0, 100, 0xffffff, "enemy_num = %d", enemy.size());
 
 }
 

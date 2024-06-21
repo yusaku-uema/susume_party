@@ -16,8 +16,30 @@ Wizard::~Wizard()
 //特技
 void Wizard::SpecialSkill()
 {
-    BoxCollider* enemy = enemy_manager->GetEnemyData(0);
+	BoxCollider* enemy =  nullptr;
+	float min_distance = 500.0f;
 
-	attack_manager->AddPlayerAttack(location, { 15.0f,15.0f }, { 0.0f,0.0f }, enemy, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
+	for (int i = 0; i < enemy_manager->GetEnemyNum(); i++)
+	{
+		float dx = location.x - enemy_manager->GetEnemyData(i)->GetLocation().x;
+		float dy = location.y - enemy_manager->GetEnemyData(i)->GetLocation().y;
+		float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
+		if (distance < min_distance)
+		{
+			min_distance = distance;
+			enemy = enemy_manager->GetEnemyData(i);
+		}
+	}
+
+	if (is_facing_left)
+	{
+		//左に攻撃
+		attack_manager->AddPlayerAttack(location, { 10.0f,15.0f }, { -7.0f,0.0f }, enemy, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
+	}
+	else
+	{
+		//右に攻撃
+		attack_manager->AddPlayerAttack(location, { 10.0f,15.0f }, { 7.0f,0.0f }, enemy, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
+	}
 }

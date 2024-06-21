@@ -192,6 +192,6 @@ void Stage::Draw() const
 	attack_manager->Draw();
 
 	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
-	DrawString(950,0, "RB = パーティ切り離し", 0xffffff);
+	DrawString(850,0, "RB = パーティ切り離し", 0xffffff);
 	//DrawFormatString(0, 0, 0xffffff, "%d = block_num", block.size());
 }

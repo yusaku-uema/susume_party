@@ -20,7 +20,7 @@ void Block::Draw(float camera_work)const
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, block_image, TRUE);
 		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, TRUE);
-		DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x000000, FALSE);
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x000000, FALSE);
 
 	}
 }

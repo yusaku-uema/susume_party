@@ -77,7 +77,7 @@ void GameMainScene::Draw() const
 
 	//if(message != nullptr)message->Draw();
 
-	DrawFormatString(500, 0, 0xffffff, "%d", fps);
+	//DrawFormatString(500, 0, 0xffffff, "%d", fps);
 }
 
 //Œ»İ‚ÌƒV[ƒ“î•ñ‚ğæ“¾
