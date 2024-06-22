@@ -92,17 +92,6 @@ void Slime::Update()
 		break;
 	}
 	
-
-	if (death_animation == false)
-	{
-		if (hp <= 0)
-		{
-			state = SLIME_STATE::DEATH;
-			death_animation = true;
-			image_type = 0;
-		}
-	}
-
 	if (location.y > 720)
 	{
 		is_dead = true;
@@ -121,14 +110,7 @@ void Slime::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
-		if (state == SLIME_STATE::DEATH)
-		{
-			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
-		}
-		else
-		{
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
-		}
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
 
 		DrawHPBar(MAX_HP);
 

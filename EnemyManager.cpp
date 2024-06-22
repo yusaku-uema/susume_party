@@ -43,7 +43,10 @@ void EnemyManager::Update(float delta_time)
             {
                 dead_boss = true;
             }
+
+            //‚±‚Ì“G‚ğ’Ç‚Á‚Ä‚¢‚½’e‚Ì’ÇÕ‚ğ‚â‚ß‚é
             attack_manager->DeleteTargetPointer(enemy[i]);
+
             delete enemy[i];
             enemy.erase(enemy.begin() + i);//“G‚ğÁ‚·
             i--;

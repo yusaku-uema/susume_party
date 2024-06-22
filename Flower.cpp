@@ -130,17 +130,6 @@ void Flower::Update()
 		break;
 	}
 
-	if (death_animation == false)
-	{
-		if (hp <= 0)
-		{
-			state = FLOWER_STATE::DEATH;
-			death_animation = true;
-			image_type = 0;
-		}
-	}
-
-
 }
 
 
@@ -153,17 +142,9 @@ void Flower::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
-		if (state == FLOWER_STATE::DEATH)
-		{
-			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
-		}
-		else
-		{
-			//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
-			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
-			//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
-
-		}
+		//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
+		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		DrawHPBar(MAX_HP);
 

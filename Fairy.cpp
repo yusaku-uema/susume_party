@@ -104,16 +104,6 @@ void Fairy::Update()
 	default:
 		break;
 	}
-
-	if (death_animation == false)
-	{
-		if (hp <= 0)
-		{
-			state = FAIRY_STATE::DEATH;
-			death_animation = true;
-			image_type = 0;
-		}
-	}
 }
 
 
@@ -127,24 +117,16 @@ void Fairy::Draw() const
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//‰æ–Ê“à‚ÉƒuƒƒbƒN‚ª‚ ‚éê‡
 	{
 
-		if (state == FAIRY_STATE::DEATH)
+		if (state == FAIRY_STATE::ATTACK)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
 		}
 		else
 		{
-			if (state == FAIRY_STATE::ATTACK)
-			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, direction);
-			}
-			else
-			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, !	move_left);
-			}
-			
-			//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
-
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, fairy_image[image_type], TRUE, !move_left);
 		}
+
+		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		DrawHPBar(MAX_HP);
 	}

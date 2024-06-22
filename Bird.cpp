@@ -26,8 +26,6 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 
 	if (LoadDivGraph("image/Enemy/Bird.png", 11, 11, 1, 80, 80, bird_image) == -1)throw("バード画像読込み失敗\n");
 
-	test_image = LoadGraph("image/Enemy/yaji.png");
-
 	image_type = 0;
 	animation_time = 0;
 
@@ -42,7 +40,6 @@ Bird::Bird(class Stage* stage, class PlayerManager* player_manager, class Attack
 	move_left = false;
 	direction = true;
 	lock_on = false;
-
 
 	state = BIRD_STATE::NORMAL;
 
@@ -120,7 +117,7 @@ void Bird::Update()
 
 		break;
 	case BIRD_STATE::RETURN:
-		Retur();
+		Return();
 
 		if (animation_time % IMAGE_SWITCHING_TIMING == 0)
 		{
@@ -131,28 +128,7 @@ void Bird::Update()
 		}
 
 		break;
-
-	case BIRD_STATE::DEATH:
-		if (animation_time % 12 == 0)
-		{
-			if (++image_type > 3)
-			{
-				is_dead = true;
-			}
-		}
-
-		break;
 	}
-	if (death_animation == false)
-	{
-		if (hp <= 0)
-		{
-			state = BIRD_STATE::DEATH;
-			death_animation = true;
-			image_type = 0;
-		}
-	}
-
 }
 
 //-----------------------------------
@@ -164,25 +140,16 @@ void Bird::Draw() const
 
 	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
 	{
-
-		if (state == BIRD_STATE::DEATH)
+		if (state == BIRD_STATE::ATTACK || state == BIRD_STATE::STANDBY)
 		{
-			DrawRotaGraph(draw_location.x, draw_location.y, ENEMY_EXPLOSION_SIZE, 0, death_effects[image_type], TRUE);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
 		}
 		else
 		{
-
-			if (state == BIRD_STATE::ATTACK|| state == BIRD_STATE::STANDBY)
-			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, direction);
-			}
-			else
-			{
-				DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
-			}
-			//DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
-			//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
+			DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, bird_image[image_type], TRUE, !move_left);
 		}
+		//DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "	角度 =%f", angle);
+		////DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
 
 		DrawHPBar(MAX_HP);
 	}
@@ -314,7 +281,7 @@ void Bird::Attack()
 //-----------------------------------
 // 待機していた位置に戻る
 //-----------------------------------
-void Bird::Retur()
+void Bird::Return()
 {
 	float dx = old_location.x - location.x;
 	float dy = old_location.y - location.y;

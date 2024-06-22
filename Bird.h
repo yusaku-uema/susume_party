@@ -12,7 +12,6 @@ enum class BIRD_STATE
     ATTACK, //攻撃
     STANDBY, //待機。
     RETURN, //攻撃後、攻撃する前の座標に戻る
-    DEATH //死亡
 };
 
 
@@ -27,10 +26,6 @@ private:
     int image_type; //使う画像の要素指定
     long int animation_time; //画像切替に使う変数
   
-    int test_image;
-
-
-
     float distance_moved; //動いた距離
     float attack_speed; //攻撃速度
     float distance; //相手との距離
@@ -42,11 +37,9 @@ private:
     bool direction; //向いている方向
     bool lock_on; //プレイヤーに狙いを定める。
 
-
     BIRD_STATE state; //バードの状態
     DATA old_location; //前の座標
     DATA player_location; //攻撃時のプレイヤーの位置
-    
 
 public:
 
@@ -58,7 +51,7 @@ public:
     void Move(); //通常移動
     void Standby(); //攻撃準備時間
     void Attack(); //攻撃
-    void Retur(); //攻撃後元の座標に戻る。
+    void Return(); //攻撃後元の座標に戻る。
 
     float CalculateDistance(); //とりあえず先頭プレイヤーの距離計算したい。、できれば4人まとめて
 
