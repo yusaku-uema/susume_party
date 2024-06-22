@@ -8,5 +8,7 @@ NpcBase::NpcBase(DATA location, DATA size) : CharacterBase(location, size)
 
 NpcBase::~NpcBase()
 {
+    for (int i = 0; i < 4; i++)DeleteGraph(npc_image[i]);
+
     OutputDebugString("NpcBaseデストラクタが呼ばれました。\n");
 }

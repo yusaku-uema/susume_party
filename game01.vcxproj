@@ -33,12 +33,14 @@
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="HelpScene.h" />
+    <ClInclude Include="King.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="Fairy.h" />
     <ClInclude Include="Flower.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Monk.h" />
     <ClInclude Include="NpcBase.h" />
+    <ClInclude Include="NpcManager.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Slime.h" />
@@ -69,6 +71,7 @@
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="HelpScene.cpp" />
+    <ClCompile Include="King.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Fairy.cpp" />
     <ClCompile Include="Flower.cpp" />
@@ -78,6 +81,7 @@
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Monk.cpp" />
     <ClCompile Include="NpcBase.cpp" />
+    <ClCompile Include="NpcManager.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />
