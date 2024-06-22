@@ -2,7 +2,7 @@
 #include"PlayerBase.h"
 #include"Key.h"
 
-#define PI       3.14159265358979323846   // pi
+#define PI 3.14159265358979323846   // pi
 
 #define PLAYER_SIZE_X 30.0f//サイズ
 #define PLAYER_SIZE_Y 50.0f//サイズ
@@ -20,7 +20,7 @@
 
 #define MAX_WEAPON_ANGLE 360
 
-PlayerBase::PlayerBase(PLAYER_JOB player_job) : CharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
+PlayerBase::PlayerBase(PLAYER_JOB player_job) : CombatCharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
 player_job(player_job),image_change_time(0.0f),draw_image_num(0), weapon_angle(0),
 is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {

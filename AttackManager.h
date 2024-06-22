@@ -2,11 +2,12 @@
 #include"Attack.h"
 #include"Stage.h"
 
-#define ATTACK_TYPE_NUM 6//攻撃種類（アニメーションの種類）
+#define ATTACK_TYPE_NUM 7//攻撃種類（アニメーションの種類）
 
 ////攻撃の種類
 enum ATTACK_TYPE
 {
+    NONE,
     BIG_EXPLOSION,//大爆発
     EXPLOSION,//爆発
     SMALL_EXPLOSION,//小爆発
@@ -26,7 +27,7 @@ private:
     class EnemyManager* enemy_manager;
 
     int attack_image[ATTACK_TYPE_NUM][10];//攻撃画像
-    const int attack_image_num[ATTACK_TYPE_NUM] = { 8, 5, 4, 5, 2, 1 };//攻撃画像の数
+    const int attack_image_num[ATTACK_TYPE_NUM] = { 0, 8, 5, 4, 5, 2, 1 };//攻撃画像の数
    
 public:
 

@@ -25,6 +25,7 @@
     <ClInclude Include="BlackMage.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="CombatCharacterBase.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="CharacterBase.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Flower.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Monk.h" />
+    <ClInclude Include="NpcBase.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Slime.h" />
@@ -61,6 +63,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
+    <ClCompile Include="CombatCharacterBase.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
@@ -74,6 +77,7 @@
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Monk.cpp" />
+    <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SceneManager.cpp" />

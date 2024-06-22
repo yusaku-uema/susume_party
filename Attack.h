@@ -5,7 +5,7 @@
 class Attack : public BoxCollider
 {
 private:
-    BoxCollider* target;
+    BoxCollider* target;//追跡相手
 
     int* attack_image;//攻撃画像
     int image_num;//画像の数
@@ -16,7 +16,7 @@ private:
     int attack_power;//攻撃力
     DATA speed;//スピード
     float duration_time;//攻撃継続時間
-    int angle;
+    int angle;//画像の角度
 
     void TrackingCharacter(); //追尾
 
@@ -26,6 +26,9 @@ public:
 
     bool Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager);
     void Draw(float camera_work)const;
+
+    int GetAttackPower()const;
+    int GetImageSize()const;
 
     void DeleteTargetPointer(BoxCollider* target);//追跡中のキャラのポインターの消去
 };

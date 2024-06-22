@@ -47,7 +47,6 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 //-----------------------------------
 Flower::~Flower()
 {
-
 	for (int i = 0; i < 7; i++)
 	{
 		DeleteGraph(flower_image[i]);
@@ -63,7 +62,6 @@ void Flower::Update()
 	//‰æ‘œØ‘ÖŽžŠÔ‘ª’è
 	++time;
 
-
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
 	location.y += speed.y;
 
@@ -71,7 +69,6 @@ void Flower::Update()
 	{
 		location.y -= speed.y;
 	}
-
 
 	switch (state)
 	{
@@ -129,7 +126,6 @@ void Flower::Update()
 	default:
 		break;
 	}
-
 }
 
 
@@ -149,7 +145,6 @@ void Flower::Draw() const
 		DrawHPBar(MAX_HP);
 
 		/*DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "Œü‚­•ûŒü%f", angle);*/
-		
 	}
 }
 
@@ -159,7 +154,6 @@ void Flower::Draw() const
 //-----------------------------------
 void Flower::Attack()
 {
-
 	if (++animation_time % 60 == 0)
 	{
 		start_attack = true;
@@ -188,10 +182,7 @@ void Flower::Attack()
 			}
 		}
 	}
-
-
 }
-
 
 //-----------------------------------
 //‘ŠŽè‚Æ‚Ì‹——£‚ð‘ª‚é

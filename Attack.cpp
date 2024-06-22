@@ -8,7 +8,7 @@
 
 Attack::Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
 	BoxCollider(location, size), speed(speed), target(target), duration_time(duration_time), attack_power(attack_power), attack_image(attack_image),
-	image_num(image_num), image_size(image_size), draw_image_num(0), image_change_time(0.0f)
+	image_num(image_num), image_size(image_size), draw_image_num(0), image_change_time(0.0f), angle(0)
 {
 	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
 }
@@ -20,19 +20,12 @@ Attack::~Attack()
 
 bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager)
 {
-	//if (player_manager != nullptr)
-	//{
-	//	//target = player_manager->GetPlayerData();
-	//}
-
 	//追尾する場合
-
 	if (target != nullptr)TrackingCharacter();
 
 	location.x += speed.x;
 	location.y += speed.y;
 	
-
 	//画像切り替え
 
 	if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
@@ -56,26 +49,19 @@ bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* p
 
 	if ((radius.x != 0.0f) && (radius.y != 0.0f))
 	{
-
-		if (stage->HitBlock(this))
-		{
-			return true;
-		}
+		if (stage->HitBlock(this))return true;//ステージに当たった時
 		else
 		{
-			//プレイヤーと当たった時
-			if (player_manager != nullptr)
+			if (player_manager != nullptr)//プレイヤーと当たった時
 			{
 				if (player_manager->CheckHitDamage(this, attack_power))return true;
 			}
-			//敵キャラと当たった場合
-			else if (enemy_manager != nullptr)
+			else if (enemy_manager != nullptr)//敵キャラと当たった場合
 			{
 				if (enemy_manager->CheckHitDamage(this, attack_power))return true;
 			}
 		}
 	}
-
 	return false;
 }
 
@@ -93,12 +79,11 @@ void Attack::Draw(float camera_work)const
 void Attack::TrackingCharacter()
 {
 	//追跡者の座標取得
-
 	float dx = target->GetLocation().x - location.x;
 	float dy = target->GetLocation().y - location.y;
 	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 
-	angle = atan2(dy, dx) * 180 / M_PI;
+	//angle = atan2(dy, dx) * 180 / M_PI;
 
 	speed.x = (dx / distance) * ATTACK_SPEED;
 	speed.y = (dy / distance) * ATTACK_SPEED;

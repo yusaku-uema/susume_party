@@ -7,7 +7,7 @@
 #define HP_BAR_Y1 30
 #define HP_BAR_Y2 20
 
-EnemyBase::EnemyBase():CharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 5)
+EnemyBase::EnemyBase():CombatCharacterBase({ 1400.0f, 50.0f }, { 50, 50 }, 20, 10, 5, 5)
 {
     OutputDebugString("EnemyBaseコンストラクタ呼ばれました。\n");
     dead_boss = false;

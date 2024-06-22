@@ -1,10 +1,10 @@
 #pragma once
-#include"CharacterBase.h"
+#include"CombatCharacterBase.h"
 #include"Stage.h"
 
 #define JUMP_LOG 40//‰ß‹”‰ñ•ª‚ÌƒWƒƒƒ“ƒv‚Ì‹L˜^
 
-class PlayerBase : public CharacterBase
+class PlayerBase : public CombatCharacterBase
 {
 protected:
     int player_image[3][5];

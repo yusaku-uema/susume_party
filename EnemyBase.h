@@ -1,8 +1,8 @@
 #pragma once
-#include"PlayerManager.h"
+#include"CombatCharacterBase.h"
 #include"Stage.h"
 
-class EnemyBase : public CharacterBase
+class EnemyBase : public CombatCharacterBase
 {
 protected:
 

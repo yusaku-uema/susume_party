@@ -232,7 +232,6 @@ void Bird::Standby()
 //-----------------------------------
 void Bird::Attack()
 {
-
 	CalculateDistance();
 
 	dx = player_location.x - location.x;
@@ -242,8 +241,6 @@ void Bird::Attack()
 	angle = atan2(dy, dx) * 180 / M_PI;
 
 	if ((attack_speed += UP_SPEED) > FALL_MAX)attack_speed = FALL_MAX;//スピードに加速度を足していって、最大値に達したら固定
-
-
 
 	if (stage->HitBlock(this))
 	{
@@ -263,18 +260,13 @@ void Bird::Attack()
 			state = BIRD_STATE::RETURN;
 			attack_speed = 0;
 		}
-
 	}
-
 
 	if (player_manager->CheckHitDamage(this, 5))
 	{
 		state = BIRD_STATE::RETURN;
 		attack_speed = 0;
 	}
-
-
-
 }
 
 
