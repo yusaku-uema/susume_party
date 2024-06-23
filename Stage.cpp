@@ -19,6 +19,12 @@ Stage::Stage() : camera_work(0.0f)
 
 	//背景画像
 	if (LoadDivGraph("image/Stage/background.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
+	//お城の背景画像
+	if ((back_ground_image[4] = LoadGraph("image/Stage/castlebackground.png")) == -1)throw("image/Stage/castlebackground.pngが読み込めません\n");
+
+	if ((pillar_image = LoadGraph("image/Stage/pillar.png")) == -1)throw("image/Stage/pillar.pngが読み込めません\n");
+
+
 
 	//ブロック画像
 	if (LoadDivGraph("image/Stage/block.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
@@ -51,7 +57,7 @@ void Stage::SetStage()
 			{
 				DATA location = { j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
 
-				if (block_type <= 4) block.emplace_back(location, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);
+				if (block_type <= 5) block.emplace_back(location, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);
 				else back_ground_block.emplace_back(BACK_GROUND_BLOCK{ location, block_type });
 			}
 		}
@@ -62,8 +68,9 @@ void Stage::SetStage()
 
 Stage::~Stage()
 {
-	for (int i = 0; i < 4; i++)DeleteGraph(back_ground_image[i]);
-	for (int i = 0; i < 2; i++)DeleteGraph(block_image[i]);
+	for (int i = 0; i < 5; i++)DeleteGraph(back_ground_image[i]);
+	for (int i = 0; i < 15; i++)DeleteGraph(block_image[i]);
+	DeleteGraph(pillar_image);
 
 	block.clear();
 	block.shrink_to_fit();
@@ -162,6 +169,8 @@ void Stage::Draw() const
 		DrawGraph(back_ground_x, 0, back_ground_image[i], TRUE);
 	}
 
+	DrawGraph(0 + camera_work, 0, back_ground_image[4], TRUE);
+
 	//ブロック表示
 	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
 
@@ -182,6 +191,11 @@ void Stage::Draw() const
 
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();
+
+	
+	DrawGraph(-20 + camera_work, 0, pillar_image, TRUE);
+	DrawGraph(730 + camera_work, 0, pillar_image, TRUE);
+	DrawGraph(1470 + camera_work, 0, pillar_image, TRUE);
 
 	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
 	DrawString(850,0, "RB = パーティ切り離し", 0xffffff);

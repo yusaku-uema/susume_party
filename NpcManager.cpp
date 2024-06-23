@@ -34,9 +34,9 @@ void NpcManager::Initialize(class Stage* stage, class PlayerManager* player_mana
     this->stage = stage;
     this->player_manager = player_manager;
 
-    npc.emplace_back(new King(DATA{ 50,450 }, DATA{ 50,50 }, stage, player_manager, "txt/gameover.txt"));
-    npc.emplace_back(new King(DATA{ 250,450 }, DATA{ 50,50 }, stage, player_manager, "txt/gameclear.txt"));
-    npc.emplace_back(new King(DATA{ 450,450 }, DATA{ 50,50 }, stage, player_manager, "txt/comment.txt"));
+    npc.emplace_back(new King(DATA{ 50,400 }, DATA{ 50,50 }, stage, player_manager, "txt/gameover.txt"));
+    npc.emplace_back(new King(DATA{ 250,400 }, DATA{ 50,50 }, stage, player_manager, "txt/gameclear.txt"));
+    npc.emplace_back(new King(DATA{ 450,400 }, DATA{ 50,50 }, stage, player_manager, "txt/comment.txt"));
 }
 
 void NpcManager::Update(float delta_time)
@@ -75,6 +75,4 @@ void NpcManager::Draw() const
     {
         DrawRotaGraph(npc[can_conversation_npc_num]->GetLocation().x + stage->GetCameraWork(), npc[can_conversation_npc_num]->GetLocation().y - 100, 3, 0, event_image[0], TRUE);
     }
-
-    DrawFormatString(0, 300, 0xffffff, "can_conversation = %d", can_conversation);
 }
