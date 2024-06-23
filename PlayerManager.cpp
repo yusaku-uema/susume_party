@@ -23,12 +23,13 @@ void PlayerManager::Initialize(class Stage* stage, class EnemyManager* enemy_man
 	this->enemy_manager = enemy_manager;
 	this->attack_manager = attack_manager;
 
-	player[0] = new Hero(stage, this, enemy_manager, attack_manager);//—EÒ
-	player[1] = new Warrior(stage, this, enemy_manager, attack_manager);//ím
-	player[2] = new Wizard(stage, this, enemy_manager, attack_manager);//–‚–@g‚¢
-	player[3] = new Monk(stage, this, enemy_manager, attack_manager); //‘m—µ
+	player[0] = new Hero({300, 400}, stage, this, enemy_manager, attack_manager);//—EÒ
+	player[1] = new Warrior({ 600, 400 }, stage, this, enemy_manager, attack_manager);//ím
+	player[2] = new Wizard({ 650, 400 }, stage, this, enemy_manager, attack_manager);//–‚–@g‚¢
+	player[3] = new Monk({ 700, 400 }, stage, this, enemy_manager, attack_manager); //‘m—µ
 
 	ui = new Ui(player);
+	message = new Message("txt/comment.txt");
 }
 
 PlayerManager::~PlayerManager()

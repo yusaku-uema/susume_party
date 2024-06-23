@@ -35,7 +35,7 @@ private:
     virtual void SpecialSkill() {};
 
 public:
-    PlayerBase(PLAYER_JOB player_job);
+    PlayerBase(DATA location, PLAYER_JOB player_job);
     ~PlayerBase();
 
     bool Update(float delta_time, PlayerBase* previous_player);

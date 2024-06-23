@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Monk.h"
 
-Monk::Monk(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(PLAYER_JOB::MONK)
+Monk::Monk(DATA location, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(location, PLAYER_JOB::MONK)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;

@@ -34,9 +34,7 @@ void NpcManager::Initialize(class Stage* stage, class PlayerManager* player_mana
     this->stage = stage;
     this->player_manager = player_manager;
 
-    npc.emplace_back(new King(DATA{ 50,400 }, DATA{ 50,50 }, stage, player_manager, "txt/gameover.txt"));
-    npc.emplace_back(new King(DATA{ 250,400 }, DATA{ 50,50 }, stage, player_manager, "txt/gameclear.txt"));
-    npc.emplace_back(new King(DATA{ 450,400 }, DATA{ 50,50 }, stage, player_manager, "txt/comment.txt"));
+    npc.emplace_back(new King(DATA{ 150,400 }, DATA{ 50,50 }, stage, player_manager, "txt/kingcomment.txt"));
 }
 
 void NpcManager::Update(float delta_time)

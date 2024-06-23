@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Hero.h"
 
-Hero::Hero(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(PLAYER_JOB::HERO)
+Hero::Hero(DATA location, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(location, PLAYER_JOB::HERO)
 {
     this->stage = stage;
     this->player_manager = player_manager;

@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Wizard.h"
 
-Wizard::Wizard(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(PLAYER_JOB::WIZARD)
+Wizard::Wizard(DATA location, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(location, PLAYER_JOB::WIZARD)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;

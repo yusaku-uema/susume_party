@@ -6,7 +6,7 @@ King::King(DATA location, DATA size, class Stage* stage, class PlayerManager* pl
     this->stage = stage;
     this->player_manager = player_manager;
 
-    if (LoadDivGraph("image/Npc/king.png", 4, 4, 1, 50, 50, npc_image) == -1)throw("image/Npc/king.pngが読み込めません\n");
+    if (LoadDivGraph("image/Npc/king.png", 4, 4, 1, 29, 43, npc_image) == -1)throw("image/Npc/king.pngが読み込めません\n");
 
     OutputDebugString("NpcBaseコンストラクタ呼ばれました。\n");
 }
