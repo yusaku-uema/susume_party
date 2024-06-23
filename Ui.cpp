@@ -50,7 +50,7 @@ void Ui::Draw() const
 
         DrawBox(i * 320, 540, (i + 1) * 320, 720, frame_color, FALSE);
 
-        DrawFormatString((i * 320) + 100, 600, 0xffffff, "HP = %d", draw_player_state[i].hp);
-        DrawFormatString((i * 320) + 100, 630, 0xffffff, "MP = %d", draw_player_state[i].mp);
+        DrawFormatString((i * 320) + 100, 600, 0xffffff, "HP = %3d", draw_player_state[i].hp);
+        DrawFormatString((i * 320) + 100, 630, 0xffffff, "MP = %3d", draw_player_state[i].mp);
     }
 }

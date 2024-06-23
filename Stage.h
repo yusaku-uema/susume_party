@@ -6,6 +6,7 @@
 #include"EnemyManager.h"
 #include"AttackManager.h"
 #include"NpcManager.h"
+#include"EventManager.h"
 
 struct BACK_GROUND_BLOCK
 {
@@ -20,6 +21,7 @@ private:
     class EnemyManager* enemy_manager;
     class AttackManager* attack_manager;
     class NpcManager* npc_manager;
+    class EventManager* event_manager;
     
     std::vector<class Block>block;
     std::vector<BACK_GROUND_BLOCK>back_ground_block;

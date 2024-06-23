@@ -13,7 +13,7 @@ protected:
 private:
 
     PLAYER_JOB player_job;
-    
+
     bool is_leader;//キャラが先頭か？
     bool is_casket_fall;//棺桶が空から降っている間
     bool is_party_member;//パーティーが切り離されているか？
@@ -35,7 +35,7 @@ private:
     virtual void SpecialSkill() {};
 
 public:
-    PlayerBase(DATA location, PLAYER_JOB player_job);
+    PlayerBase(DATA location,int hp,int mp,int attack_power, PLAYER_JOB player_job);
     ~PlayerBase();
 
     bool Update(float delta_time, PlayerBase* previous_player);
@@ -46,4 +46,6 @@ public:
     PLAYER_JOB GetPlayerJob()const;
 
     bool GetIsLeader()const;//このキャラが先頭か？
+    void SetIsPartyMember(bool is_party_member);//パーティー切り離し切り替え
+    bool GetIsPartyMember()const;
 };

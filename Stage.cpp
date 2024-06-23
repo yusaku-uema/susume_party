@@ -9,11 +9,13 @@ Stage::Stage() : camera_work(0.0f)
 	enemy_manager = new EnemyManager();
 	attack_manager = new AttackManager();
 	npc_manager = new NpcManager();
+	event_manager = new EventManager();
 
 	player_manager->Initialize(this, enemy_manager, attack_manager);
 	enemy_manager->Initialize(this, player_manager, attack_manager);
 	attack_manager->Initialize(this, player_manager, enemy_manager);
 	npc_manager->Initialize(this, player_manager);
+	event_manager->Initialize(this, player_manager, enemy_manager);
 
 	next_transition = false;
 
@@ -82,12 +84,16 @@ Stage::~Stage()
 	delete enemy_manager;
 	delete attack_manager;
 	delete npc_manager;
+	delete event_manager;
 
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
 
 bool Stage::Update(float delta_time)
 {
+	//イベントの更新
+	event_manager->Update(delta_time);
+
 	//NPCの更新
 	npc_manager->Update(delta_time);
 

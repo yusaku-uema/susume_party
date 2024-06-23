@@ -31,6 +31,7 @@
     <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="HelpScene.h" />
     <ClInclude Include="King.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="HelpScene.cpp" />
     <ClCompile Include="King.cpp" />

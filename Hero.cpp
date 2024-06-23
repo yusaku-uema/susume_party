@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Hero.h"
 
-Hero::Hero(DATA location, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(location, PLAYER_JOB::HERO)
+Hero::Hero(DATA location, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager, class AttackManager* attack_manager) : PlayerBase(location,80,30,10, PLAYER_JOB::HERO)
 {
     this->stage = stage;
     this->player_manager = player_manager;
@@ -22,14 +22,19 @@ Hero::~Hero()
 //“Á‹Z
 void Hero::SpecialSkill()
 {
-    if (is_facing_left)
+    if (mp >= 3)
     {
-        //¶‚ÉUŒ‚
-        attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-    }
-    else
-    {
-        //‰E‚ÉUŒ‚
-        attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+        mp -= 3;
+
+        if (is_facing_left)
+        {
+            //¶‚ÉUŒ‚
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+        }
+        else
+        {
+            //‰E‚ÉUŒ‚
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+        }
     }
 }

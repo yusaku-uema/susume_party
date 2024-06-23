@@ -37,4 +37,6 @@ public:
 
     void SetMessage(const char* text_data_name);//メッセージをセット
     bool GetiIsTalking()const;//会話中か確かめる関数
+    void SetPartyState(bool party_state);//パーティーを切り離すかどうか
+    void AddPlayerHp(int add_hp);//パーティー全体にHP加算
 };

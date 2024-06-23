@@ -24,12 +24,11 @@ void PlayerManager::Initialize(class Stage* stage, class EnemyManager* enemy_man
 	this->attack_manager = attack_manager;
 
 	player[0] = new Hero({300, 400}, stage, this, enemy_manager, attack_manager);//勇者
-	player[1] = new Warrior({ 600, 400 }, stage, this, enemy_manager, attack_manager);//戦士
-	player[2] = new Wizard({ 650, 400 }, stage, this, enemy_manager, attack_manager);//魔法使い
-	player[3] = new Monk({ 700, 400 }, stage, this, enemy_manager, attack_manager); //僧侶
+	player[1] = new Warrior({ 550, 400 }, stage, this, enemy_manager, attack_manager);//戦士
+	player[2] = new Wizard({ 620, 400 }, stage, this, enemy_manager, attack_manager);//魔法使い
+	player[3] = new Monk({ 690, 400 }, stage, this, enemy_manager, attack_manager); //僧侶
 
 	ui = new Ui(player);
-	message = new Message("txt/comment.txt");
 }
 
 PlayerManager::~PlayerManager()
@@ -83,8 +82,14 @@ bool PlayerManager::Update(float delta_time)
 
 	DeadPlayerSorting(dead_player_index);
 
-	if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
-
+	if (message == nullptr)
+	{
+		//Lボタンでプレイヤー並べ替え
+		if (Key::KeyDown(KEY_TYPE::L))PlayerSorting();
+		//Rボタンでパーティー切り離し
+		if (Key::KeyDown(KEY_TYPE::R))SetPartyState(!player[0]->GetIsPartyMember());
+	}
+	
 	if (message != nullptr)
 	{
 		if (message->Update(delta_time))
@@ -97,6 +102,19 @@ bool PlayerManager::Update(float delta_time)
 	ui->Update();
 
 	return false;
+}
+
+void PlayerManager::SetPartyState(bool party_state)
+{
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		player[i]->SetIsPartyMember(party_state);
+	}
+}
+
+void PlayerManager::AddPlayerHp(int add_hp)
+{
+	for (int i = 0; i < PLAYER_NUM; i++)player[i]->AddHp(add_hp);
 }
 
 void PlayerManager::DeadPlayerSorting(int dead_player_index)//死亡プレイヤー並び替え

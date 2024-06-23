@@ -16,16 +16,19 @@
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-#define MAX_WEAPON_ANGLE 360//
+#define MAX_WEAPON_ANGLE 360
 
-PlayerBase::PlayerBase(DATA location, PLAYER_JOB player_job) : CombatCharacterBase(location, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
+PlayerBase::PlayerBase(DATA location,int hp,int mp, int attack_power, PLAYER_JOB player_job) : CombatCharacterBase(location, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, hp, mp, attack_power, 5),
 player_job(player_job),image_change_time(0.0f),draw_image_num(0), weapon_angle(0),
 is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
+    max_hp = hp;
+    max_mp = mp;
+
     //ジャンプの記録をリセット
     for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
 
-    is_facing_left = false;
+    is_facing_left = true;
 
     if (LoadDivGraph("image/Player/casket.png", 5, 5, 1, 50, 50, player_image[2]) == -1)throw("image/Player/casket.pngが読み込めません\n");
 
@@ -47,13 +50,6 @@ PlayerBase::~PlayerBase()
 
 bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 {
-    //パーティの切り離し
-    if (Key::KeyDown(KEY_TYPE::R))
-    {
-        is_party_member = !is_party_member;
-        for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
-    }
-    
     //キャラが先頭か？
     if (previous_player == nullptr)is_leader = true;
     else is_leader = false;
@@ -342,6 +338,20 @@ void PlayerBase::SetJumpLog(bool is_jump)
         if (i == JUMP_LOG - 1)jump_log[i] = is_jump;
         else jump_log[i] = jump_log[i + 1];
     }
+}
+
+void PlayerBase::SetIsPartyMember(bool is_party_member)
+{
+    if (this->is_party_member != is_party_member)
+    {
+        this->is_party_member = is_party_member;
+        for (int i = 0; i < JUMP_LOG; i++)jump_log[i] = false;
+    }
+}
+
+bool PlayerBase::GetIsPartyMember()const
+{
+    return is_party_member;
 }
 
 bool PlayerBase::GetJumpLog()const
