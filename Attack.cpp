@@ -6,9 +6,11 @@
 #define ATTACK_SPEED 7
 #define IMAGE_CHANGE_TIME 0.1f
 
-Attack::Attack(DATA location, DATA size, DATA speed, BoxCollider* target, float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
-	BoxCollider(location, size), speed(speed), target(target), duration_time(duration_time), attack_power(attack_power), attack_image(attack_image),
-	image_num(image_num), image_size(image_size), draw_image_num(0), image_change_time(0.0f), angle(0)
+Attack::Attack(DATA location, DATA size, DATA speed, BoxCollider* target, bool delete_hit_stage, bool delete_hit_chara, 
+	float duration_time, int attack_power, int* attack_image, int image_num, float image_size) :
+	BoxCollider(location, size), speed(speed), target(target), delete_hit_stage(delete_hit_stage), delete_hit_chara(delete_hit_chara), 
+	duration_time(duration_time), attack_power(attack_power), attack_image(attack_image),image_num(image_num), 
+	image_size(image_size), draw_image_num(0), image_change_time(0.0f), angle(0)
 {
 	OutputDebugString("Attackコンストラクタ呼ばれました。\n");
 }
@@ -49,16 +51,16 @@ bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* p
 
 	if ((radius.x != 0.0f) && (radius.y != 0.0f))
 	{
-		if (stage->HitBlock(this))return true;//ステージに当たった時
+		if ((stage->HitBlock(this)) && (delete_hit_stage))return true;//ステージに当たった時
 		else
 		{
 			if (player_manager != nullptr)//プレイヤーと当たった時
 			{
-				if (player_manager->CheckHitDamage(this, attack_power))return true;
+				if ((player_manager->CheckHitDamage(this, attack_power)) && (delete_hit_chara))return true;
 			}
 			else if (enemy_manager != nullptr)//敵キャラと当たった場合
 			{
-				if (enemy_manager->CheckHitDamage(this, attack_power))return true;
+				if ((enemy_manager->CheckHitDamage(this, attack_power)) && (delete_hit_chara))return true;
 			}
 		}
 	}

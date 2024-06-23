@@ -119,9 +119,9 @@ void PlayerBase::UpdateLeader()
         if (Key::KeyDown(KEY_TYPE::B))//•¨—UŒ‚(Bƒ{ƒ^ƒ““ü—ÍŽž)
         {
             //¶‚ÉUŒ‚
-            if (is_facing_left) attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
+            if (is_facing_left) attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr,false,true, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
             //‰E‚ÉUŒ‚
-            else attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
+            else attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr,false,true, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
 
             weapon_angle += 15;
         }
@@ -321,7 +321,7 @@ bool PlayerBase::HitDamege(BoxCollider* bc, int attack_power)
         if ((hp -= attack_power) <= 0)
         {
             hp = 0;
-            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 5.0f);
+            attack_manager->AddPlayerAttack(location, { 0.0f,0.0f }, { 0.0f,0.0f }, nullptr,false,false, -1.0f, 0, ATTACK_TYPE::SMALL_EXPLOSION, 5.0f);
             is_set_casket = true;
             
         }

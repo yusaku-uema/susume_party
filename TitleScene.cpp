@@ -182,7 +182,7 @@ SCENE_TYPE TitleScene::Update(float delta_time)
                 PlaySoundMem(decision_se, DX_PLAYTYPE_BACK, TRUE);
                 while (CheckSoundMem(decision_se) == 1) {}
                 talkUi.Initialize();
-                return SCENE_TYPE::TALKUI;
+                return SCENE_TYPE::MAIN;
             }
             else if (key->KeyDown(KEY_TYPE::A) && select_menu == 1 && (currentTime - lastAPressTime) > 500)
             {

@@ -243,10 +243,8 @@ void Fairy::Attack()
 		float dy = player_location.y - location.y;
 		float distance = sqrtf(dx * dx + dy * dy);
 
-
-
 		//UŒ‚
-		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 5, 3, BIG_EXPLOSION, 1.0f);
+		attack_manager->AddEnemyAttack(location, { 15,15 }, { (dx / distance) * 2.5f ,(dy / distance) * 2.5f }, 5, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
 
 		state = FAIRY_STATE::STANDBY;
 	}

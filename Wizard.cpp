@@ -44,12 +44,12 @@ void Wizard::SpecialSkill()
 		if (is_facing_left)
 		{
 			//¶‚ÉUŒ‚
-			attack_manager->AddPlayerAttack(location, { 8.0f,8.0f }, { -7.0f,0.0f }, enemy, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
+			attack_manager->AddPlayerAttack(location, { 8.0f,8.0f }, { -7.0f,0.0f }, enemy,true,true, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
 		}
 		else
 		{
 			//‰E‚ÉUŒ‚
-			attack_manager->AddPlayerAttack(location, { 8.0f,8.0f }, { 7.0f,0.0f }, enemy, 100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
+			attack_manager->AddPlayerAttack(location, { 8.0f,8.0f }, { 7.0f,0.0f }, enemy, true,true,100.0f, 3, ATTACK_TYPE::FIRE_BALL, 4.0f);
 		}
 	}
 }

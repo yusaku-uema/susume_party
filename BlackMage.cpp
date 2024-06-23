@@ -259,11 +259,11 @@ void BlackMage::Attack()
 {
 	if (is_facing_left)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { -10,0 }, 10, 3, ATTACK_TYPE::BIG_EXPLOSION, 3.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { -10,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 3.0f);
 	}
 	else
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { +10,0 }, 10, 3, ATTACK_TYPE::BIG_EXPLOSION, 3.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 40,60 }, { +10,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 3.0f);
 	}
 
 	state = BLACKMAGE_STATE::WAIT;
@@ -273,7 +273,7 @@ void BlackMage::MoveAttack()
 {
 	if (++time % 60 == 0)
 	{
-		attack_manager->AddEnemyAttack({ location.x,location.y }, { 60,60 }, { 0,+10 }, 10, 5, ATTACK_TYPE::EXPLOSION, 2.0f);
+		attack_manager->AddEnemyAttack({ location.x,location.y }, { 60,60 }, { 0,+10 }, 10, 5, ATTACK_TYPE::FIRE_BALL, 2.0f);
 	}
 }
 
@@ -317,7 +317,7 @@ void BlackMage::TeleportAttack()
 		{
 			if (++time % 120 == 0)
 			{
-				attack_manager->AddEnemyAttack({ attack_location.x,300 }, { 30,250 }, { 0,0 }, 3, 10, ATTACK_TYPE::EXPLOSION, 0);
+				attack_manager->AddEnemyAttack({ attack_location.x,300 }, { 30,250 }, { 0,0 }, 3, 10, ATTACK_TYPE::FIRE_BALL, 0);
 				attack = false;
 				start_animation = true;
 				time = 0;

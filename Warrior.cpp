@@ -17,3 +17,22 @@ Warrior::~Warrior()
 {
 
 }
+
+void Warrior::SpecialSkill()
+{
+    if (mp >= 4)
+    {
+        mp -= 4;
+
+        if (is_facing_left)
+        {
+            //¶‚ÉUŒ‚
+            attack_manager->AddPlayerAttack(location, { 50.0f,50.0f }, { -6.0f,0.0f }, nullptr, false, false, 7.0f, 1, ATTACK_TYPE::SPIN_SLASH, 3.0f);
+        }
+        else
+        {
+            //‰E‚ÉUŒ‚
+            attack_manager->AddPlayerAttack(location, { 50.0f, 50.0f }, { 6.0f,0.0f }, nullptr, false, false, 7.0f, 1, ATTACK_TYPE::SPIN_SLASH, 3.0f);
+        }
+    }
+}

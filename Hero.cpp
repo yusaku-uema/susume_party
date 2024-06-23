@@ -29,12 +29,12 @@ void Hero::SpecialSkill()
         if (is_facing_left)
         {
             //¶‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { -8.0f,0.0f }, nullptr,true,true, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
         }
         else
         {
             //‰E‚ÉUŒ‚
-            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, nullptr, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+            attack_manager->AddPlayerAttack(location, { 10.0f,10.0f }, { 8.0f,0.0f }, nullptr,true,true, 5.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
         }
     }
 }

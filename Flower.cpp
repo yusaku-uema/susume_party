@@ -170,12 +170,12 @@ void Flower::Attack()
 				if (direction)
 				{
 					//UŒ‚
-					attack_manager->AddEnemyAttack(location, { 15,15 }, { +5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { 5,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
 				}
 				else
 				{
 					//UŒ‚
-					attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::EXPLOSION, 1.0f);
+					attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
 				}
 				state = FLOWER_STATE::BREAKTIME;
 				start_attack = false;

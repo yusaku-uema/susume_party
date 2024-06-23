@@ -74,13 +74,13 @@ void AttackManager::DeleteTargetPointer(BoxCollider* target)
 ////////ìGÇÃçUåÇÇÃí«â¡/////////////
 void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    enemy_attack.emplace_back(location, size, speed, nullptr, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
+    enemy_attack.emplace_back(location, size, speed, nullptr,true,true, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 ////////ÉvÉåÉCÉÑÅ[ÇÃçUåÇÇÃí«â¡//////////////
-void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, class BoxCollider* bc, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
+void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, class BoxCollider* bc,bool delete_hit_stage,bool delete_hit_chara, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
-    player_attack.emplace_back(location, size, speed, bc, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
+    player_attack.emplace_back(location, size, speed, bc, delete_hit_stage, delete_hit_chara, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
 }
 
 void AttackManager::Draw() const
