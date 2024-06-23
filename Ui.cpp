@@ -1,7 +1,7 @@
 #include"DxLib.h"
 #include"Ui.h"
 
-Ui::Ui() : player(nullptr)
+Ui::Ui(PlayerBase** player_base) : player(player_base)
 {
     if (LoadDivGraph("image/Ui/player.png", 4, 4, 1, 50, 50, player_image[0]) == -1)throw("image/Ui/player.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ\n");
     if (LoadDivGraph("image/Ui/playerselect.png", 4, 4, 1, 50, 50, player_image[1]) == -1)throw("image/Ui/playerselect.png‚ª“Ç‚Ýž‚ß‚Ü‚¹‚ñ\n");
@@ -35,11 +35,6 @@ void Ui::Update()
         if (player[i]->GetIsLeader())draw_player_state[player_job].image_type = 1;
         if (player[i]->GetIsDead())draw_player_state[player_job].image_type = 2;
     }
-}
-
-void Ui::SetPlayerPointer(PlayerBase** player_base)
-{
-    player = player_base;
 }
 
 void Ui::Draw() const

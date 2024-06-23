@@ -1,24 +1,22 @@
 #include"DxLib.h"
 #include"PlayerBase.h"
+#include"Stage.h"
 #include"Key.h"
 
-#define PI 3.14159265358979323846   // pi
+#define PI 3.14159265358979323846// pi
 
 #define PLAYER_SIZE_X 30.0f//サイズ
 #define PLAYER_SIZE_Y 50.0f//サイズ
 
-#define WALK_SPEED 3.0f//1フレームで進む速さ
-
-#define JUMP_SPEED 7.0f//1フレームでジャンプする高さ
-
 #define ACCELERATION 0.15f//歩く時の加速
-
+#define WALK_SPEED 3.0f//1フレームで進む速さ
+#define JUMP_SPEED 7.0f//1フレームでジャンプする高さ
 #define CHARACTER_DISTANCE 90.0f//キャラクター同士の距離
 
 #define IMAGE_CHANGE_TIME 0.15f//画像切り替えの時間(秒数)
 #define PLAYER_IMAGE_NUM 4//プレイヤー画像の種類
 
-#define MAX_WEAPON_ANGLE 360
+#define MAX_WEAPON_ANGLE 360//
 
 PlayerBase::PlayerBase(PLAYER_JOB player_job) : CombatCharacterBase({ 90.0f, 200.0f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 50, 10, 5, 5),
 player_job(player_job),image_change_time(0.0f),draw_image_num(0), weapon_angle(0),
@@ -120,29 +118,18 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
 
 void PlayerBase::UpdateLeader()
 {
-    if(weapon_angle == 0)
+    if((weapon_angle == 0) && (!player_manager->GetiIsTalking()))
     {
-        //物理攻撃(Bボタン入力時)
-
-        if (Key::KeyDown(KEY_TYPE::B))
+        if (Key::KeyDown(KEY_TYPE::B))//物理攻撃(Bボタン入力時)
         {
-            if (is_facing_left)
-            {
-                //左に攻撃
-                attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
-            }
-            else
-            {
-                //右に攻撃
-                attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
-            }
+            //左に攻撃
+            if (is_facing_left) attack_manager->AddPlayerAttack({ location.x - 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
+            //右に攻撃
+            else attack_manager->AddPlayerAttack({ location.x + 50.0f, location.y }, { 40.0f,40.0f }, { 0.0f,0.0f }, nullptr, -1.0f, 3, ATTACK_TYPE::SLASHING, 0.0f);
 
             weapon_angle += 15;
         }
-
-        //攻撃2(Yボタン入力時)
-
-        else if (Key::KeyDown(KEY_TYPE::Y))
+        else if (Key::KeyDown(KEY_TYPE::Y))//攻撃2(Yボタン入力時)
         {
             SpecialSkill();
             weapon_angle += 15;
@@ -154,11 +141,11 @@ void PlayerBase::UpdateLeader()
 
     //左右キー入力された場合、その方向に進める
 
-    if (Key::KeyPressed(KEY_TYPE::LEFT))
+    if ((Key::KeyPressed(KEY_TYPE::LEFT)) && (!player_manager->GetiIsTalking()))
     {
         if ((speed.x -= ACCELERATION) < -WALK_SPEED) speed.x = -WALK_SPEED;
     }
-    else if (Key::KeyPressed(KEY_TYPE::RIGHT))
+    else if ((Key::KeyPressed(KEY_TYPE::RIGHT)) && (!player_manager->GetiIsTalking()))
     {
         if ((speed.x += ACCELERATION) > WALK_SPEED)speed.x = WALK_SPEED;
     }
@@ -215,7 +202,7 @@ void PlayerBase::UpdateLeader()
         //地面に当たっている場合
         if (speed.y > 0.0f)
         {
-            if (Key::KeyDown(KEY_TYPE::A))
+            if ((Key::KeyDown(KEY_TYPE::A)) && (!player_manager->GetiIsTalking()))
             {
                 speed.y = -JUMP_SPEED;//Aボタンでジャンプ
                 is_jump = true;

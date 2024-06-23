@@ -1,5 +1,6 @@
 #pragma once
 #include"BoxCollider.h"
+#include"EnemyManager.h"
 
 class CharacterBase : public BoxCollider
 {

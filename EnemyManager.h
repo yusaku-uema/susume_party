@@ -28,8 +28,10 @@ private:
 
 public:
 
-    EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager); //呼び出したい敵と座標を
+    EnemyManager(); //呼び出したい敵と座標を
     ~EnemyManager();
+
+    void Initialize(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager);
 
     void Update(float delta_time);
     void Draw() const;

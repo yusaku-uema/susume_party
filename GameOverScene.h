@@ -23,8 +23,8 @@ private:
 public:
     GameOverScene();
     ~GameOverScene();
-    void Initialize();
-    void Finalize();
+    void Initialize()override;
+    void Finalize()override;
     SCENE_TYPE Update(float delta_time);
     void Draw() const;
 

@@ -16,11 +16,9 @@ private:
     int player_image[3][4];
 
 public:
-    Ui();
+    Ui(PlayerBase** player_base);
     ~Ui();
 
     void Update();
     void Draw() const;
-
-    void SetPlayerPointer(class PlayerBase** player_base);
 };

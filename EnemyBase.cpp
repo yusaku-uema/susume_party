@@ -1,6 +1,6 @@
 #include"DxLib.h"
 #include "EnemyBase.h"
-
+#include"Stage.h"
 
 #define SCOPE_OF_ACTIVITY 1000
 #define HP_BAR 60

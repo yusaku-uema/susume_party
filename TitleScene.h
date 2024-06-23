@@ -57,11 +57,11 @@ public:
     TitleScene();
     virtual ~TitleScene();
 
-    virtual void Initialize() override;
-    virtual void Finalize() override;
+    void Initialize() override;
+    void Finalize() override;
 
-    virtual SCENE_TYPE Update(float delta_time) override;
-    virtual void Draw() const override;
+    SCENE_TYPE Update(float delta_time) override;
+    void Draw() const override;
 
-    virtual SCENE_TYPE GetNowScene() const override;
+    SCENE_TYPE GetNowScene() const override;
 };

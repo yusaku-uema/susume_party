@@ -4,7 +4,7 @@
 class King : public NpcBase
 {
 public:
-    King();
+    King(DATA location, DATA size, class Stage* stage, class PlayerManager* player_manager, const char* text_data_name);
     ~King();
 
     void Update()override;

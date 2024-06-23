@@ -1,8 +1,7 @@
 #include"DxLib.h"
 #include"AttackManager.h"
 
-AttackManager::AttackManager(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager) : 
-    stage(stage), player_manager(player_manager), enemy_manager(enemy_manager)
+AttackManager::AttackManager()
 {
     for (int i = 0; i < ATTACK_TYPE_NUM; i++)
     {
@@ -17,8 +16,14 @@ AttackManager::AttackManager(class Stage* stage, class PlayerManager* player_man
     if (LoadDivGraph("image/Effect/spinslash.png", 2, 2, 1, 32, 24, attack_image[ATTACK_TYPE::SPIN_SLASH]) == -1)throw("image/Effect/spinslash.pngが読み込めません\n");
     if (LoadDivGraph("image/Effect/fireball.png", 4, 4, 1, 24, 24, attack_image[ATTACK_TYPE::FIRE_BALL]) == -1)throw("image/Effect/fireball.pngが読み込めません\n");
 
-
     OutputDebugString("AttackManagerコンストラクタ呼ばれました。\n");
+}
+
+void AttackManager::Initialize(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager)
+{
+    this->stage = stage;
+    this->player_manager = player_manager;
+    this->enemy_manager = enemy_manager;
 }
 
 AttackManager::~AttackManager()
@@ -66,7 +71,6 @@ void AttackManager::DeleteTargetPointer(BoxCollider* target)
     for (int i = 0; i < player_attack.size(); i++)player_attack[i].DeleteTargetPointer(target);
 }
 
-
 ////////敵の攻撃の追加/////////////
 void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
@@ -77,12 +81,6 @@ void AttackManager::AddEnemyAttack(DATA location, DATA size, DATA speed, float d
 void AttackManager::AddPlayerAttack(DATA location, DATA size, DATA speed, class BoxCollider* bc, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size)
 {
     player_attack.emplace_back(location, size, speed, bc, duration_time, attack_power, attack_image[attack_type], attack_image_num[attack_type], image_size);
-}
-
-void AttackManager::SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager)
-{
-    this->player_manager = player_manager;
-    this->enemy_manager = enemy_manager;
 }
 
 void AttackManager::Draw() const

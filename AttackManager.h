@@ -30,9 +30,10 @@ private:
     const int attack_image_num[ATTACK_TYPE_NUM] = { 0, 8, 5, 4, 5, 2, 1 };//UŒ‚‰æ‘œ‚Ì”
    
 public:
-
-    AttackManager(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager);
+    AttackManager();
     ~AttackManager();
+
+    void Initialize(class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager);
 
     //“G‚ÌUŒ‚‚ğ’Ç‰Á(UŒ‚À•WAUŒ‚ƒTƒCƒYAUŒ‚ƒXƒs[ƒhAUŒ‚‚ÌŒp‘±ŠÔAUŒ‚—ÍAUŒ‚‚Ì‰æ‘œ)
     void AddEnemyAttack(DATA location, DATA size, DATA speed, float duration_time, int attack_power, ATTACK_TYPE attack_type, float image_size);
@@ -44,6 +45,4 @@ public:
 
     void Update(float delta_time);
     void Draw() const;
-
-    void SetPointer(class PlayerManager* player_manager, class EnemyManager* enemy_manager);
 };

@@ -5,6 +5,7 @@
 #include"PlayerManager.h"
 #include"EnemyManager.h"
 #include"AttackManager.h"
+#include"NpcManager.h"
 
 struct BACK_GROUND_BLOCK
 {
@@ -18,6 +19,7 @@ private:
     class PlayerManager* player_manager;
     class EnemyManager* enemy_manager;
     class AttackManager* attack_manager;
+    class NpcManager* npc_manager;
     
     std::vector<class Block>block;
     std::vector<BACK_GROUND_BLOCK>back_ground_block;
@@ -27,14 +29,12 @@ private:
 
     float camera_work;
     float center_location_x;
-    float stop_time;//処理を止める時間
-    float time_count;//時間のカウント
     bool next_transition;
 
     void SetStage();//ステージを生成
 
 public:
-    Stage(class Ui* ui);
+    Stage();
     ~Stage();
 
     bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
@@ -42,8 +42,6 @@ public:
 
     bool HitBlock(class BoxCollider* bc)const;
     bool NextTransition();
-
-    void SetStopTime(float stop_time);
 
     void SetCameraWork();
     float GetCameraWork()const;

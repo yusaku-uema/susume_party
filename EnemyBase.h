@@ -1,6 +1,5 @@
 #pragma once
 #include"CombatCharacterBase.h"
-#include"Stage.h"
 
 class EnemyBase : public CombatCharacterBase
 {

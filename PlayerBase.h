@@ -1,6 +1,6 @@
 #pragma once
 #include"CombatCharacterBase.h"
-#include"Stage.h"
+#include"AttackManager.h"
 
 #define JUMP_LOG 40//‰ß‹”‰ñ•ª‚ÌƒWƒƒƒ“ƒv‚Ì‹L˜^
 

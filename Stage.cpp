@@ -3,18 +3,19 @@
 
 #define DRAW_PLAYER_LOCATION_X 550.0f//操作キャラの表示位置
 
-Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
+Stage::Stage() : camera_work(0.0f)
 {
-	attack_manager = new AttackManager(this, player_manager, enemy_manager);
-	player_manager = new PlayerManager(ui);
-	enemy_manager = new EnemyManager(this, player_manager, attack_manager);
+	player_manager = new PlayerManager();
+	enemy_manager = new EnemyManager();
+	attack_manager = new AttackManager();
+	npc_manager = new NpcManager();
+
+	player_manager->Initialize(this, enemy_manager, attack_manager);
+	enemy_manager->Initialize(this, player_manager, attack_manager);
+	attack_manager->Initialize(this, player_manager, enemy_manager);
+	npc_manager->Initialize(this, player_manager);
 
 	next_transition = false;
-	
-	
-	
-	player_manager->SetPointer(this, enemy_manager, attack_manager);
-	attack_manager->SetPointer(player_manager, enemy_manager);
 
 	//背景画像
 	if (LoadDivGraph("image/Stage/background.png", 4, 1, 4, 2000, 540, back_ground_image) == -1)throw("image/Stage/background.pngが読み込めません\n");
@@ -23,6 +24,7 @@ Stage::Stage(Ui* ui) : camera_work(0.0f), stop_time(0.0f), time_count(0.0f)
 	if (LoadDivGraph("image/Stage/block.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
 	SetStage();
+
 	OutputDebugString("Stageコンストラクタ呼ばれました。\n");
 }
 
@@ -72,35 +74,29 @@ Stage::~Stage()
 	delete player_manager;
 	delete enemy_manager;
 	delete attack_manager;
+	delete npc_manager;
 
 	OutputDebugString("Stageデストラクタ呼ばれました。\n");
 }
 
 bool Stage::Update(float delta_time)
 {
-	if ((time_count += delta_time) > stop_time)
-	{
-		time_count = 0.0f;
-		stop_time = 0.0f;
+	//NPCの更新
+	npc_manager->Update(delta_time);
 
-		//プレイヤー(勇者一行)の更新
-		if (player_manager->Update(delta_time))return true;
+	//プレイヤー(勇者一行)の更新
+	if (player_manager->Update(delta_time))return true;
 
-		//敵の更新
-		enemy_manager->Update(delta_time);
-		
-		if (enemy_manager->NextTransition())
-		{
-			next_transition = true;
-		}
+	//敵の更新
+	enemy_manager->Update(delta_time);
 
-		//攻撃の更新
-		attack_manager->Update(delta_time);
+	//攻撃の更新
+	attack_manager->Update(delta_time);
 
-		//敵の更新
 
-		SetCameraWork();
-	}
+	if (enemy_manager->NextTransition())next_transition = true;
+
+	SetCameraWork();
 
 	return false;
 }
@@ -146,11 +142,6 @@ void Stage::SetCameraWork()
 	center_location_x = -camera_work + SCREEN_CENTER_X;
 }
 
-void Stage::SetStopTime(float stop_time)
-{
-	this->stop_time = stop_time;
-}
-
 float Stage::GetCameraWork()const
 {
 	return camera_work;
@@ -183,10 +174,11 @@ void Stage::Draw() const
 	//敵の表示
 	enemy_manager->Draw();
 
+	//NPCの表示
+	npc_manager->Draw();
+
 	//プレイヤー表示
 	player_manager->Draw();
-
-	
 
 	//攻撃（魔法の弾、斬撃、、）表示
 	attack_manager->Draw();

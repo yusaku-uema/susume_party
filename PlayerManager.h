@@ -1,6 +1,6 @@
 #pragma once
 #include"PlayerBase.h"
-
+#include"Message.h"
 
 #define PLAYER_NUM 4//プレイヤー（キャラの数）
 
@@ -10,10 +10,11 @@ private:
     class Stage* stage;
     class EnemyManager* enemy_manager;
     class AttackManager* attack_manager;
+    class Message* message;
+    class Ui* ui;
 
     class PlayerBase* player[4];
     
-    int dead_player_count;
     int arrow_image;//先頭プレイヤーを指す矢印画像
     float draw_arrow_time;//矢印の表示時間
 
@@ -22,8 +23,10 @@ private:
 
 public:
 
-    PlayerManager(class Ui* ui);
+    PlayerManager();
     ~PlayerManager();
+
+    void Initialize(class Stage* stage, class EnemyManager* enemy_manager, class AttackManager* attack_manager);
 
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
 
@@ -32,6 +35,6 @@ public:
 
     PlayerBase* GetPlayerData()const;
 
-    void SetPointer(class Stage* stage, class EnemyManager* enemy_manager, class AttackManager* attack_manager);
-    
+    void SetMessage(const char* text_data_name);//メッセージをセット
+    bool GetiIsTalking()const;//会話中か確かめる関数
 };

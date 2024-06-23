@@ -13,11 +13,9 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-EnemyManager::EnemyManager(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager):
-    stage(stage), player_manager(player_manager), attack_manager(attack_manager)
+EnemyManager::EnemyManager()
 {
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
-    SetEnemy();
     dead_boss = false;
 }
 
@@ -28,6 +26,15 @@ EnemyManager::~EnemyManager()
     enemy.shrink_to_fit();
 
     OutputDebugString("EnemyManagerデストラクタが呼ばれました。\n");
+}
+
+void EnemyManager::Initialize(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager)
+{
+    this->stage = stage;
+    this->player_manager = player_manager;
+    this->attack_manager = attack_manager;
+
+    SetEnemy();
 }
 
 void EnemyManager::Update(float delta_time)
