@@ -5,8 +5,8 @@
 // スクロールスピード
 #define SCROLL_SPEED 1
 // 画面の幅と高さ
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 650
+#define SCREEN_SIZE_X 640
+#define SCREEN_SIZE_Y 650
 
 // 背景画像の幅と高さ
 #define BACKGROUND_WIDTH 1280

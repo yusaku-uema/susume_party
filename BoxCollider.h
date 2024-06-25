@@ -14,6 +14,5 @@ public:
 
 	bool HitBox(BoxCollider* bc)const;
 	DATA GetLocation(void)const;
-	DATA GetRadius(void)const;
 };
 

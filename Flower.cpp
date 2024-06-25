@@ -136,7 +136,7 @@ void Flower::Draw() const
 {
 	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
-	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
+	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))//画面内にブロックがある場合
 	{
 		//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);

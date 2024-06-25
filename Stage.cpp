@@ -26,8 +26,6 @@ Stage::Stage() : camera_work(0.0f)
 
 	if ((pillar_image = LoadGraph("image/Stage/pillar.png")) == -1)throw("image/Stage/pillar.pngが読み込めません\n");
 
-
-
 	//ブロック画像
 	if (LoadDivGraph("image/Stage/block.png", BLOCK_TYPE_NUM, BLOCK_TYPE_NUM, 1, BLOCK_SIZE, BLOCK_SIZE, block_image) == -1)throw("image/Stage/block.pngが読み込めません\n");
 
@@ -43,29 +41,34 @@ void Stage::SetStage()
 	errno_t error_stage_data = fopen_s(&stage_data, "data/stage.txt", "r");
 	if (error_stage_data != 0)throw("data/stage.txtが読み込めません\n");//エラーチェック
 	
+	int set_block[STAGE_BLOCK_NUM_Y][STAGE_BLOCK_NUM_X];
+
+	for (int i = 0; i < STAGE_BLOCK_NUM_Y; i++)
+	{
+		for (int j = 0; j < STAGE_BLOCK_NUM_X; j++)fscanf_s(stage_data, "%d", &set_block[i][j]);
+	}
+
+	fclose(stage_data);
+
 	block.reserve(3000);//ブロックのメモリの確保
 
 	//ブロックを配置する
-	for (int i = 0; i < STAGE_BLOCK_NUM_Y; i++)//縦の繰り返し
+	for (int i = 0; i < STAGE_BLOCK_NUM_X; i++)//縦の繰り返し
 	{
-		for (int j = 0; j < STAGE_BLOCK_NUM_X; j++)//横の繰り返し
+		for (int j = 0; j < STAGE_BLOCK_NUM_Y; j++)//横の繰り返し
 		{
-			//ブロックの種類
-			int block_type;
-			fscanf_s(stage_data, "%d", &block_type);
-
 			//ブロックの生成
-			if (block_type != -1)
+			if (set_block[j][i] != -1)
 			{
-				DATA location = { j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
+				DATA location = { (i * BLOCK_SIZE) + (BLOCK_SIZE / 2) - BLOCK_SIZE , j * BLOCK_SIZE + (BLOCK_SIZE / 2) };
 
-				if (block_type <= 5) block.emplace_back(location, BLOCK_TYPE::SOIL_BLOCK, block_image[block_type]);
-				else back_ground_block.emplace_back(BACK_GROUND_BLOCK{ location, block_type });
+				if (set_block[j][i] <= 5) block.emplace_back(location, block_image[set_block[j][i]]);
+				else back_ground_block.emplace_back(BACK_GROUND_BLOCK{ location, set_block[j][i] });
 			}
 		}
 	}
 	block.shrink_to_fit();//必要ないブロックのメモリの解放
-	fclose(stage_data);
+	
 }
 
 Stage::~Stage()
@@ -91,6 +94,8 @@ Stage::~Stage()
 
 bool Stage::Update(float delta_time)
 {
+	SetCameraWork();
+
 	//イベントの更新
 	event_manager->Update(delta_time);
 
@@ -106,19 +111,23 @@ bool Stage::Update(float delta_time)
 	//攻撃の更新
 	attack_manager->Update(delta_time);
 
-
 	if (enemy_manager->NextTransition())next_transition = true;
-
-	SetCameraWork();
 
 	return false;
 }
 
-bool Stage::HitBlock(BoxCollider* bc)const
+bool Stage::HitBlock(BoxCollider* bc)
 {
 	//ブロックに当たった場合trueを返す
-	for (int i = 0; i < block.size(); i++)if (block[i].HitBox(bc))return true;
+	for (int i = 0; i < block.size(); i++)
+	{
+		//if (block[i].GetLocation().x > center_location_x + SCREEN_SIZE_X)break;
 
+		if (block[i].GetLocation().x > center_location_x - SCREEN_SIZE_X)
+		{
+			if (block[i].HitBox(bc))return true;
+		}
+	}
 	//ブロックに当たらなかった
 	return false;
 }
@@ -152,7 +161,7 @@ void Stage::SetCameraWork()
 	camera_work = floorf(camera_work);
 
 	//画面中心座標計算
-	center_location_x = -camera_work + SCREEN_CENTER_X;
+	center_location_x = -camera_work + HALF_SCREEN_SIZE_X;
 }
 
 float Stage::GetCameraWork()const
@@ -178,12 +187,17 @@ void Stage::Draw() const
 	DrawGraph(0 + camera_work, 0, back_ground_image[4], TRUE);
 
 	//ブロック表示
-	for (int i = 0; i < block.size(); i++)block[i].Draw(camera_work);
+	for (int i = 0; i < block.size(); i++)
+	{
+		if (block[i].Draw(camera_work))break;
+	}
 
 	//当たり判定のないブロックの表示
 	for (int i = 0; i < back_ground_block.size(); i++)
 	{
-		DrawRotaGraph(back_ground_block[i].location.x + camera_work, back_ground_block[i].location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
+		DATA draw_location = { back_ground_block[i].location.x + camera_work, back_ground_block[i].location.y };
+		if (draw_location.x > SCREEN_SIZE_X + BLOCK_SIZE)break;
+		if (draw_location.x >= -BLOCK_SIZE)DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, block_image[back_ground_block[i].type], TRUE);
 	}
 	
 	//敵の表示
@@ -205,5 +219,5 @@ void Stage::Draw() const
 
 	DrawString(0, 0, "LB = キャラ切り替え", 0xffffff);
 	DrawString(850,0, "RB = パーティ切り離し", 0xffffff);
-	//DrawFormatString(0, 0, 0xffffff, "%d = block_num", block.size());
+	//DrawFormatString(0, 100, 0xffffff, "%d", count);
 }

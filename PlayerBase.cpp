@@ -82,7 +82,7 @@ bool PlayerBase::Update(float delta_time, PlayerBase* previous_player)
     }
 
     //ƒLƒƒƒ‰‚ªŽ€‚ñ‚¾ê‡
-    if (location.y > SCREEN_HEIGHT)is_set_casket = true;
+    if (location.y > SCREEN_SIZE_Y)is_set_casket = true;
     else if ((location.x > stage->GetCenterLocationX() + 800.0f) || (location.x < stage->GetCenterLocationX() - 800.0f))is_set_casket = true;
 
     if(is_set_casket)

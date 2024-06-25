@@ -138,7 +138,7 @@ void Bird::Draw() const
 {
 	DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
-	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
+	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))//画面内にブロックがある場合
 	{
 		if (state == BIRD_STATE::ATTACK || state == BIRD_STATE::STANDBY)
 		{

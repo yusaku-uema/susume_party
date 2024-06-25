@@ -150,7 +150,7 @@ void EnemyManager::SetEnemy()
             //エネミーの生成
             if (enemy_type != -1)
             {
-                DATA location = { j * BLOCK_SIZE + (BLOCK_SIZE / 2) , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
+                DATA location = { (j * BLOCK_SIZE) + (BLOCK_SIZE / 2) - BLOCK_SIZE , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
                 
                 SpawnEnemy(enemy_type, location);
                 

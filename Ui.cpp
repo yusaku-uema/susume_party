@@ -7,7 +7,7 @@ Ui::Ui(PlayerBase** player_base) : player(player_base)
     if (LoadDivGraph("image/Ui/playerselect.png", 4, 4, 1, 50, 50, player_image[1]) == -1)throw("image/Ui/playerselect.pngが読み込めません\n");
     if (LoadDivGraph("image/Ui/playerdead.png", 4, 4, 1, 50, 50, player_image[2]) == -1)throw("image/Ui/playerdead.pngが読み込めません\n");
 
-    SetFontSize(30);
+    SetFontSize(10);
 
     OutputDebugString("Uiコンストラクタ呼ばれました。\n");
 }

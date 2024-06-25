@@ -15,6 +15,7 @@ void GameMainScene::Initialize()
 {
 	stage = new Stage();
 	bgm= LoadSoundMem("bgm/stage.mp3");
+	SetFontSize(FONT_SIZE);
 }
 
 //I—¹ˆ—

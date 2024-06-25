@@ -131,7 +131,7 @@ void BlackMage::Draw() const
 	DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 	
 
-	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
+	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))//画面内にブロックがある場合
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y - 20, 1.5, 0, blackmage_image[image_type], TRUE, !is_facing_left);
 		DrawHPBar(MAX_HP);

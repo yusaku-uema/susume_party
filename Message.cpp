@@ -2,7 +2,6 @@
 #include "Key.h"
 #include "DxLib.h"
 
-#define FONT_SIZE 35 // 文字の大きさ
 #define DRAW_TEXT_TIME 0.08f // 1文字表示するまでの時間
 #define FAST_DRAW_TEXT_TIME 0.02f // Aボタン長押し時の1文字表示するまでの時間
 
@@ -15,7 +14,8 @@
 Message::Message(const char* text_data_name) : draw_text_time(0.0f), draw_line_text_num(0),
 update_text_line(0), update_line_text_num(0), draw_start_text_line(0), draw_arrow(false)
 {
-    SetFontSize(FONT_SIZE);
+    
+
 
     int text_data = NULL;
     if ((text_data = FileRead_open(text_data_name)) == 0) throw("text_dataが読み込めません\n");

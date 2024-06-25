@@ -1,13 +1,15 @@
 #pragma once
 
-#define SCREEN_WIDTH 1280 //横画面サイズ
-#define SCREEN_HEIGHT 720 //縦画面サイズ
+#define FONT_SIZE 35 // 文字の大きさ
 
-#define SCREEN_CENTER_X 640
-#define SCREEN_CENTER_Y 360
+#define SCREEN_SIZE_X 1280 //横画面サイズ
+#define SCREEN_SIZE_Y 720 //縦画面サイズ
+
+#define HALF_SCREEN_SIZE_X 640
+#define HALF_SCREEN_SIZE_Y 360
 
 #define STAGE_BLOCK_NUM_Y 15 //ステージの縦ブロックの数
-#define STAGE_BLOCK_NUM_X 275 //ステージの横ブロックの数
+#define STAGE_BLOCK_NUM_X 276 //ステージの横ブロックの数
 
 #define BLOCK_TYPE_NUM 17//ブロックの種類
 
@@ -29,11 +31,4 @@ enum class PLAYER_JOB//プレイヤー職業
     WARRIOR,//戦士
     WIZARD,//魔法使い
     MONK//僧侶
-};
-
-enum class BLOCK_TYPE
-{
-    GRASSLAND_BLOCK = 1,//草原ブロック
-    SOIL_BLOCK,//土ブロック
-
 };

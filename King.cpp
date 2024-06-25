@@ -24,7 +24,7 @@ void King::Draw()const
 {
     DATA draw_location = { location.x + stage->GetCameraWork(), location.y };
 
-    if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))
+    if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))
     {
         DrawRotaGraph(draw_location.x, draw_location.y, 2.0, 0, npc_image[0], TRUE);
     }

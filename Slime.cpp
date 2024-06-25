@@ -108,7 +108,7 @@ void Slime::Draw() const
 {
 	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
 
-	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_WIDTH + radius.x))//画面内にブロックがある場合
+	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))//画面内にブロックがある場合
 	{
 		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, slime_image[image_type], TRUE, !move_left);
 

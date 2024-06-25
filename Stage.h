@@ -29,6 +29,7 @@ private:
     int block_image[BLOCK_TYPE_NUM];//ブロック画像
     int back_ground_image[5];//背景画像
     int pillar_image;
+    int count;
 
     float camera_work;
     float center_location_x;
@@ -43,7 +44,7 @@ public:
     bool Update(float delta_time);//戻り値（プレイヤーが全滅したら　TRUEを返す）
     void Draw() const;
 
-    bool HitBlock(class BoxCollider* bc)const;
+    bool HitBlock(class BoxCollider* bc);
     bool NextTransition();
 
     void SetCameraWork();

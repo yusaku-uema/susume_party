@@ -31,8 +31,3 @@ DATA BoxCollider::GetLocation()const
 {
     return location;
 }
-
-DATA BoxCollider::GetRadius()const
-{
-    return radius;
-}
