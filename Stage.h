@@ -32,7 +32,10 @@ private:
     int count;
 
     float camera_work;
+    float max_camera_work;
+
     float center_location_x;
+
     bool next_transition;
 
     void SetStage();//ステージを生成

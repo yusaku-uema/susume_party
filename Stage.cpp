@@ -68,7 +68,8 @@ void Stage::SetStage()
 		}
 	}
 	block.shrink_to_fit();//必要ないブロックのメモリの解放
-	
+
+	max_camera_work = ((STAGE_BLOCK_NUM_X - 1) * BLOCK_SIZE) - SCREEN_SIZE_X;
 }
 
 Stage::~Stage()
@@ -121,9 +122,9 @@ bool Stage::HitBlock(BoxCollider* bc)
 	//ブロックに当たった場合trueを返す
 	for (int i = 0; i < block.size(); i++)
 	{
-		//if (block[i].GetLocation().x > center_location_x + SCREEN_SIZE_X)break;
+		if (block[i].GetLocation().x > bc->GetLocation().x + 100.0f)break;
 
-		if (block[i].GetLocation().x > center_location_x - SCREEN_SIZE_X)
+		if (block[i].GetLocation().x > bc->GetLocation().x - 100.0f)
 		{
 			if (block[i].HitBox(bc))return true;
 		}
@@ -158,7 +159,9 @@ void Stage::SetCameraWork()
 	}
 	else if ((camera_work += 5.0f) > 0.0f)camera_work = 0.0f;
 
-	camera_work = floorf(camera_work);
+	//camera_work = floorf(camera_work);
+
+	if (camera_work < -max_camera_work)camera_work = -max_camera_work;
 
 	//画面中心座標計算
 	center_location_x = -camera_work + HALF_SCREEN_SIZE_X;
