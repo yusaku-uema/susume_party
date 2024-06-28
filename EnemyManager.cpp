@@ -34,6 +34,8 @@ void EnemyManager::Initialize(class Stage* stage, class PlayerManager* player_ma
     this->player_manager = player_manager;
     this->attack_manager = attack_manager;
 
+    enemy.emplace_back(new Flower({600, 400}, stage, player_manager, attack_manager));
+
     SetEnemy();
 }
 
@@ -41,20 +43,14 @@ void EnemyManager::Update(float delta_time)
 {
     for (int i = 0; i < enemy.size(); i++)
     {
-        enemy[i]->Update();
+        enemy[i]->Update(delta_time);
 
         //éÄÇÒÇæèÍçá
         if (enemy[i]->GetIsDead())
         {
-            if (enemy[i]->GetDeadBoss())
-            {
-                dead_boss = true;
-            }
-
             //Ç±ÇÃìGÇí«Ç¡ÇƒÇ¢ÇΩíeÇÃí«ê’ÇÇ‚ÇﬂÇÈ
             attack_manager->DeleteTargetPointer(enemy[i]);
 
-            delete enemy[i];
             enemy.erase(enemy.begin() + i);//ìGÇè¡Ç∑
             i--;
         }
@@ -110,19 +106,19 @@ void EnemyManager::SpawnEnemy(int enemy_type, DATA location)
     switch (enemy_type)
     {
     case ENEMY_TYPE::BIRD:
-        enemy.emplace_back(new Bird(stage, player_manager, attack_manager,location));
+        //enemy.emplace_back(new Bird(stage, player_manager, attack_manager,location));
         break;
     case ENEMY_TYPE::FAIRY:
-        enemy.emplace_back(new Fairy(stage, player_manager, attack_manager, location));
+        //enemy.emplace_back(new Fairy(stage, player_manager, attack_manager, location));
         break;
     case ENEMY_TYPE::FLOWER:
-        enemy.emplace_back(new Flower(stage, player_manager, attack_manager, location));
+        enemy.emplace_back(new Flower(location, stage, player_manager, attack_manager));
         break;
     case ENEMY_TYPE::SLIME:
-        enemy.emplace_back(new Slime(stage, player_manager, attack_manager, location));
+        //enemy.emplace_back(new Slime(stage, player_manager, attack_manager, location));
         break;
     case ENEMY_TYPE::BLACKMAGE:
-        enemy.emplace_back(new BlackMage(stage, player_manager, attack_manager, location));
+        //enemy.emplace_back(new BlackMage(stage, player_manager, attack_manager, location));
         break;
 
     default:

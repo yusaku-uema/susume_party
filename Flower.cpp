@@ -1,44 +1,34 @@
 #include "Flower.h"
 #include"DxLib.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
-#define FLOWER_SIZE 20.0f//サイズ
-#define TIMING_ATTACK 120 //攻撃タイミング
-#define SEARCH_RANGE 250 //交戦距離
-#define MAX_HP 15
+#define MAX_HP 500
+
+#define FLOWER_SIZE_X 10.0f//サイズ
+#define FLOWER_SIZE_Y 60.0f//サイズ
+
+
+#define SEARCH_RANGE 250.0f //交戦距離
+#define PREPARING_ATTACK_TIME 1.0f //攻撃溜め時間
+#define ATTACK_INTERVAL_TIME 7.0f //攻撃間隔
+
+#define IMAGE_CHANGE_TIME 0.2f //画像切り替え時間
 
 
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
+Flower::Flower(DATA location, class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase(location, { FLOWER_SIZE_X , FLOWER_SIZE_Y}, MAX_HP, 5, 5)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
 	this->attack_manager = attack_manager;
 
-	if (LoadDivGraph("image/Enemy/flower.png", 7, 7, 1, 80, 80, flower_image) == -1)throw("フラワー画像読込み失敗\n");
+	enemy_control_time = ATTACK_INTERVAL_TIME;
 
-	time = 0;
-	animation_time = 0;
-	image_type = 4;
-	standby_time = 0;
-	angle = 0;
-
-	start_attack = false;
-
-	direction = true;
-
-	state = FLOWER_STATE::STANDBY;
-
-
-	////テスト 座標
-	//this->location = { 1400.0f, 50.0f };
-	this->location = location;
-	this->radius = { FLOWER_SIZE ,FLOWER_SIZE };
-	this->hp = MAX_HP;
-
+	//画像
+	if (LoadDivGraph("image/Enemy/flower/normal.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/flower/normal.png\n");
+	if (LoadDivGraph("image/Enemy/flower/preparingattack.png", 1, 1, 1, 80, 80, enemy_image[ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/flower/preparingattack.png\n");
+	if (LoadDivGraph("image/Enemy/flower/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/flower/attack.png\n");
 }
 
 
@@ -47,162 +37,90 @@ Flower::Flower(class Stage* stage, class PlayerManager* player_manager, class At
 //-----------------------------------
 Flower::~Flower()
 {
-	for (int i = 0; i < 7; i++)
-	{
-		DeleteGraph(flower_image[i]);
-	}
 }
 
 
 //-----------------------------------
 //更新処理
 //-----------------------------------
-void Flower::Update()
+void Flower::Update(float delta_time)
 {
-	//画像切替時間測定
-	++time;
+	//Y座標更新
 
 	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
+
 	location.y += speed.y;
 
 	if (stage->HitBlock(this))
 	{
 		location.y -= speed.y;
+		speed.y = 0.0f;
+	}
+	
+	//状態ごとの処理
+
+	enemy_control_time += delta_time;
+
+	if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
+	{
+		draw_image_num++;
+		image_change_time = 0.0f;
 	}
 
-	switch (state)
+	switch (enemy_state)
 	{
-	case FLOWER_STATE::ATTACK:
-		
-		Attack();
+	case ENEMY_STATE::NORMAL:
 
-		break;
-	case FLOWER_STATE::STANDBY:
+		if (enemy_image[ENEMY_STATE::NORMAL][draw_image_num] == NULL)draw_image_num = 0;
 
-		//画像切替処理
-		if (time % 12 == 0)
+		is_facing_left = (location.x > player_manager->GetPlayerData()->GetLocation().x);
+
+		if (enemy_control_time > 7.0f)
 		{
-			if (++image_type > 6)
+			if (CalculateDistance(player_manager->GetPlayerData()) < SEARCH_RANGE)
 			{
-				image_type = 4;
+				ChangeEnemyState(ENEMY_STATE::PREPARING_ATTACK);
 			}
-		}
-		if (CalculateDistance() < SEARCH_RANGE)
-		{
-			state = FLOWER_STATE::ATTACK;
-			image_type = 0;
-		}
-		break;
-
-	case FLOWER_STATE::BREAKTIME:
-		//画像切替処理
-		if (time % 12 == 0)
-		{
-			if (++image_type > 6)
-			{
-				image_type = 4;
-			}
-		}
-
-		if (++standby_time % 120 == 0)
-		{
-			standby_time = 0;
-			state = FLOWER_STATE::STANDBY;
 		}
 
 		break;
 
-	case FLOWER_STATE::DEATH:
-		//画像切替処理
-		if (time % 12 == 0)
+	case ENEMY_STATE::PREPARING_ATTACK:
+
+		if (enemy_image[ENEMY_STATE::PREPARING_ATTACK][draw_image_num] == NULL)draw_image_num = 0;
+
+		if (enemy_control_time > PREPARING_ATTACK_TIME)
 		{
-			if (++image_type > 3)
-			{
-				is_dead = true;
-			}
+			//攻撃
+			if (is_facing_left)attack_manager->AddEnemyAttack({location.x - 10.0f, location.y}, {15.0f,15.0f}, {-5.0f,0.0f}, 10.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+			else attack_manager->AddEnemyAttack({ location.x + 10.0f, location.y }, { 15.0f,15.0f }, { 5.0f,0.0f }, 10.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
+
+			ChangeEnemyState(ENEMY_STATE::ATTACK);
 		}
+
+		break;
+
+	case ENEMY_STATE::ATTACK:
+
+		if (enemy_image[ENEMY_STATE::ATTACK][draw_image_num] == NULL)ChangeEnemyState(ENEMY_STATE::NORMAL);
+
 		break;
 
 	default:
 		break;
 	}
-}
 
+	hp--;
+}
 
 //-----------------------------------
 //描画
 //-----------------------------------
-void Flower::Draw() const
+void Flower::Draw(DATA draw_location) const
 {
-	DATA draw_location = { location.x + stage->GetCameraWork(), location.y};
+	DrawRotaGraph(draw_location.x, draw_location.y - 10.0f, 1, 0, enemy_image[enemy_state][draw_image_num], TRUE, !is_facing_left);
 
-	if ((draw_location.x >= -radius.x) && (draw_location.x <= SCREEN_SIZE_X + radius.x))//画面内にブロックがある場合
-	{
-		//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
-		DrawRotaGraph(draw_location.x, draw_location.y, 1, 0, flower_image[image_type], TRUE, direction);
-		//DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0x00ffff, FALSE);
-
-		DrawHPBar(MAX_HP);
-
-		/*DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "向く方向%f", angle);*/
-	}
-}
-
-
-//-----------------------------------
-//攻撃
-//-----------------------------------
-void Flower::Attack()
-{
-	if (++animation_time % 60 == 0)
-	{
-		start_attack = true;
-	}
-	
-	if (start_attack)
-	{
-
-		//画像切替処理
-		if (time % 10 == 0)
-		{
-			if (++image_type > 1)
-			{
-				if (direction)
-				{
-					//攻撃
-					attack_manager->AddEnemyAttack(location, { 15,15 }, { 5,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-				}
-				else
-				{
-					//攻撃
-					attack_manager->AddEnemyAttack(location, { 15,15 }, { -5,0 }, 10, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
-				}
-				state = FLOWER_STATE::BREAKTIME;
-				start_attack = false;
-			}
-		}
-	}
-}
-
-//-----------------------------------
-//相手との距離を測る
-//-----------------------------------
-float Flower::CalculateDistance()
-{
-	float dx = player_manager->GetPlayerData()->GetLocation().x - this->GetLocation().x;
-	float dy = player_manager->GetPlayerData()->GetLocation().y - this->GetLocation().y;
-	float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
-
-	angle = atan2(dy, dx) * 180 / M_PI;
-
-	if (angle >= -45 && angle <= 85)
-	{
-		direction = true;
-	}
-	else
-	{
-		direction = false;
-	}
-
-	return distance;
+	//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
+	DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);
+	//DrawFormatString(draw_location.x, draw_location.y - 100, 0xffffff, "向く方向%f", angle);
 }

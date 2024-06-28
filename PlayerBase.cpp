@@ -19,7 +19,7 @@
 #define MAX_WEAPON_ANGLE 360
 
 PlayerBase::PlayerBase(DATA location,int hp,int mp, int attack_power, PLAYER_JOB player_job) : CombatCharacterBase(location, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, hp, mp, attack_power, 5),
-player_job(player_job),image_change_time(0.0f),draw_image_num(0), weapon_angle(0),
+player_job(player_job), weapon_angle(0),
 is_leader(false), is_casket_fall(false), is_party_member(true), is_set_casket(false)
 {
     max_hp = hp;

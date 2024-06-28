@@ -27,8 +27,8 @@ void EventManager::EventInitialize(EVENT_TYPE event_type)
 
     if (event_type == EVENT_TYPE::FIRST_CONVERSATION)
     {
-        player_manager->SetMessage("txt/comment.txt");
-        player_manager->SetPartyState(false);
+        //player_manager->SetMessage("txt/comment.txt");
+        player_manager->SetPartyState(true);
     }
 }
 

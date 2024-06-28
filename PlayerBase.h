@@ -19,9 +19,6 @@ private:
     bool is_party_member;//パーティーが切り離されているか？
     bool is_set_casket;//棺桶状態にするか？（死亡直後に使用）
 
-    float image_change_time;//画像切り替え時間
-    int draw_image_num;//表示画像の番号
-
     int weapon_angle;//武器のふり幅
 
     void UpdateLeader();

@@ -5,33 +5,36 @@ class EnemyBase : public CombatCharacterBase
 {
 protected:
 
-	int time; //時間
-	int image_type; //使う画像の要素指定
-	long int animation_time; //画像切替に使う変数
+	enum ENEMY_STATE//敵の状態
+	{
+		NORMAL,//通常
+		PREPARING_ATTACK,//攻撃準備
+		ATTACK, //攻撃
+		AFTER_ATTACK,//攻撃後
+	};
 
-	float distance_moved; //動いた距離
-	float attack_speed; //攻撃速度
-	float distance; //相手との距離
-	float dx, dy; //変化量
+	ENEMY_STATE enemy_state;//敵の状態
 
-	bool direction; //向いている方向
-	bool dead_boss;
-
+	float enemy_control_time;//敵の制御用時間
+	int enemy_image[4][5];
+	
+	void ChangeEnemyState(ENEMY_STATE enemy_state);
+	
 	DATA spawn_location; //スポーンした座標を覚える
 
 public:
-	EnemyBase();
+	EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power);
 	virtual ~EnemyBase();
 
-	virtual void Update() = 0;
-	virtual void Draw()const = 0;
+	virtual void Update(float delta_time) = 0;
+	virtual void Draw(DATA draw_location)const = 0;
+	void Draw()const;
 
-	virtual void DrawHPBar(const int) const;
+	virtual void DrawHpBar(DATA draw_location) const;
 
 	bool ScopeoOfActivity(float camera_work); //活動範囲外に出ていないのか
 
 	bool HitDamege(BoxCollider* bc, int attack_power)override;
-	bool GetDeadBoss();
-
+	
 };
 
