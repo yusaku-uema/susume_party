@@ -1,6 +1,5 @@
 #include"DxLib.h"
 #include"EnemyManager.h"
-#include"Key.h"
 
 //ザコ敵
 #include"Slime.h"
@@ -13,14 +12,34 @@
 
 #define DRAW_ARROW_TIME 2.0f//プレイヤーを指す矢印の表示時間
 
-EnemyManager::EnemyManager()
+EnemyManager::EnemyManager() : dead_boss(false)
 {
+    for (int i = 0; i < ENEMY_TYPE::END; i++)
+    {
+        for (int j = 0; j < EnemyBase::ENEMY_STATE::END; j++)
+        {
+            for (int k = 0; k < 5; k++)enemy_image[i][j][k] = NULL;
+        }
+    }
+    
+    //フラワー画像
+    if (LoadDivGraph("image/Enemy/flower/normal.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/flower/normal.png\n");
+    if (LoadDivGraph("image/Enemy/flower/preparingattack.png", 1, 1, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/flower/preparingattack.png\n");
+    if (LoadDivGraph("image/Enemy/flower/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/flower/attack.png\n");
+
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
-    dead_boss = false;
 }
 
 EnemyManager::~EnemyManager()
 {
+    for (int i = 0; i < ENEMY_TYPE::END; i++)
+    {
+        for (int j = 0; j < EnemyBase::ENEMY_STATE::END; j++)
+        {
+            for (int k = 0; k < 5; k++)DeleteGraph(enemy_image[i][j][k]);
+        }
+    }
+
     for (int i = 0; i < enemy.size(); i++)delete enemy[i];
     enemy.clear();
     enemy.shrink_to_fit();
@@ -34,7 +53,7 @@ void EnemyManager::Initialize(class Stage* stage, class PlayerManager* player_ma
     this->player_manager = player_manager;
     this->attack_manager = attack_manager;
 
-    enemy.emplace_back(new Flower({600, 400}, stage, player_manager, attack_manager));
+    enemy.emplace_back(new Flower({ 600, 400 }, enemy_image[ENEMY_TYPE::FLOWER], stage, player_manager, attack_manager));
 
     SetEnemy();
 }
@@ -96,26 +115,23 @@ void EnemyManager::Draw() const
         //DrawFormatString(enemy[i]->GetLocation().x + stage->GetCameraWork(), enemy[i]->GetLocation().y - 50, 0xffffff, "%d", i);
         enemy[i]->Draw();
     }
-
-    //DrawFormatString(0, 100, 0xffffff, "enemy_num = %d", enemy.size());
-
 }
 
-void EnemyManager::SpawnEnemy(int enemy_type, DATA location)
+void EnemyManager::SpawnEnemy(ENEMY_TYPE enemy_type, DATA location)
 {
     switch (enemy_type)
     {
+    case ENEMY_TYPE::SLIME:
+        //enemy.emplace_back(new Slime(stage, player_manager, attack_manager, location));
+        break;
+    case ENEMY_TYPE::FLOWER:
+        enemy.emplace_back(new Flower(location, enemy_image[enemy_type], stage, player_manager, attack_manager));
+        break;
     case ENEMY_TYPE::BIRD:
         //enemy.emplace_back(new Bird(stage, player_manager, attack_manager,location));
         break;
     case ENEMY_TYPE::FAIRY:
         //enemy.emplace_back(new Fairy(stage, player_manager, attack_manager, location));
-        break;
-    case ENEMY_TYPE::FLOWER:
-        enemy.emplace_back(new Flower(location, stage, player_manager, attack_manager));
-        break;
-    case ENEMY_TYPE::SLIME:
-        //enemy.emplace_back(new Slime(stage, player_manager, attack_manager, location));
         break;
     case ENEMY_TYPE::BLACKMAGE:
         //enemy.emplace_back(new BlackMage(stage, player_manager, attack_manager, location));
@@ -148,7 +164,7 @@ void EnemyManager::SetEnemy()
             {
                 DATA location = { (j * BLOCK_SIZE) + (BLOCK_SIZE / 2) - BLOCK_SIZE , i * BLOCK_SIZE + (BLOCK_SIZE / 2) };
                 
-                SpawnEnemy(enemy_type, location);
+                SpawnEnemy(static_cast<ENEMY_TYPE>(enemy_type), location);
                 
             }
         }

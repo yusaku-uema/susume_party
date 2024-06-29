@@ -4,27 +4,33 @@
 
 #define ENEMY_NUM 5
 
-typedef enum ENEMY_TYPE
-{
-    SLIME=0,
-    FLOWER,
-    BIRD,
-    FAIRY,
-
-    BLACKMAGE //ボス
-};
-
-
 class EnemyManager
 {
 private:
+
+    enum ENEMY_TYPE
+    {
+        SLIME,//スライム
+        FLOWER,//フラワー
+        BIRD,//鳥
+        FAIRY,//妖精
+        BLACKMAGE, //ボス
+
+        END
+    };
+
     class Stage* stage;
     class PlayerManager* player_manager;
     class AttackManager* attack_manager;
 
     std::vector<class EnemyBase*>enemy;
 
+    int enemy_image[ENEMY_TYPE::END][4][5];
+
     bool dead_boss;
+
+    void SpawnEnemy(ENEMY_TYPE enemy_type, DATA location);
+    void SetEnemy();
 
 public:
 
@@ -35,9 +41,7 @@ public:
 
     void Update(float delta_time);
     void Draw() const;
-    void SpawnEnemy(int enemy_type,DATA location);
-    void SetEnemy();
-
+    
     bool CheckHitDamage(class BoxCollider* bc, int attack_power);//攻撃が当たったか確かめる
     bool NextTransition();
 

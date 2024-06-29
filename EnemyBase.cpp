@@ -9,12 +9,13 @@
 
 #define PI 3.14159265358979323846 // pi
 
-EnemyBase::EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power) : CombatCharacterBase(location, size, hp, mp, attack_power, 5),
+EnemyBase::EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power, int enemy_image[ENEMY_STATE::END][5]) : 
+CombatCharacterBase(location, size, hp, mp, attack_power, 5),
 enemy_state(ENEMY_STATE::NORMAL), enemy_control_time(0.0f)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < ENEMY_STATE::END; i++)
     {
-        for (int j = 0; j < 5; j++)enemy_image[i][j] = NULL;
+        for (int j = 0; j < 5; j++)this->enemy_image[i][j] = enemy_image[i][j];
     }
 
     OutputDebugString("EnemyBaseコンストラクタ呼ばれました。\n");
@@ -22,11 +23,6 @@ enemy_state(ENEMY_STATE::NORMAL), enemy_control_time(0.0f)
 
 EnemyBase::~EnemyBase()
 {
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 5; j++)DeleteGraph(enemy_image[i][j]);
-    }
-
     OutputDebugString("EnemyBaseデストラクタ呼ばれました。\n");
 }
 bool EnemyBase::ScopeoOfActivity(float camera_work)
@@ -70,7 +66,7 @@ void EnemyBase::Draw() const
 void EnemyBase::DrawHpBar(DATA draw_location) const
 {
     float hp_ratio = (float)hp / max_hp;
-    int color_ratio = (int)255 * hp_ratio;
+    int color_ratio = (255 * hp_ratio);
     int color = GetColor(255 - (color_ratio * 2), 255, 0);
     if (hp_ratio <= 0.5f)color = GetColor(255, (color_ratio * 2), 0);
 

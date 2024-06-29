@@ -3,7 +3,7 @@
 
 class EnemyBase : public CombatCharacterBase
 {
-protected:
+public:
 
 	enum ENEMY_STATE//“G‚Ìó‘Ô
 	{
@@ -11,19 +11,24 @@ protected:
 		PREPARING_ATTACK,//UŒ‚€”õ
 		ATTACK, //UŒ‚
 		AFTER_ATTACK,//UŒ‚Œã
+
+		END
 	};
+
+protected:
 
 	ENEMY_STATE enemy_state;//“G‚Ìó‘Ô
 
 	float enemy_control_time;//“G‚Ì§Œä—pŠÔ
-	int enemy_image[4][5];
+	int enemy_image[ENEMY_STATE::END][5];
 	
 	void ChangeEnemyState(ENEMY_STATE enemy_state);
 	
 	DATA spawn_location; //ƒXƒ|[ƒ“‚µ‚½À•W‚ğŠo‚¦‚é
 
 public:
-	EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power);
+
+	EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power, int enemy_image[ENEMY_STATE::END][5]);
 	virtual ~EnemyBase();
 
 	virtual void Update(float delta_time) = 0;

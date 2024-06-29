@@ -1,11 +1,10 @@
 #include "Flower.h"
 #include"DxLib.h"
 
-#define MAX_HP 500
+#define MAX_HP 50
 
 #define FLOWER_SIZE_X 10.0f//サイズ
 #define FLOWER_SIZE_Y 60.0f//サイズ
-
 
 #define SEARCH_RANGE 250.0f //交戦距離
 #define PREPARING_ATTACK_TIME 1.0f //攻撃溜め時間
@@ -13,24 +12,18 @@
 
 #define IMAGE_CHANGE_TIME 0.2f //画像切り替え時間
 
-
 //-----------------------------------
 //コンストラクタ
 //-----------------------------------
-Flower::Flower(DATA location, class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : EnemyBase(location, { FLOWER_SIZE_X , FLOWER_SIZE_Y}, MAX_HP, 5, 5)
+Flower::Flower(DATA location, int enemy_image[ENEMY_STATE::END][5], class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : 
+EnemyBase(location, { FLOWER_SIZE_X , FLOWER_SIZE_Y}, MAX_HP, 5, 5, enemy_image)
 {
 	this->stage = stage;
 	this->player_manager = player_manager;
 	this->attack_manager = attack_manager;
 
 	enemy_control_time = ATTACK_INTERVAL_TIME;
-
-	//画像
-	if (LoadDivGraph("image/Enemy/flower/normal.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/flower/normal.png\n");
-	if (LoadDivGraph("image/Enemy/flower/preparingattack.png", 1, 1, 1, 80, 80, enemy_image[ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/flower/preparingattack.png\n");
-	if (LoadDivGraph("image/Enemy/flower/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/flower/attack.png\n");
 }
-
 
 //-----------------------------------
 //デストラクタ
@@ -38,7 +31,6 @@ Flower::Flower(DATA location, class Stage* stage, class PlayerManager* player_ma
 Flower::~Flower()
 {
 }
-
 
 //-----------------------------------
 //更新処理
@@ -109,8 +101,6 @@ void Flower::Update(float delta_time)
 	default:
 		break;
 	}
-
-	hp--;
 }
 
 //-----------------------------------
