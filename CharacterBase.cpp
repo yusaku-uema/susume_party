@@ -24,12 +24,10 @@ CharacterBase::~CharacterBase()
 //-----------------------------------
 //キャラクター間の距離を測る
 //-----------------------------------
-float CharacterBase::CalculateDistance(class BoxCollider* character)const
+float CharacterBase::CalculateDistance(DATA target_location)const
 {
-    float dx = character->GetLocation().x - this->GetLocation().x;
-    float dy = character->GetLocation().y - this->GetLocation().y;
-    float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
-
-    return distance;
+    float dx = target_location.x - location.x;
+    float dy = target_location.y - location.y;
+    return (float)sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
 }
 

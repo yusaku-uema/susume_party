@@ -59,7 +59,7 @@ void Flower::Update(float delta_time)
 		image_change_time = 0.0f;
 	}
 
-	switch (enemy_state)
+	switch (GetEnemyState())
 	{
 	case ENEMY_STATE::NORMAL:
 
@@ -69,9 +69,9 @@ void Flower::Update(float delta_time)
 
 		if (enemy_control_time > 7.0f)
 		{
-			if (CalculateDistance(player_manager->GetPlayerData()) < SEARCH_RANGE)
+			if (CalculateDistance(player_manager->GetPlayerData()->GetLocation()) < SEARCH_RANGE)
 			{
-				ChangeEnemyState(ENEMY_STATE::PREPARING_ATTACK);
+				SetEnemyState(ENEMY_STATE::PREPARING_ATTACK);
 			}
 		}
 
@@ -87,14 +87,14 @@ void Flower::Update(float delta_time)
 			if (is_facing_left)attack_manager->AddEnemyAttack({location.x - 10.0f, location.y}, {15.0f,15.0f}, {-5.0f,0.0f}, 10.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
 			else attack_manager->AddEnemyAttack({ location.x + 10.0f, location.y }, { 15.0f,15.0f }, { 5.0f,0.0f }, 10.0f, 3, ATTACK_TYPE::FIRE_BALL, 2.0f);
 
-			ChangeEnemyState(ENEMY_STATE::ATTACK);
+			SetEnemyState(ENEMY_STATE::ATTACK);
 		}
 
 		break;
 
 	case ENEMY_STATE::ATTACK:
 
-		if (enemy_image[ENEMY_STATE::ATTACK][draw_image_num] == NULL)ChangeEnemyState(ENEMY_STATE::NORMAL);
+		if (enemy_image[ENEMY_STATE::ATTACK][draw_image_num] == NULL)SetEnemyState(ENEMY_STATE::NORMAL);
 
 		break;
 
@@ -108,7 +108,7 @@ void Flower::Update(float delta_time)
 //-----------------------------------
 void Flower::Draw(DATA draw_location) const
 {
-	DrawRotaGraph(draw_location.x, draw_location.y - 10.0f, 1, 0, enemy_image[enemy_state][draw_image_num], TRUE, !is_facing_left);
+	DrawRotaGraph(draw_location.x, draw_location.y - 10.0f, 1, 0, enemy_image[GetEnemyState()][draw_image_num], TRUE, !is_facing_left);
 
 	//DrawFormatString(draw_location.x ,draw_location.y-200,0xffffff, "HP = %d", hp);
 	DrawBox(draw_location.x - radius.x, draw_location.y - radius.y, draw_location.x + radius.x, draw_location.y + radius.y, 0xffffff, FALSE);

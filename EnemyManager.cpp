@@ -23,9 +23,16 @@ EnemyManager::EnemyManager() : dead_boss(false)
     }
     
     //フラワー画像
-    if (LoadDivGraph("image/Enemy/flower/normal.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/flower/normal.png\n");
-    if (LoadDivGraph("image/Enemy/flower/preparingattack.png", 1, 1, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/flower/preparingattack.png\n");
-    if (LoadDivGraph("image/Enemy/flower/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/flower/attack.png\n");
+    if (LoadDivGraph("image/Enemy/Flower/normal.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/Flower/normal.png\n");
+    if (LoadDivGraph("image/Enemy/Flower/preparingattack.png", 1, 1, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/Flower/preparingattack.png\n");
+    if (LoadDivGraph("image/Enemy/Flower/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::FLOWER][EnemyBase::ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/Flower/attack.png\n");
+
+    //鳥画像
+    if (LoadDivGraph("image/Enemy/Bird/normal.png", 4, 4, 1, 80, 80, enemy_image[ENEMY_TYPE::BIRD][EnemyBase::ENEMY_STATE::NORMAL]) == -1)throw("image/Enemy/Bird/normal.png\n");
+    if (LoadDivGraph("image/Enemy/Bird/preparingattack.png", 4, 4, 1, 80, 80, enemy_image[ENEMY_TYPE::BIRD][EnemyBase::ENEMY_STATE::PREPARING_ATTACK]) == -1)throw("image/Enemy/Bird/preparingattack.png\n");
+    if (LoadDivGraph("image/Enemy/Bird/attack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::BIRD][EnemyBase::ENEMY_STATE::ATTACK]) == -1)throw("image/Enemy/Bird/attack.png\n");
+    if (LoadDivGraph("image/Enemy/Bird/afterattack.png", 3, 3, 1, 80, 80, enemy_image[ENEMY_TYPE::BIRD][EnemyBase::ENEMY_STATE::AFTER_ATTACK]) == -1)throw("image/Enemy/Bird/afterattack.png\n");
+
 
     OutputDebugString("EnemyManagerコンストラクタ呼ばれました。\n");
 }
@@ -53,7 +60,9 @@ void EnemyManager::Initialize(class Stage* stage, class PlayerManager* player_ma
     this->player_manager = player_manager;
     this->attack_manager = attack_manager;
 
-    enemy.emplace_back(new Flower({ 600, 400 }, enemy_image[ENEMY_TYPE::FLOWER], stage, player_manager, attack_manager));
+    //enemy.emplace_back(new Flower({ 600.0f, 400.0f }, enemy_image[ENEMY_TYPE::FLOWER], stage, player_manager, attack_manager));
+
+    enemy.emplace_back(new Bird({ 700.0f,300.0f }, enemy_image[ENEMY_TYPE::BIRD], stage, player_manager, attack_manager));
 
     SetEnemy();
 }
@@ -128,7 +137,7 @@ void EnemyManager::SpawnEnemy(ENEMY_TYPE enemy_type, DATA location)
         enemy.emplace_back(new Flower(location, enemy_image[enemy_type], stage, player_manager, attack_manager));
         break;
     case ENEMY_TYPE::BIRD:
-        //enemy.emplace_back(new Bird(stage, player_manager, attack_manager,location));
+        enemy.emplace_back(new Bird(location, enemy_image[enemy_type], stage, player_manager, attack_manager));
         break;
     case ENEMY_TYPE::FAIRY:
         //enemy.emplace_back(new Fairy(stage, player_manager, attack_manager, location));

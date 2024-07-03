@@ -15,7 +15,7 @@ protected:
     float image_change_time;//‰æ‘œØ‚è‘Ö‚¦ŠÔ
     int draw_image_num;//•\¦‰æ‘œ‚Ì”Ô†
     
-    float CalculateDistance(class BoxCollider* character)const;
+    float CalculateDistance(DATA target_location)const;
 
 public:
     CharacterBase(DATA location, DATA size);

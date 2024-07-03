@@ -1,46 +1,31 @@
 //#include"DxLib.h"
-//#define _USE_MATH_DEFINES
-//#include <math.h>
-//#include <stdio.h>
 //#include"Slime.h"
+//#include"Stage.h"
 //
-//#define SLIME_SIZE 10.0f//サイズ
+//#define SLIME_SIZE_X 10.0f//サイズ
+//#define SLIME_SIZE_Y 10.0f//サイズ
+//
 //#define WALK_SPEED 1.5f//1フレームの最大速
 //#define ACCELERATION 0.1f//歩く時の加速
 //#define ATTACK_DISTANCE 35// 攻撃に移る距離
 //#define MAX_HP 20
 //
+//#define IMAGE_CHANGE_TIME 0.2f //画像切り替え時間
 //
 ////-----------------------------------
 ////コンストラクタ
 ////-----------------------------------
-//Slime::Slime(class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager, DATA location) : EnemyBase()
+//Slime::Slime(DATA location, int enemy_image[ENEMY_STATE::END][5], class Stage* stage, class PlayerManager* player_manager, class AttackManager* attack_manager) : 
+//EnemyBase(location, { SLIME_SIZE_X , SLIME_SIZE_Y }, MAX_HP, 5, 5, enemy_image)
 //{
 //	this->stage = stage;
 //	this->player_manager = player_manager;
 //	this->attack_manager = attack_manager;
 //
-//	if (LoadDivGraph("image/Enemy/Slime.png", 12, 12, 1, 48, 48, slime_image) == -1)throw("スライム画像読込み失敗\n");
-//	image_type = 0;
-//	move_left = true;
-//	direction = true;
-//	distance = 0;
-//
-//	time = 0;
-//
-//	state = SLIME_STATE::NORMAL;
-//
-//	////テスト 座標
-//	//this->location = { 600.0f, 300.0f };
-//	this->location = location;
-//	this->spawn_location = location;
-//	this->radius = { SLIME_SIZE+20 ,SLIME_SIZE };
-//	this->hp = MAX_HP;
-//	this->is_dead = false;
+//	enemy_control_time = 0.0f;
 //
 //	OutputDebugString("Slimeコンストラクタ呼ばれました。\n");
 //}
-//
 //
 ////-----------------------------------
 ////デストラクタ
@@ -48,30 +33,42 @@
 //Slime::~Slime()
 //{
 //	OutputDebugString("Slimeデストラクタが呼ばれました。\n");
-//
-//	for (int i = 0; i < 12; i++)
-//	{
-//		DeleteGraph(slime_image[i]);
-//	}
 //}
-//
 //
 ////-----------------------------------
 ////更新処理
 ////-----------------------------------
-//void Slime::Update()
+//void Slime::Update(float delta_time)
 //{
-//	++animation_time; //アニメーション時間更新
+//	//Y座標更新
 //
+//	if ((speed.y += GRAVITY) > FALL_SPEED)speed.y = FALL_SPEED;
 //
-//	if (ScopeoOfActivity(stage->GetCameraWork()))
+//	location.y += speed.y;
+//
+//	if (stage->HitBlock(this))
 //	{
-//		move_left = !move_left;
+//		location.y -= speed.y;
+//		speed.y = 0.0f;
 //	}
 //
-//	switch (state)
+//	//状態ごとの処理
+//
+//	enemy_control_time += delta_time;
+//
+//	////////
+//
+//	if ((image_change_time += delta_time) > IMAGE_CHANGE_TIME)
 //	{
-//	case SLIME_STATE::NORMAL:
+//		draw_image_num++;
+//		image_change_time = 0.0f;
+//	}
+//
+//	if (ScopeoOfActivity())is_facing_left = !is_facing_left;
+//
+//	switch (enemy_state)
+//	{
+//	case ENEMY_STATE::NORMAL:
 //		Move();
 //		break;
 //	case SLIME_STATE::ATTACK:
@@ -191,6 +188,7 @@
 //		state = SLIME_STATE::NORMAL;
 //	}
 //
+//	ENEMY_STATE::PREPARING_ATTACK
 //}
 //
 //void Slime::Standby()

@@ -2,7 +2,7 @@
 #include "EnemyBase.h"
 #include"Stage.h"
 
-#define SCOPE_OF_ACTIVITY 1000
+#define SCOPE_OF_ACTIVITY_X 300.0f
 
 #define HP_BAR_X 60.0f
 #define HP_BAR_Y 10.0f
@@ -11,7 +11,7 @@
 
 EnemyBase::EnemyBase(DATA location, DATA size, int hp, int mp, int attack_power, int enemy_image[ENEMY_STATE::END][5]) : 
 CombatCharacterBase(location, size, hp, mp, attack_power, 5),
-enemy_state(ENEMY_STATE::NORMAL), enemy_control_time(0.0f)
+enemy_state(ENEMY_STATE::NORMAL), spawn_location(location), enemy_control_time(0.0f)
 {
     for (int i = 0; i < ENEMY_STATE::END; i++)
     {
@@ -25,20 +25,13 @@ EnemyBase::~EnemyBase()
 {
     OutputDebugString("EnemyBaseデストラクタ呼ばれました。\n");
 }
-bool EnemyBase::ScopeoOfActivity(float camera_work)
+bool EnemyBase::ScopeoOfActivity()const
 {
-
-    if (spawn_location.x + camera_work + SCOPE_OF_ACTIVITY > location.x + camera_work && spawn_location.x + camera_work - SCOPE_OF_ACTIVITY < location.x +camera_work)
-    {
-        return false;
-    }
-    else
-    {
-       return true;
-    }
+    if ((location.x > (spawn_location.x + SCOPE_OF_ACTIVITY_X)) && (!is_facing_left))return true;
+    return ((location.x < (spawn_location.x - SCOPE_OF_ACTIVITY_X)) && (is_facing_left));
 }
 
-bool EnemyBase::HitDamege(BoxCollider* bc, int attack_power)
+bool EnemyBase::HitDamege(class BoxCollider* bc, int attack_power)
 {
     if ((hp -= attack_power) <= 0)
     {
@@ -62,7 +55,6 @@ void EnemyBase::Draw() const
     }
 }
 
-
 void EnemyBase::DrawHpBar(DATA draw_location) const
 {
     float hp_ratio = (float)hp / max_hp;
@@ -78,14 +70,34 @@ void EnemyBase::DrawHpBar(DATA draw_location) const
     DrawBox(start_hp_bar_x, start_hp_bar_y, start_hp_bar_x + HP_BAR_X, start_hp_bar_y + HP_BAR_Y, 0xffffff, FALSE);
 }
 
-
 //-----------------------------------
 //敵の状態の変更
 //-----------------------------------
-void EnemyBase::ChangeEnemyState(ENEMY_STATE enemy_state)
+void EnemyBase::SetEnemyState(ENEMY_STATE enemy_state)
 {
     this->enemy_state = enemy_state;
     draw_image_num = 0;
     image_change_time = 0.0f;
     enemy_control_time = 0.0f;
+    speed = { 0.0f,0.0f };
+}
+
+//-----------------------------------
+//敵の状態の取得
+//-----------------------------------
+EnemyBase::ENEMY_STATE EnemyBase::GetEnemyState()const
+{
+    return enemy_state;
+}
+
+//-----------------------------------
+//キャラクター追跡
+//-----------------------------------
+DATA EnemyBase::TargetTracking(DATA target_location, float speed)const
+{
+    float dx = target_location.x - location.x;
+    float dy = target_location.y - location.y;
+    float distance = sqrt(dx * dx + dy * dy); // ユークリッド距離の計算（平方根を取る）
+
+    return{ (dx / distance) * speed,(dy / distance) * speed };
 }

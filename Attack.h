@@ -22,7 +22,7 @@ private:
     bool delete_hit_stage;//ステージに当たった時に消すか？
     bool delete_hit_chara;//キャラクターに当たった時に消すか？
 
-    void TrackingCharacter(); //追尾
+    void TargetTracking(); //追尾
 
 public:
     Attack(DATA location, DATA size, DATA speed, BoxCollider* target,bool delete_hit_stage, bool delete_hit_chara,

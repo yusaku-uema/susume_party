@@ -23,7 +23,7 @@ Attack::~Attack()
 bool Attack::Update(float delta_time, class Stage* stage, class PlayerManager* player_manager, class EnemyManager* enemy_manager)
 {
 	//’Ç”ö‚·‚éê‡
-	if (target != nullptr)TrackingCharacter();
+	if (target != nullptr)TargetTracking();
 
 	location.x += speed.x;
 	location.y += speed.y;
@@ -78,7 +78,7 @@ void Attack::Draw(float camera_work)const
 	}
 }
 
-void Attack::TrackingCharacter()
+void Attack::TargetTracking()
 {
 	//’ÇÕŽÒ‚ÌÀ•WŽæ“¾
 	float dx = target->GetLocation().x - location.x;
